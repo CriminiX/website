@@ -1,15 +1,15 @@
 <mat-toolbar color="primary" class="toolbar-header">
-  <h1>
+  <h4 class="mat-headline-4">
     <a [routerLink]="['/home']" class="">CriminiX</a>
-  </h1>
+  </h4>
 
-  <button mat-button matTooltip="Documentação do Projeto">
-    <a [routerLink]="['/docs']">Documentação</a>
+  <button mat-button matTooltip="Documentação do Projeto" [routerLink]="['/docs']">
+    <span class="mat-headline-6">Documentação</span>
   </button>
-  <button mat-button matTooltip="Gráficos e Dados">
-    <a [routerLink]="['/dashboard']">Dashboard</a>
+  <button mat-button matTooltip="Gráficos e Dados" [routerLink]="['/dashboard']">
+    <span class="mat-headline-6">Dashboard</span>
   </button>
-  <button mat-button matTooltip="Simular Cliente">
-    <a [routerLink]="['/evaluate']">Teste</a>
+  <button mat-button matTooltip="Simular Cliente" [routerLink]="['/evaluate']">
+    <span class="mat-headline-6">Simular</span>
   </button>
 </mat-toolbar>

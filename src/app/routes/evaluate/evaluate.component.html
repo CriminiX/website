@@ -1,1 +1,44 @@
-<p>evaluate works!</p>
+<main id="particles-js">
+    <canvas class="particles-js-canvas-el"></canvas>
+    <div class="card-container">
+        <mat-card class="evaluate-card">
+            <mat-card-header color="primary">
+                <h5 class="mat-headline-5 dialog-title">Simular Cliente</h5>
+            </mat-card-header>
+
+            <mat-card-content class="evaluate-card-content">
+                <mat-divider class="divider"></mat-divider>
+                <form id="evaluateForm" #evaluateFormElement="ngForm" (ngSubmit)="evaluate(evaluateFormElement)"
+                      [formGroup]="evaluateForm">
+                    <mat-form-field class="data-form" appearance="outline" hideRequiredMarker>
+                        <mat-label>Nome</mat-label>
+                        <input
+                                matInput
+                                placeholder="Ex.: Alberto"
+                                formControlName="name"
+                        />
+                        <mat-error *ngIf="evaluateForm.invalid">Este campo é obrigatório.</mat-error>
+                    </mat-form-field>
+                </form>
+            </mat-card-content>
+
+            <mat-card-actions class="evaluate-card-actions" align="end">
+                <button
+                        mat-flat-button
+                        color="primary"
+                        type="submit"
+                        form="evaluateForm"
+                        [disabled]="evaluateForm.invalid || loading"
+                >
+                    Simular
+                </button>
+            </mat-card-actions>
+
+            <mat-card-footer>
+                <mat-progress-bar *ngIf="loading" color="accent" mode="indeterminate"></mat-progress-bar>
+                <mat-progress-bar *ngIf="!loading" color="accent" mode="determinate"></mat-progress-bar>
+            </mat-card-footer>
+        </mat-card>
+    </div>
+
+</main>

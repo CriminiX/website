@@ -1,1 +1,20 @@
-<p>documentation works!</p>
+<mat-drawer-container class="docs-container" autosize>
+    <mat-drawer #drawer class="sidenav" mode="side" [opened]="true">
+        <section class="sidenav-container">
+            <h3 class="mat-headline-5">API</h3>
+            <mat-divider class="divider"></mat-divider>
+            <button mat-button [routerLink]="['/docs']">
+                <span>Como utilizar</span>
+                <mat-icon iconPositionEnd>arrow_rightward</mat-icon>
+            </button>
+            <button mat-button [routerLink]="['/docs/auth']">
+                <span>Autenticaçao</span>
+                <mat-icon iconPositionEnd>arrow_rightward</mat-icon>
+            </button>
+        </section>
+    </mat-drawer>
+
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</mat-drawer-container>

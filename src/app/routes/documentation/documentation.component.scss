@@ -1,0 +1,43 @@
+@import "src/styles";
+
+.docs-container {
+  width: 100%;
+  height: calc(100vh - 8vh);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+
+  .sidenav {
+    width: 25%;
+
+    .sidenav-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: column;
+      padding-top: 1rem;
+
+      h3 {
+        margin: 0;
+      }
+
+      .divider {
+        width: 80%;
+        margin: 1rem 0;
+      }
+
+      button {
+        margin-bottom: 1rem;
+        min-width: 50%;
+        max-width: 80%;
+      }
+    }
+  }
+
+  main {
+    height: calc((100vh - 8vh) - 1.1rem);
+    border-top: 1rem solid $primary-color-light;
+    border-left: 2rem solid $primary-color-light;
+    padding-left: 2rem;
+    padding-top: 2rem;
+  }
+}
+

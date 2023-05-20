@@ -1,10 +1,11 @@
 .toolbar-header {
+  height: 8vh;
   width: 100%;
   box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.25);
 
-  h1 {
-    font-size: 2rem;
-    font-weight: 700;
+  h4 {
+    margin: 0;
+    padding: 0;
   }
 
   a {

@@ -7,6 +7,7 @@ import {DashboardComponent} from "./dashboard.component";
 const routes: Routes = [
     {
         path: '',
+        title: 'CriminiX - Dashboard',
         component: DashboardComponent
     }
 ];

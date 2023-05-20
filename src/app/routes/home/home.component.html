@@ -1,1 +1,71 @@
-<p>home works!</p>
+<main>
+    <div id="particles-js" class="splash-screen">
+        <canvas class="particles-js-canvas-el"></canvas>
+        <div class="splash-description">
+            <h1 class="mat-headline-3">Projeto CriminiX</h1>
+            <h3 class="mat-headline-5">
+                Trabalhando de forma
+                <span class="splash-reinforcement-text">preditiva</span>
+                e não reativa
+            </h3>
+            <button mat-raised-button color="accent" [routerLink]="['/evaluate']" matTooltip="Simular Cliente">
+                <span class="mat-headline-6">Simular</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="about-redirect-section">
+        <button mat-button (click)="scrollToElement(target)">
+            <mat-icon iconPositionEnd>arrow_downward</mat-icon>
+            <span class="mat-headline-6">Sobre nós</span>
+        </button>
+    </div>
+    <div #target class="about-screen">
+        <section>
+            <h3 class="mat-headline-3">Nosso Time</h3>
+            <p>Lorem Ipsum</p>
+        </section>
+        <section>
+            <h3 class="mat-headline-3">Roadmap</h3>
+        </section>
+    </div>
+</main>
+<footer>
+    <section>
+        <h3 class="mat-headline-3">Referências</h3>
+        <ul class="footer-section-item">
+            <button mat-button matTooltip="Codigo fonte do projeto">
+                <a href="https://github.com/CriminiX/" target="_blank">
+                    <img alt="Github Logo" ngSrc="assets/github-mark-white.svg" height="32" width="32">
+                    <span>Github</span>
+                </a>
+            </button>
+        </ul>
+    </section>
+    <section>
+        <h3 class="mat-headline-3">Contato</h3>
+        <ul class="footer-section-item">
+            <h4 class="mat-body-1">E-mail</h4>
+            <div class="footer-section-item-list">
+                <button mat-button>
+                    <a href="mailto:felipe.azevedo@bandtec.com.br">
+                        <mat-icon color="accent">alternate_email</mat-icon>
+                        <span>Felipe Azevedo</span>
+                    </a>
+                </button>
+                <button mat-button>
+                    <a href="mailto:gabriel.pereira@bandtec.com.br">
+                        <mat-icon color="accent">alternate_email</mat-icon>
+                        <span>Gabriel Ronny</span>
+                    </a>
+                </button>
+                <button mat-button>
+                    <a href="mailto:rodrigo.busto@bandtec.com.br">
+                        <mat-icon color="accent">alternate_email</mat-icon>
+                        <span>Rodrigo Busto</span>
+                    </a>
+                </button>
+            </div>
+        </ul>
+    </section>
+</footer>

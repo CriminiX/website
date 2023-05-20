@@ -15,7 +15,7 @@
 // hue. Available color palettes: https://material.io/design/color/
 
 $criminix-primary: mat.define-palette(mat.$cyan-palette);
-$criminix-accent: mat.define-palette(mat.$amber-palette);
+$criminix-accent: mat.define-palette(mat.$amber-palette, 600, 400, 800);
 $criminix-warn: mat.define-palette(mat.$red-palette);
 
 $custom-typography: mat.define-typography-config(
@@ -37,8 +37,22 @@ $criminix-theme: mat.define-light-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($criminix-theme);
+@include mat.typography-hierarchy($custom-typography);
 
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Open Sans', "Helvetica Neue", sans-serif; }
+
+$primary-color: mat.get-color-from-palette($criminix-primary);
+$primary-color-light: mat.get-color-from-palette($criminix-primary, 300);
+$primary-color-dark: mat.get-color-from-palette($criminix-primary, 700);
+$accent-color: mat.get-color-from-palette($criminix-accent);
+$accent-color-light: mat.get-color-from-palette($criminix-accent, 300);
+$accent-color-dark: mat.get-color-from-palette($criminix-accent, 700);
+
+.particles-js-canvas-el {
+  position: fixed;
+  top: 0;
+  z-index: -1;
+}
