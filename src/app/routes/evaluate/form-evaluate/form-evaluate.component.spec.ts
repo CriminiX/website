@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormEvaluateDialogComponent } from './form-evaluate-dialog.component';
+import { FormEvaluateDialogComponent } from './form-evaluate.component';
 
 describe('FormEvaluateDialogComponent', () => {
   let component: FormEvaluateDialogComponent;

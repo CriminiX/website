@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvaluateComponent } from './evaluate.component';
 import {EvaluateRoutingModule} from "./evaluate-routing.module";
-import { FormEvaluateDialogComponent } from './form-evaluate-dialog/form-evaluate-dialog.component';
+import { FormEvaluateComponent } from './form-evaluate/form-evaluate.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
@@ -19,7 +19,7 @@ import { ResultEvaluateComponent } from './result-evaluate/result-evaluate.compo
 @NgModule({
   declarations: [
     EvaluateComponent,
-    FormEvaluateDialogComponent,
+    FormEvaluateComponent,
     ResultEvaluateComponent
   ],
     imports: [

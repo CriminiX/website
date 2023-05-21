@@ -1,0 +1,45 @@
+.dialog-title {
+  padding: 0;
+  margin: 0;
+}
+
+.card-container {
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evaluate-card {
+  //height: 50%;
+  min-width: 35%;
+  position: absolute;
+
+  .evaluate-card-content {
+    margin-top: 1rem;
+
+    .divider {
+      margin-bottom: 2rem;
+    }
+
+    form {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+
+      data-form {
+        width: 100%;
+      }
+    }
+  }
+
+  .evaluate-card-actions {
+    padding-bottom: 2rem;
+    padding-right: 1rem;
+  }
+}
