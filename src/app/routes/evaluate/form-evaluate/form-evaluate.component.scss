@@ -1,3 +1,5 @@
+@import "src/styles";
+
 .dialog-title {
   padding: 0;
   margin: 0;
@@ -6,17 +8,33 @@
 .card-container {
   height: 100%;
   width: 100%;
-  backdrop-filter: blur(4px);
-  background-color: rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.evaluate-card {
-  //height: 50%;
+.fit-card-container {
+  padding: 0 2rem;
+  box-sizing: border-box;
+  background-color: $primary-color-light;
+}
+
+.card-container-blur {
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.fit-card {
+  width: 100%;
+}
+
+.expand-card {
   min-width: 35%;
   position: absolute;
+}
+
+.evaluate-card {
+  //height: 50%;
 
   .evaluate-card-content {
     margin-top: 1rem;

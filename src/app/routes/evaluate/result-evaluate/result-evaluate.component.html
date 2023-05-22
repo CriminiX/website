@@ -1,1 +1,57 @@
-<p>result-evaluate works!</p>
+<main>
+    <app-form-evaluate class="fit-half" [formResult]="true"></app-form-evaluate>
+    <section>
+        <mat-card>
+            <mat-card-header>
+                <h5 class="mat-headline-5">Resumo Resultado</h5>
+            </mat-card-header>
+
+            <mat-card-content>
+                <mat-divider class="divider"></mat-divider>
+                <div class="result-summary">
+                    <h6 class="mat-headline-6">Score Final: {{evaluateResult.score}}</h6>
+                    <span class="mat-body-1">Score Value1: {{evaluateResult.value1}}</span>
+                    <span class="mat-body-1">Score Value2: {{evaluateResult.value2}}</span>
+                    <span class="mat-body-1">Score Value3: {{evaluateResult.value3}}</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+            <mat-card-header>
+                <h5 class="mat-headline-5">Resultado Consolidado</h5>
+            </mat-card-header>
+
+            <mat-card-content>
+                <mat-divider class="divider"></mat-divider>
+                <span class="mat-body-1">Score: {{evaluateResult.score}}</span>
+
+                <div echarts [initOpts]="{renderer: 'svg'}" [options]="optionsScore"></div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+            <mat-card-header>
+                <h5 class="mat-headline-5">Resultado Value1</h5>
+            </mat-card-header>
+
+            <mat-card-content>
+                <mat-divider class="divider"></mat-divider>
+                <span class="mat-body-1">Score Value1: {{evaluateResult.value1}}</span>
+
+                <div echarts [initOpts]="{renderer: 'svg'}" [options]="optionsScoreValue1"></div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+            <mat-card-header>
+                <h5 class="mat-headline-5">Resultado Forecasting</h5>
+            </mat-card-header>
+
+            <mat-card-content>
+                <mat-divider class="divider"></mat-divider>
+                <div echarts [initOpts]="{renderer: 'svg'}" [options]="optionsForecasting"></div>
+            </mat-card-content>
+        </mat-card>
+    </section>
+</main>

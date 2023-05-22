@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class CacheService <T> {
+export class CacheService {
 
   constructor() { }
 
-  get(key: string): T | undefined {
+  get<T>(key: string): T | undefined {
     const contentString = sessionStorage.getItem(key);
 
     if (contentString === null) {
@@ -17,9 +17,13 @@ export class CacheService <T> {
     return JSON.parse(contentString);
   }
 
-  save(key: string, content: T) {
+  save<T>(key: string, content: T) {
     const stringContent = JSON.stringify(content);
 
     sessionStorage.setItem(key, stringContent);
+  }
+
+  delete(key: string) {
+    sessionStorage.removeItem(key);
   }
 }

@@ -15,7 +15,8 @@
 // hue. Available color palettes: https://material.io/design/color/
 
 $criminix-primary: mat.define-palette(mat.$cyan-palette);
-$criminix-accent: mat.define-palette(mat.$amber-palette, 600, 400, 800);
+//$criminix-accent: mat.define-palette(mat.$amber-palette, 600, 400, 800);
+$criminix-accent: mat.define-palette(mat.$deep-purple-palette, 500, 300, 700);
 $criminix-warn: mat.define-palette(mat.$red-palette);
 
 $custom-typography: mat.define-typography-config(

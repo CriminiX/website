@@ -1,6 +1,6 @@
-<div class="card-container">
-  <mat-card class="evaluate-card">
-    <mat-card-header color="primary">
+<div [ngClass]="formResult ? 'card-container fit-card-container' : 'card-container card-container-blur'">
+  <mat-card [ngClass]="formResult ? 'evaluate-card fit-card' : 'evaluate-card expand-card'">
+    <mat-card-header>
       <h5 class="mat-headline-5 dialog-title">Simular Cliente</h5>
     </mat-card-header>
 
@@ -8,8 +8,7 @@
       <mat-divider class="divider"></mat-divider>
       <form
         id="evaluateForm"
-        #evaluateFormElement="ngForm"
-        (ngSubmit)="evaluate(evaluateFormElement)"
+        (ngSubmit)="evaluate()"
         [formGroup]="evaluateForm"
       >
         <mat-form-field

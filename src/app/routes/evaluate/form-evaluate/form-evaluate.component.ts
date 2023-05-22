@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -10,6 +10,7 @@ import { EvaluateClientResult } from "src/app/shared/models/evaluate-client-resu
 import { CacheService } from "src/app/shared/services/cache/cache.service";
 import { EvaluateService } from "src/app/shared/services/evaluate/evaluate.service";
 import { ToastService } from "src/app/shared/services/toast/toast.service";
+import {EvaluateClient} from "../../../shared/models/evaluate-client";
 
 @Component({
   selector: "app-form-evaluate",
@@ -20,32 +21,53 @@ export class FormEvaluateComponent implements OnInit {
   evaluateForm!: FormGroup;
   loading = false;
 
+  @Input() formResult: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private toastService: ToastService,
     private router: Router,
     private evaluateService: EvaluateService,
-    private cacheService: CacheService<EvaluateClientResult>
+    private cacheService: CacheService
   ) {}
 
   ngOnInit(): void {
     this.evaluateForm = this.formBuilder.group({
       name: ["", [Validators.required, Validators.minLength(2)]],
     });
+
+    if (this.formResult) {
+      this.setCachedData();
+    }
   }
 
-  evaluate(evaluateFormElement: FormGroupDirective) {
+  private setCachedData() {
+    const data = this.cacheService.get<EvaluateClient>("evaluate-form");
+
+    if (!data) {
+      return;
+    }
+
+    this.evaluateForm.controls["name"].setValue(data.name);
+  }
+
+  evaluate() {
     this.loading = true;
-    this.evaluateService.evaluateClient({}).subscribe({
+
+    const evaluateClient = this.evaluateForm.getRawValue() as EvaluateClient;
+
+    this.evaluateService.evaluateClient(evaluateClient).subscribe({
       next: async (value) => {
-        this.cacheService.save("evaluate", value);
-        // this.evaluateService.saveResult(value);
+        this.cacheService.save<EvaluateClient>("evaluate-form", evaluateClient);
+        this.cacheService.save<EvaluateClientResult>("evaluate", value);
         await this.router.navigateByUrl("/evaluate/result");
+        this.loading = false;
       },
       error: (err) => {
-        this.toastService.show(err);
-      },
-      complete: () => (this.loading = false),
+        console.error(err);
+        this.toastService.show("Erro ao Simular Cliente.");
+        this.loading = false;
+      }
     });
   }
 }

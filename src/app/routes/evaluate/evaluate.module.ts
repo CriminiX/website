@@ -13,8 +13,13 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatCardModule} from "@angular/material/card";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { ResultEvaluateComponent } from './result-evaluate/result-evaluate.component';
+import {NgxEchartsModule} from "ngx-echarts";
 
+import * as echarts from 'echarts/core';
+import { SVGRenderer } from 'echarts/renderers';
+import 'echarts/theme/macarons.js';
 
+echarts.use([SVGRenderer]);
 
 @NgModule({
   declarations: [
@@ -33,7 +38,8 @@ import { ResultEvaluateComponent } from './result-evaluate/result-evaluate.compo
         MatListModule,
         MatToolbarModule,
         MatCardModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        NgxEchartsModule.forRoot({ echarts })
     ]
 })
 export class EvaluateModule { }

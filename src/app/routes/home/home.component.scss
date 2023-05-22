@@ -49,6 +49,7 @@
     height: 80vh;
     width: 100%;
     backdrop-filter: blur(4px);
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 
     h1 {
       margin-bottom: 2rem;
@@ -108,7 +109,7 @@
 
 section {
   width: 50%;
-  margin-left: 1rem;
+  margin-left: 2rem;
 
   h3 {
     margin-top: 2rem;
