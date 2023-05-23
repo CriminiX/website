@@ -1,0 +1,51 @@
+<div class="history-dialog-header">
+    <div class="history-dialog-header-container">
+        <h5 class="mat-headline-5 dialog-title">Histórico</h5>
+        <mat-icon>history</mat-icon>
+    </div>
+    <mat-divider></mat-divider>
+</div>
+
+<mat-dialog-content>
+    <mat-list style="max-height: 100%;overflow-y: auto;">
+        <mat-list-item *ngFor="let history of data; let i = index; let last = last" style="height: auto;">
+            <mat-radio-group [(ngModel)]="indexHistory" class="list-radio-group">
+                <div class="list-radio-group-container">
+                    <div class="list-radio-group-content">
+                        <span mat-line>{{history.name}}</span>
+                        <span mat-line>{{history.date | date: 'dd/MM/yyyy hh:mm a'}}</span>
+                    </div>
+                    <mat-radio-button class="example-radio-button" [value]="i"></mat-radio-button>
+                </div>
+                <mat-divider *ngIf="!last" style="width: 100%"></mat-divider>
+            </mat-radio-group>
+        </mat-list-item>
+    </mat-list>
+
+    <ng-container *ngIf="!data?.length">
+        <span class="mat-body-1">Histórico Vazio.</span>
+    </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="history-dialog-actions">
+    <button mat-flat-button color="warn" *ngIf="data?.length" (click)="erase()">Apagar</button>
+    <button mat-flat-button color="accent" *ngIf="data?.length" (click)="confirm()">Confirmar</button>
+    <button mat-flat-button [mat-dialog-close]="undefined">Fechar</button>
+</mat-dialog-actions>
+
+<!--<mat-expansion-panel [expanded]="true">-->
+<!--    <mat-expansion-panel-header>-->
+<!--        <mat-panel-title>-->
+<!--            Histórico-->
+<!--        </mat-panel-title>-->
+<!--        <mat-panel-description class="history-description">-->
+<!--            &lt;!&ndash;            Opções enviadas anteriormente&ndash;&gt;-->
+<!--            <mat-icon>history</mat-icon>-->
+<!--        </mat-panel-description>-->
+<!--    </mat-expansion-panel-header>-->
+
+
+<!--    <mat-action-row>-->
+<!--        <button mat-flat-button color="warn">Apagar Tudo</button>-->
+<!--    </mat-action-row>-->
+<!--</mat-expansion-panel>-->

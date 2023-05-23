@@ -6,7 +6,7 @@ import { FormEvaluateComponent } from './form-evaluate/form-evaluate.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatListModule} from "@angular/material/list";
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -18,6 +18,11 @@ import {NgxEchartsModule} from "ngx-echarts";
 import * as echarts from 'echarts/core';
 import { SVGRenderer } from 'echarts/renderers';
 import 'echarts/theme/macarons.js';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatIconModule} from "@angular/material/icon";
+import { HistoryEvaluateDialogComponent } from './history-evaluate-dialog/history-evaluate-dialog.component';
+import {MatLineModule} from "@angular/material/core";
+import {MatRadioModule} from "@angular/material/radio";
 
 echarts.use([SVGRenderer]);
 
@@ -25,7 +30,8 @@ echarts.use([SVGRenderer]);
   declarations: [
     EvaluateComponent,
     FormEvaluateComponent,
-    ResultEvaluateComponent
+    ResultEvaluateComponent,
+    HistoryEvaluateDialogComponent
   ],
     imports: [
         CommonModule,
@@ -39,7 +45,12 @@ echarts.use([SVGRenderer]);
         MatToolbarModule,
         MatCardModule,
         MatProgressBarModule,
-        NgxEchartsModule.forRoot({ echarts })
+        NgxEchartsModule.forRoot({echarts}),
+        MatExpansionModule,
+        MatIconModule,
+        MatLineModule,
+        MatRadioModule,
+        FormsModule
     ]
 })
 export class EvaluateModule { }

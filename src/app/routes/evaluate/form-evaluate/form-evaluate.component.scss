@@ -3,6 +3,7 @@
 .dialog-title {
   padding: 0;
   margin: 0;
+  flex: 1;
 }
 
 .card-container {
@@ -36,6 +37,11 @@
 .evaluate-card {
   //height: 50%;
 
+  .evaluate-card-header-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .evaluate-card-content {
     margin-top: 1rem;
 
@@ -53,6 +59,11 @@
       data-form {
         width: 100%;
       }
+    }
+
+    .history-description {
+      justify-content: flex-end;
+      align-items: center;
     }
   }
 

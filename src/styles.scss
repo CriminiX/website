@@ -52,6 +52,11 @@ $accent-color: mat.get-color-from-palette($criminix-accent);
 $accent-color-light: mat.get-color-from-palette($criminix-accent, 300);
 $accent-color-dark: mat.get-color-from-palette($criminix-accent, 700);
 
+.dialog-container {
+  min-height: 40%;
+  min-width: 40%;
+}
+
 .particles-js-canvas-el {
   position: fixed;
   top: 0;
