@@ -1,4 +1,4 @@
-@import "src/styles";
+@import "src/theme";
 
 .dialog-title {
   padding: 0;
@@ -56,8 +56,13 @@
       justify-content: flex-start;
       flex-direction: column;
 
-      data-form {
+      .data-form {
         width: 100%;
+        margin-bottom: 1rem;
+
+        //&:last-child {
+        //  margin-bottom: 0;
+        //}
       }
     }
 

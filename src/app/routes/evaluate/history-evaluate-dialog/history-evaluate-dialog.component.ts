@@ -1,17 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {EvaluateClientHistory, EvaluateClientHistoryModel} from "../../../shared/models/evaluate-client-history";
 import {CacheService} from "../../../shared/services/cache/cache.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {SelectionModel} from "@angular/cdk/collections";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
     selector: 'app-history-evaluate-dialog',
     templateUrl: './history-evaluate-dialog.component.html',
     styleUrls: ['./history-evaluate-dialog.component.scss']
 })
-export class HistoryEvaluateDialogComponent implements OnInit {
+export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
 
-    data?: EvaluateClientHistory[];
-    indexHistory?: number;
+    hasData = true;
+    dataTable!: MatTableDataSource<EvaluateClientHistory>;
+    selection!: SelectionModel<EvaluateClientHistory>;
+
+    @ViewChild(MatSort) sort!: MatSort;
 
     constructor(
         private dialogRef: MatDialogRef<HistoryEvaluateDialogComponent, EvaluateClientHistoryModel>,
@@ -19,30 +25,60 @@ export class HistoryEvaluateDialogComponent implements OnInit {
     ) {
     }
 
+    ngAfterViewInit() {
+        this.dataTable.sort = this.sort;
+    }
+
     ngOnInit(): void {
         this.loadData();
     }
 
     loadData() {
-        this.data = this.cacheService.get<EvaluateClientHistory[]>("evaluate-history");
-    }
+        const data = this.cacheService.get<EvaluateClientHistory[]>("evaluate-history");
+        this.selection = new SelectionModel<EvaluateClientHistory>(true, []);
 
-    confirm() {
-        if (this.indexHistory === undefined) {
-            this.dialogRef.close(undefined);
+        if (data === undefined || data.length === 0) {
+            this.hasData = false;
             return;
         }
 
-        const data = this.data?.at(this.indexHistory);
+        this.dataTable = new MatTableDataSource(data);
+    }
+
+    confirm() {
+        if (this.selection.selected.length !== 1) {
+            return;
+        }
+
+        const data = this.selection.selected[0];
+
         this.dialogRef.close(data);
     }
 
     erase() {
-        if (this.indexHistory === undefined) {
+        if (this.selection.selected.length === 0) {
             return;
         }
 
-        this.cacheService.removeOnList("evaluate-history", this.indexHistory);
+        const data = this.dataTable.data.filter(x => !this.selection.selected.find(y => x.id === y.id));
+
+        this.cacheService.save("evaluate-history", data);
         this.loadData();
+    }
+
+
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataTable.data.length;
+        return numSelected === numRows;
+    }
+
+    toggleAllRows() {
+        if (this.isAllSelected()) {
+            this.selection.clear();
+            return;
+        }
+
+        this.selection.select(...this.dataTable.data);
     }
 }

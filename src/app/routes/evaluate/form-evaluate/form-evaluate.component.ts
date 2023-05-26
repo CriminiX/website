@@ -5,6 +5,7 @@ import {
     FormGroupDirective,
     Validators,
 } from "@angular/forms";
+import {v4 as uuid} from "uuid";
 import {Router} from "@angular/router";
 import {EvaluateClientResult} from "src/app/shared/models/evaluate-client-result";
 import {CacheService} from "src/app/shared/services/cache/cache.service";
@@ -14,6 +15,7 @@ import {EvaluateClient, EvaluateClientModel} from "../../../shared/models/evalua
 import {MatDialog} from "@angular/material/dialog";
 import {HistoryEvaluateDialogComponent} from "../history-evaluate-dialog/history-evaluate-dialog.component";
 import {EvaluateClientHistory, EvaluateClientHistoryModel} from "../../../shared/models/evaluate-client-history";
+import '../../../shared/extensions/date.extensions';
 
 @Component({
     selector: "app-form-evaluate",
@@ -23,6 +25,8 @@ import {EvaluateClientHistory, EvaluateClientHistoryModel} from "../../../shared
 export class FormEvaluateComponent implements OnInit {
     evaluateForm!: FormGroup;
     loading = false;
+
+    months!: { id: number; name: string; }[];
 
     @Input() formResult: boolean = false;
 
@@ -37,8 +41,11 @@ export class FormEvaluateComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.months = new Date().getMonthsNames();
+
         this.evaluateForm = this.formBuilder.group({
             name: ["", [Validators.required, Validators.minLength(2)]],
+            month: [null, [Validators.required]],
         });
 
         if (this.formResult) {
@@ -58,13 +65,14 @@ export class FormEvaluateComponent implements OnInit {
 
     private setFormData(data: EvaluateClient) {
         this.evaluateForm.controls["name"].setValue(data.name);
+        this.evaluateForm.controls["month"].setValue(data.month);
     }
 
     evaluate() {
         this.loading = true;
 
         const evaluateClient = this.evaluateForm.getRawValue() as EvaluateClient;
-        this.cacheService.saveOnList<EvaluateClientHistory>("evaluate-history", { ...evaluateClient, date: new Date() });
+        this.cacheService.saveOnList<EvaluateClientHistory>("evaluate-history", {...evaluateClient, id: uuid(), date: new Date()});
 
         this.evaluateService.evaluateClient(evaluateClient).subscribe({
             next: async (value) => {

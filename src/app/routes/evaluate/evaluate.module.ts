@@ -18,11 +18,12 @@ import {NgxEchartsModule} from "ngx-echarts";
 import * as echarts from 'echarts/core';
 import { SVGRenderer } from 'echarts/renderers';
 import 'echarts/theme/macarons.js';
-import {MatExpansionModule} from "@angular/material/expansion";
 import {MatIconModule} from "@angular/material/icon";
 import { HistoryEvaluateDialogComponent } from './history-evaluate-dialog/history-evaluate-dialog.component';
-import {MatLineModule} from "@angular/material/core";
-import {MatRadioModule} from "@angular/material/radio";
+import {MatSelectModule} from "@angular/material/select";
+import {MatTableModule} from "@angular/material/table";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatSortModule} from "@angular/material/sort";
 
 echarts.use([SVGRenderer]);
 
@@ -46,11 +47,12 @@ echarts.use([SVGRenderer]);
         MatCardModule,
         MatProgressBarModule,
         NgxEchartsModule.forRoot({echarts}),
-        MatExpansionModule,
         MatIconModule,
-        MatLineModule,
-        MatRadioModule,
-        FormsModule
+        FormsModule,
+        MatSelectModule,
+        MatTableModule,
+        MatCheckboxModule,
+        MatSortModule
     ]
 })
 export class EvaluateModule { }

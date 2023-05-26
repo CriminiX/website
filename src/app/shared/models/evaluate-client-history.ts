@@ -1,6 +1,7 @@
 import {EvaluateClient} from "./evaluate-client";
 
 export interface EvaluateClientHistory extends EvaluateClient {
+    id: string;
     date: Date
 }
 

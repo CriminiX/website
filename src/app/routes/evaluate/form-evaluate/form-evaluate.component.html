@@ -1,57 +1,65 @@
 <div [ngClass]="formResult ? 'card-container fit-card-container' : 'card-container card-container-blur'">
-  <mat-card [ngClass]="formResult ? 'evaluate-card fit-card' : 'evaluate-card expand-card'">
-    <mat-card-header class="evaluate-card-header-container">
-      <h5 class="mat-headline-5 dialog-title">Simular Cliente</h5>
-      <button mat-stroked-button color="accent" (click)="openHistoryDialog()">
-        <span>Histórico</span>
-        <mat-icon iconPositionEnd>history</mat-icon>
-      </button>
-    </mat-card-header>
+    <mat-card [ngClass]="formResult ? 'evaluate-card fit-card' : 'evaluate-card expand-card'">
+        <mat-card-header class="evaluate-card-header-container">
+            <h5 class="mat-headline-5 dialog-title">Simular Cliente</h5>
+            <button mat-stroked-button color="accent" (click)="openHistoryDialog()">
+                <span>Histórico</span>
+                <mat-icon iconPositionEnd>history</mat-icon>
+            </button>
+        </mat-card-header>
 
-    <mat-card-content class="evaluate-card-content">
-      <mat-divider class="divider"></mat-divider>
-      <form
-        id="evaluateForm"
-        (ngSubmit)="evaluate()"
-        [formGroup]="evaluateForm"
-      >
-        <mat-form-field
-          class="data-form"
-          appearance="outline"
-          hideRequiredMarker
-        >
-          <mat-label>Nome</mat-label>
-          <input matInput placeholder="Ex.: Alberto" formControlName="name" />
-          <mat-error *ngIf="evaluateForm.invalid"
-            >Este campo é obrigatório.</mat-error
-          >
-        </mat-form-field>
-      </form>
-    </mat-card-content>
+        <mat-card-content class="evaluate-card-content">
+            <mat-divider class="divider"></mat-divider>
+            <form
+                    id="evaluateForm"
+                    (ngSubmit)="evaluate()"
+                    [formGroup]="evaluateForm"
+            >
+                <mat-form-field
+                        class="data-form"
+                        appearance="outline"
+                        hideRequiredMarker
+                >
+                    <mat-label>Nome</mat-label>
+                    <input matInput placeholder="Ex.: Alberto" formControlName="name"/>
+                    <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
+                </mat-form-field>
 
-    <mat-card-actions class="evaluate-card-actions" align="end">
-      <button
-        mat-flat-button
-        color="primary"
-        type="submit"
-        form="evaluateForm"
-        [disabled]="evaluateForm.invalid || loading"
-      >
-        Simular
-      </button>
-    </mat-card-actions>
+                <mat-form-field class="data-form" appearance="outline" hideRequiredMarker>
+                    <mat-label>Mês</mat-label>
+                    <mat-select formControlName="month">
+                        <ng-container *ngFor="let month of months">
+                            <mat-option [value]="month.id">{{ month.name }}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                    <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
+                </mat-form-field>
+            </form>
+        </mat-card-content>
 
-    <mat-card-footer>
-      <mat-progress-bar
-        *ngIf="loading"
-        color="accent"
-        mode="indeterminate"
-      ></mat-progress-bar>
-      <mat-progress-bar
-        *ngIf="!loading"
-        color="accent"
-        mode="determinate"
-      ></mat-progress-bar>
-    </mat-card-footer>
-  </mat-card>
+        <mat-card-actions class="evaluate-card-actions" align="end">
+            <button
+                    mat-flat-button
+                    color="primary"
+                    type="submit"
+                    form="evaluateForm"
+                    [disabled]="evaluateForm.invalid || loading"
+            >
+                Simular
+            </button>
+        </mat-card-actions>
+
+        <mat-card-footer>
+            <mat-progress-bar
+                    *ngIf="loading"
+                    color="accent"
+                    mode="indeterminate"
+            ></mat-progress-bar>
+            <mat-progress-bar
+                    *ngIf="!loading"
+                    color="accent"
+                    mode="determinate"
+            ></mat-progress-bar>
+        </mat-card-footer>
+    </mat-card>
 </div>
