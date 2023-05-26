@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Instruçoes",
+    "children": [
+      {
+        "title": "Guia Inicial",
+        "path": "guide-start"
+      },
+      {
+        "title": "Instalaçao",
+        "path": "install"
+      }
+    ]
+  }
+]

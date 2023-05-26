@@ -5,13 +5,14 @@ import {HomeRoutingModule} from "./home-routing.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatIconModule} from "@angular/material/icon";
-import { GuidestartComponent } from '../documentation/guidestart/guidestart.component';
+import { PagesComponent } from '../documentation/pages/pages.component';
+import {MarkdownModule} from "ngx-markdown";
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    GuidestartComponent
+    PagesComponent
   ],
     imports: [
         CommonModule,
@@ -20,6 +21,7 @@ import { GuidestartComponent } from '../documentation/guidestart/guidestart.comp
         MatButtonModule,
         MatTooltipModule,
         MatIconModule,
+        MarkdownModule,
     ]
 })
 export class HomeModule { }

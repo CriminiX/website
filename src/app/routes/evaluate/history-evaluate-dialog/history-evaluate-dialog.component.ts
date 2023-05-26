@@ -26,7 +26,9 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.dataTable.sort = this.sort;
+        if (this.hasData) {
+            this.dataTable.sort = this.sort;
+        }
     }
 
     ngOnInit(): void {

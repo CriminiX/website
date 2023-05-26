@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import {DocumentationComponent} from "./documentation.component";
-import {GuidestartComponent} from "./guidestart/guidestart.component";
-import {AuthenticationComponent} from "./authentication/authentication.component";
+import {PagesComponent} from "./pages/pages.component";
 
 
 const routes: Routes = [
@@ -13,12 +12,13 @@ const routes: Routes = [
         component: DocumentationComponent,
         children: [
             {
-                path: '',
-                component: GuidestartComponent
+                path: ':page',
+                pathMatch: 'full',
+                component: PagesComponent
             },
             {
-                path: 'auth',
-                component: AuthenticationComponent
+                path: '**',
+                redirectTo: 'guide-start',
             }
         ]
     }
