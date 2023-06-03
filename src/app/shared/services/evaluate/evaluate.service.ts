@@ -20,7 +20,11 @@ export class EvaluateService {
     evaluateClient(client: EvaluateClient) {
         return this.http.post<EvaluateClientResult>(`${URL}/inference/v1/score?orient=RECORDS`, client)
             .pipe(
-                map(x => x.records)
+                map(x => x.records),
+                // map(x => {
+                //     x.forEach((x, i) => x.score = i / 100);
+                //     return x;
+                // })
             )
     }
 }

@@ -22,6 +22,16 @@ main {
     mat-card {
       margin: 1rem 0;
 
+      .header-divided {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h5 {
+          flex: 1;
+        }
+      }
+
       .result-summary {
         display: flex;
         flex-direction: column;

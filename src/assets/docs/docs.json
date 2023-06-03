@@ -11,5 +11,18 @@
         "path": "install"
       }
     ]
+  },
+  {
+    "title": "Execução",
+    "children": [
+      {
+        "title": "Backend API",
+        "path": "backend"
+      },
+      {
+        "title": "Frontend Site",
+        "path": "frontend"
+      }
+    ]
   }
 ]

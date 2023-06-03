@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
+import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ToastService} from "../../../shared/services/toast/toast.service";
 import {EvaluateService} from "../../../shared/services/evaluate/evaluate.service";
 import {CacheService} from "src/app/shared/services/cache/cache.service";
@@ -16,18 +16,27 @@ export class ResultEvaluateComponent implements OnInit {
     evaluateResultTotal!: number;
 
     optionsScore!: EChartsOption;
-    optionsScoreValue1!: EChartsOption;
+    optionsScoreValueSelect!: EChartsOption;
     optionsForecasting!: EChartsOption;
+
+    valueSelect!: number;
 
     constructor(
         private toastService: ToastService,
         private router: Router,
         private evaluateService: EvaluateService,
-        private cacheService: CacheService
+        private cacheService: CacheService,
+        private route: ActivatedRoute
     ) {
     }
 
     ngOnInit(): void {
+        this.route.params.subscribe({
+            next: () => this.loadScreen()
+        });
+    }
+
+    private loadScreen() {
         const value = this.cacheService.get<EvaluateClientRecordResult[]>("evaluate");
 
         if (!value) {
@@ -39,14 +48,19 @@ export class ResultEvaluateComponent implements OnInit {
         this.evaluateResultTotal = this.evaluateResult
             .map(x => x.score)
             .reduce((a, b) => a + b, 0) / this.evaluateResult.length;
+        this.valueSelect = 0;
 
-        this.setChartScore();
-        this.setChartValue1();
-        this.setChartForecasting();
+        this.setOptionsChartScore();
+        this.setOptionsChartValueSelect();
+        this.setOptionsChartForecasting();
     }
 
-    private setChartValue1() {
-        this.optionsScoreValue1 = {
+    updateChartValueSelect() {
+        this.setOptionsChartValueSelect();
+    }
+
+    private setOptionsChartValueSelect() {
+        this.optionsScoreValueSelect = {
             series: [
                 {
                     type: 'gauge',
@@ -77,14 +91,14 @@ export class ResultEvaluateComponent implements OnInit {
                         borderWidth: 1
                     },
                     data: [
-                        {value: Math.round(this.evaluateResult[0].score * 100), name: 'Score'},
+                        {value: Math.round(this.evaluateResult[this.valueSelect].score * 100), name: 'Score'},
                     ],
                 },
             ],
         };
     }
 
-    private setChartScore() {
+    private setOptionsChartScore() {
         this.optionsScore = {
             radar: {
                 indicator: this.evaluateResult.map((_, i) => {
@@ -104,7 +118,7 @@ export class ResultEvaluateComponent implements OnInit {
         };
     }
 
-    private setChartForecasting() {
+    private setOptionsChartForecasting() {
         this.optionsForecasting = {
             xAxis: {
                 type: 'category',
