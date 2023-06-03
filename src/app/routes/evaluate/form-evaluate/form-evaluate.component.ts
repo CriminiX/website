@@ -7,15 +7,18 @@ import {
 } from "@angular/forms";
 import {v4 as uuid} from "uuid";
 import {Router} from "@angular/router";
-import {EvaluateClientResult} from "src/app/shared/models/evaluate-client-result";
+import {EvaluateClientRecordResult} from "src/app/shared/models/evaluate-client-result";
 import {CacheService} from "src/app/shared/services/cache/cache.service";
 import {EvaluateService} from "src/app/shared/services/evaluate/evaluate.service";
 import {ToastService} from "src/app/shared/services/toast/toast.service";
-import {EvaluateClient, EvaluateClientModel} from "../../../shared/models/evaluate-client";
+import {EvaluateClient} from "../../../shared/models/evaluate-client";
 import {MatDialog} from "@angular/material/dialog";
 import {HistoryEvaluateDialogComponent} from "../history-evaluate-dialog/history-evaluate-dialog.component";
 import {EvaluateClientHistory, EvaluateClientHistoryModel} from "../../../shared/models/evaluate-client-history";
 import '../../../shared/extensions/date.extensions';
+import {EvaluateClientForm} from "../../../shared/models/evaluate-client-form";
+import {toEvaluateClient} from "../../../shared/adapters/evaluate-client";
+import {parse} from "date-fns";
 
 @Component({
     selector: "app-form-evaluate",
@@ -44,7 +47,9 @@ export class FormEvaluateComponent implements OnInit {
         this.months = new Date().getMonthsNames();
 
         this.evaluateForm = this.formBuilder.group({
-            name: ["", [Validators.required, Validators.minLength(2)]],
+            city: ["", [Validators.required, Validators.minLength(2)]],
+            neighborhood: ["", [Validators.required, Validators.minLength(2)]],
+            hour: [12, [Validators.required, Validators.min(0), Validators.max(23)]],
             month: [null, [Validators.required]],
         });
 
@@ -64,20 +69,23 @@ export class FormEvaluateComponent implements OnInit {
     }
 
     private setFormData(data: EvaluateClient) {
-        this.evaluateForm.controls["name"].setValue(data.name);
-        this.evaluateForm.controls["month"].setValue(data.month);
+        this.evaluateForm.controls["city"].setValue(data.location.city);
+        this.evaluateForm.controls["neighborhood"].setValue(data.location.neighborhood);
+        this.evaluateForm.controls["hour"].setValue(data.hour);
+        this.evaluateForm.controls["month"].setValue(parse(data.period.begin, "yyyy-MM-dd", new Date()).getMonth() + 1);
     }
 
     evaluate() {
         this.loading = true;
 
-        const evaluateClient = this.evaluateForm.getRawValue() as EvaluateClient;
-        this.cacheService.saveOnList<EvaluateClientHistory>("evaluate-history", {...evaluateClient, id: uuid(), date: new Date()});
+        const evaluateClientForm = this.evaluateForm.getRawValue() as EvaluateClientForm;
+        this.cacheService.saveOnList<EvaluateClientHistory>("evaluate-history", {...evaluateClientForm, id: uuid(), date: new Date()});
+        const evaluateClient: EvaluateClient = toEvaluateClient(evaluateClientForm);
 
         this.evaluateService.evaluateClient(evaluateClient).subscribe({
             next: async (value) => {
                 this.cacheService.save<EvaluateClient>("evaluate-form", evaluateClient);
-                this.cacheService.save<EvaluateClientResult>("evaluate", value);
+                this.cacheService.save<EvaluateClientRecordResult[]>("evaluate", value);
                 await this.router.navigateByUrl("/evaluate/result");
                 this.loading = false;
             },
@@ -99,7 +107,8 @@ export class FormEvaluateComponent implements OnInit {
                     return;
                 }
 
-                this.setFormData(value);
+                const evaluateClient: EvaluateClient = toEvaluateClient(value);
+                this.setFormData(evaluateClient);
             }
         })
     }

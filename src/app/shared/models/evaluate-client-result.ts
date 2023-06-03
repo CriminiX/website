@@ -1,10 +1,20 @@
 export interface EvaluateClientResult {
-    id: number;
-    value1: number;
-    value2: number;
-    value3: number;
+    records: EvaluateClientRecordResult[];
+    axes: any;
+}
+
+export interface EvaluateClientRecordResult {
+    location: EvaluateClientRecordLocationResult;
+    day: string;
+    shift: string;
+    season: string;
     score: number;
-    months: number[];
+}
+
+export interface EvaluateClientRecordLocationResult {
+    city: string;
+    neighborhood: string;
+    street: any;
 }
 
 export type EvaluateClientResultModel = EvaluateClientResult | undefined;

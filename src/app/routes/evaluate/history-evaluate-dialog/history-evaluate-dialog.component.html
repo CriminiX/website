@@ -23,11 +23,35 @@
             </td>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordenar por Nome">Nome</th>
+        <!-- City Column -->
+        <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordenar por Cidade">Cidade</th>
             <td mat-cell *matCellDef="let element">
-                {{element.name}}
+                {{element.city}}
+            </td>
+        </ng-container>
+
+        <!-- Neighborhood Column -->
+        <ng-container matColumnDef="neighborhood">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordenar por Cidade">Bairro</th>
+            <td mat-cell *matCellDef="let element">
+                {{element.neighborhood}}
+            </td>
+        </ng-container>
+
+        <!-- Hour Column -->
+        <ng-container matColumnDef="hour">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordenar por Cidade">Hora</th>
+            <td mat-cell *matCellDef="let element">
+                {{element.hour}}
+            </td>
+        </ng-container>
+
+        <!-- Month Column -->
+        <ng-container matColumnDef="month">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordenar por Cidade">Mês</th>
+            <td mat-cell *matCellDef="let element">
+                {{element.month}}
             </td>
         </ng-container>
 
@@ -39,8 +63,8 @@
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="['select', 'name', 'date']; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['select', 'name', 'date'];"
+        <tr mat-header-row *matHeaderRowDef="['select', 'city', 'neighborhood', 'hour', 'month', 'date']; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['select', 'city', 'neighborhood', 'hour', 'month', 'date'];"
             (click)="selection.toggle(row)">
         </tr>
     </table>

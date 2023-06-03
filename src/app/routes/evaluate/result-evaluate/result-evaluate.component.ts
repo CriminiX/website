@@ -1,11 +1,9 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
-import {FormBuilder} from "@angular/forms";
+import {Router} from "@angular/router";
 import {ToastService} from "../../../shared/services/toast/toast.service";
-import {filter} from "rxjs";
 import {EvaluateService} from "../../../shared/services/evaluate/evaluate.service";
 import {CacheService} from "src/app/shared/services/cache/cache.service";
-import {EvaluateClientResult} from "src/app/shared/models/evaluate-client-result";
+import {EvaluateClientRecordResult} from "src/app/shared/models/evaluate-client-result";
 import {EChartsOption} from "echarts";
 
 @Component({
@@ -14,8 +12,8 @@ import {EChartsOption} from "echarts";
     styleUrls: ["./result-evaluate.component.scss"],
 })
 export class ResultEvaluateComponent implements OnInit {
-    evaluateResult!: EvaluateClientResult;
-    // scoreProgressBar: number = 0.0;
+    evaluateResult!: EvaluateClientRecordResult[];
+    evaluateResultTotal!: number;
 
     optionsScore!: EChartsOption;
     optionsScoreValue1!: EChartsOption;
@@ -30,7 +28,7 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const value = this.cacheService.get<EvaluateClientResult>("evaluate");
+        const value = this.cacheService.get<EvaluateClientRecordResult[]>("evaluate");
 
         if (!value) {
             this.router.navigateByUrl("/evaluate");
@@ -38,7 +36,9 @@ export class ResultEvaluateComponent implements OnInit {
         }
 
         this.evaluateResult = value!;
-        // this.scoreProgressBar = this.evaluateResult.score * 20;
+        this.evaluateResultTotal = this.evaluateResult
+            .map(x => x.score)
+            .reduce((a, b) => a + b, 0) / this.evaluateResult.length;
 
         this.setChartScore();
         this.setChartValue1();
@@ -52,7 +52,7 @@ export class ResultEvaluateComponent implements OnInit {
                     type: 'gauge',
                     startAngle: 90,
                     endAngle: -270,
-                    max: 5,
+                    max: 100,
                     pointer: {
                         show: false
                     },
@@ -77,7 +77,7 @@ export class ResultEvaluateComponent implements OnInit {
                         borderWidth: 1
                     },
                     data: [
-                        {value: this.evaluateResult.value1, name: 'Score'},
+                        {value: Math.round(this.evaluateResult[0].score * 100), name: 'Score'},
                     ],
                 },
             ],
@@ -87,18 +87,16 @@ export class ResultEvaluateComponent implements OnInit {
     private setChartScore() {
         this.optionsScore = {
             radar: {
-                indicator: [
-                    {name: 'Value1', max: 5},
-                    {name: 'Value2', max: 5},
-                    {name: 'Value3', max: 5},
-                ]
+                indicator: this.evaluateResult.map((_, i) => {
+                    return {name: `#${i}`, max: 1};
+                })
             },
             series: [
                 {
                     type: 'radar',
                     data: [
                         {
-                            value: [this.evaluateResult.value1, this.evaluateResult.value2, this.evaluateResult.value3],
+                            value: this.evaluateResult.map(x => x.score),
                         }
                     ]
                 }
@@ -111,14 +109,14 @@ export class ResultEvaluateComponent implements OnInit {
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                data: this.evaluateResult.map(x => x.day),
             },
             yAxis: {
                 type: 'value'
             },
             series: [
                 {
-                    data: this.evaluateResult.months,
+                    data: this.evaluateResult.map(x => x.score),
                     type: 'line',
                     areaStyle: {}
                 }

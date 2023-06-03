@@ -20,8 +20,28 @@
                         appearance="outline"
                         hideRequiredMarker
                 >
-                    <mat-label>Nome</mat-label>
-                    <input matInput placeholder="Ex.: Alberto" formControlName="name"/>
+                    <mat-label>Cidade</mat-label>
+                    <input matInput placeholder="Ex.: S.Paulo" formControlName="city"/>
+                    <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field
+                        class="data-form"
+                        appearance="outline"
+                        hideRequiredMarker
+                >
+                    <mat-label>Bairro</mat-label>
+                    <input matInput placeholder="Ex.: Centro" formControlName="neighborhood"/>
+                    <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field
+                        class="data-form"
+                        appearance="outline"
+                        hideRequiredMarker
+                >
+                    <mat-label>Hora</mat-label>
+                    <input matInput formControlName="hour" type="number" max="23" min="0"/>
                     <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
                 </mat-form-field>
 

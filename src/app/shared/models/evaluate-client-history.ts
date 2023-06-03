@@ -1,6 +1,6 @@
-import {EvaluateClient} from "./evaluate-client";
+import {EvaluateClientForm} from "./evaluate-client-form";
 
-export interface EvaluateClientHistory extends EvaluateClient {
+export interface EvaluateClientHistory extends EvaluateClientForm {
     id: string;
     date: Date
 }
