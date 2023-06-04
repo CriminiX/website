@@ -19,6 +19,7 @@ import '../../../shared/extensions/date.extensions';
 import {EvaluateClientForm} from "../../../shared/models/evaluate-client-form";
 import {toEvaluateClient} from "../../../shared/adapters/evaluate-client";
 import {parse} from "date-fns";
+import {shifts} from '../../../shared/models/shifts';
 
 @Component({
     selector: "app-form-evaluate",
@@ -30,6 +31,7 @@ export class FormEvaluateComponent implements OnInit {
     loading = false;
 
     months!: { id: number; name: string; }[];
+    shifts!: { id: string; name: string; }[];
 
     @Input() formResult: boolean = false;
 
@@ -45,11 +47,12 @@ export class FormEvaluateComponent implements OnInit {
 
     ngOnInit(): void {
         this.months = new Date().getMonthsNames();
+        this.shifts = shifts;
 
         this.evaluateForm = this.formBuilder.group({
             city: ["", [Validators.required, Validators.minLength(2)]],
             neighborhood: ["", [Validators.required, Validators.minLength(2)]],
-            hour: [12, [Validators.required, Validators.min(0), Validators.max(23)]],
+            shift: [null, [Validators.required]],
             month: [null, [Validators.required]],
         });
 
@@ -71,7 +74,7 @@ export class FormEvaluateComponent implements OnInit {
     private setFormData(data: EvaluateClient) {
         this.evaluateForm.controls["city"].setValue(data.location.city);
         this.evaluateForm.controls["neighborhood"].setValue(data.location.neighborhood);
-        this.evaluateForm.controls["hour"].setValue(data.hour);
+        this.evaluateForm.controls["shift"].setValue(data.shift);
         this.evaluateForm.controls["month"].setValue(parse(data.period.begin, "yyyy-MM-dd", new Date()).getMonth() + 1);
     }
 

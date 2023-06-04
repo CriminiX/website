@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "prod": "ng serve --configuration=production",
+    "remote": "ng serve --host 0.0.0.0 --disable-host-check",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "ci": "ng build --configuration=production --aot --build-optimizer",

@@ -5,6 +5,7 @@ import {CacheService} from "../../../shared/services/cache/cache.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatSort} from "@angular/material/sort";
+import {fromId} from 'src/app/shared/models/shifts';
 
 @Component({
     selector: 'app-history-evaluate-dialog',
@@ -16,6 +17,8 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
     hasData = true;
     dataTable!: MatTableDataSource<EvaluateClientHistory>;
     selection!: SelectionModel<EvaluateClientHistory>;
+
+    private months!: { id: number; name: string; }[];
 
     @ViewChild(MatSort) sort!: MatSort;
 
@@ -36,6 +39,8 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
     }
 
     loadData() {
+        this.months = new Date().getMonthsNames();
+
         const data = this.cacheService.get<EvaluateClientHistory[]>("evaluate-history");
         this.selection = new SelectionModel<EvaluateClientHistory>(true, []);
 
@@ -82,5 +87,13 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
         }
 
         this.selection.select(...this.dataTable.data);
+    }
+
+    formatShift(shiftId: string) {
+        return fromId(shiftId) || "";
+    }
+
+    formatMonth(monthId: number) {
+        return this.months.at(monthId)?.name || monthId;
     }
 }

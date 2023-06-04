@@ -1,6 +1,6 @@
 export interface EvaluateClient {
     location: EvaluateClientLocation;
-    hour: number;
+    shift: string;
     period: EvaluateClientPeriod;
 }
 

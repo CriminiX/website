@@ -1,66 +1,93 @@
 <main>
-    <app-form-evaluate class="fit-half" [formResult]="true"></app-form-evaluate>
-    <section>
-        <mat-card>
-            <mat-card-header>
-                <h5 class="mat-headline-5">Resumo Resultado</h5>
-            </mat-card-header>
+  <app-form-evaluate class="fit-half" [formResult]="true"></app-form-evaluate>
+  <section>
+    <mat-card>
+      <mat-card-header>
+        <h5 class="mat-headline-5">Resultado - Resumo</h5>
+      </mat-card-header>
 
-            <mat-card-content>
-                <mat-divider class="divider"></mat-divider>
-                <div class="result-summary">
-                    <h6 class="mat-headline-6">Score Total: {{evaluateResultTotal | percent: '1.2-2'}}</h6>
-                    <ng-container *ngFor="let result of evaluateResult; let index = index">
+      <mat-card-content>
+        <mat-divider class="divider"></mat-divider>
+        <div class="result-summary">
+          <h6 class="mat-headline-6">
+            Score Médio: {{ evaluateResultAverage | number : "1.2-2" }}
+          </h6>
+          <!-- <ng-container *ngFor="let result of evaluateResult; let index = index">
                         <span class="mat-body-1">Score #{{index}} {{result.day}}
-                            : {{result.score | percent: '1.2-2'}}</span>
-                    </ng-container>
-                </div>
-            </mat-card-content>
-        </mat-card>
+                            : {{result.score | number: '1.2-2'}}</span>
+                    </ng-container> -->
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-        <mat-card>
-            <mat-card-header>
-                <h5 class="mat-headline-5">Resultado Consolidado</h5>
-            </mat-card-header>
+    <mat-card>
+      <mat-card-header>
+        <h5 class="mat-headline-5">Resultado - Consolidado</h5>
+      </mat-card-header>
 
-            <mat-card-content>
-                <mat-divider class="divider"></mat-divider>
-                <span class="mat-body-1">Score: {{evaluateResultTotal | percent: '1.2-2'}}</span>
+      <mat-card-content>
+        <mat-divider class="divider"></mat-divider>
+        <!-- <span class="mat-body-1">Score: {{evaluateResultAverage | number: '1.2-2'}}</span> -->
 
-                <div echarts [initOpts]="{renderer: 'svg'}" [options]="optionsScore"></div>
-            </mat-card-content>
-        </mat-card>
+        <div
+          echarts
+          [initOpts]="{ renderer: 'svg' }"
+          [options]="optionsScore"
+        ></div>
+      </mat-card-content>
+    </mat-card>
 
-        <mat-card>
-            <mat-card-header class="header-divided">
-                <h5 class="mat-headline-5">Resultado Individual</h5>
-                <mat-form-field class="data-form" appearance="outline" hideRequiredMarker>
-                    <mat-label>Score</mat-label>
-                    <mat-select [(ngModel)]="valueSelect" (ngModelChange)="updateChartValueSelect()">
-                        <ng-container *ngFor="let result of evaluateResult; let index = index">
-                            <mat-option [value]="index">#{{index}} {{ result.day }}</mat-option>
-                        </ng-container>
-                    </mat-select>
-                </mat-form-field>
-            </mat-card-header>
+    <mat-card>
+      <mat-card-header>
+        <h5 class="mat-headline-5">Resultado - Individual</h5>
+      </mat-card-header>
 
-            <mat-card-content>
-                <mat-divider class="divider"></mat-divider>
-                <span class="mat-body-1">Score #1: {{evaluateResult[valueSelect].score | percent: '1.2-2'}}</span>
+      <mat-card-content>
+        <mat-divider class="divider"></mat-divider>
 
-                <div echarts #chartValueSelect [initOpts]="{renderer: 'svg'}" [options]="optionsScoreValueSelect"></div>
-            </mat-card-content>
-        </mat-card>
+        <mat-form-field
+          class="data-form"
+          appearance="outline"
+          hideRequiredMarker
+        >
+          <mat-label>Dia</mat-label>
+          <mat-select
+            [(ngModel)]="valueSelect"
+            (ngModelChange)="updateChartValueSelect()"
+          >
+            <ng-container
+              *ngFor="let result of evaluateResult; let index = index"
+            >
+              <mat-option [value]="index"
+                >{{ result.day | date: 'dd/MM' }}</mat-option
+              >
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <!-- <span class="mat-body-1">Score: {{evaluateResult[valueSelect].score | number: '1.2-2'}}</span> -->
 
-        <mat-card>
-            <mat-card-header>
-                <h5 class="mat-headline-5">Resultado Forecasting</h5>
-            </mat-card-header>
+        <div
+          echarts
+          #chartValueSelect
+          [initOpts]="{ renderer: 'svg' }"
+          [options]="optionsScoreValueSelect"
+        ></div>
+      </mat-card-content>
+    </mat-card>
 
-            <mat-card-content>
-                <mat-divider class="divider"></mat-divider>
-                <div echarts [initOpts]="{renderer: 'svg'}" [options]="optionsForecasting"></div>
-            </mat-card-content>
-        </mat-card>
-    </section>
+    <mat-card>
+      <mat-card-header>
+        <h5 class="mat-headline-5">Resultado - Forecasting</h5>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-divider class="divider"></mat-divider>
+        <div
+          echarts
+          [initOpts]="{ renderer: 'svg' }"
+          [options]="optionsForecasting"
+        ></div>
+      </mat-card-content>
+    </mat-card>
+  </section>
 </main>

@@ -10,7 +10,7 @@ export const toEvaluateClient = (evaluateClientForm: EvaluateClientForm): Evalua
             city: evaluateClientForm.city.trim().removeAccents().toLowerCase().formatSaintName(),
             neighborhood: evaluateClientForm.neighborhood.trim().removeAccents().toLowerCase().formatSaintName()
         },
-        hour: evaluateClientForm.hour,
+        shift: evaluateClientForm.shift,
         period: {
             begin,
             end

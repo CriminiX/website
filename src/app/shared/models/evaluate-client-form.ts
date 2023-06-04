@@ -1,6 +1,6 @@
 export interface EvaluateClientForm {
     city: string;
     neighborhood: string;
-    hour: number;
+    shift: string;
     month: number;
 }

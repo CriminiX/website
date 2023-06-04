@@ -35,13 +35,13 @@
                     <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
                 </mat-form-field>
 
-                <mat-form-field
-                        class="data-form"
-                        appearance="outline"
-                        hideRequiredMarker
-                >
-                    <mat-label>Hora</mat-label>
-                    <input matInput formControlName="hour" type="number" max="23" min="0"/>
+                <mat-form-field class="data-form" appearance="outline" hideRequiredMarker>
+                    <mat-label>Período</mat-label>
+                    <mat-select formControlName="shift">
+                        <ng-container *ngFor="let shift of shifts">
+                            <mat-option [value]="shift.id">{{ shift.name }}</mat-option>
+                        </ng-container>
+                    </mat-select>
                     <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
                 </mat-form-field>
 
