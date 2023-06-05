@@ -1,4 +1,4 @@
 export const environment = {
-    url: "http://ec2-34-230-67-231.compute-1.amazonaws.com:8080",
+    url: "http://174.129.16.251:8080",
     layout: 1
 };
