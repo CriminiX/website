@@ -7,4 +7,6 @@ RUN npm run ci
 
 #CD
 FROM nginx:alpine
+EXPOSE 80
+COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=node /app/dist/criminix /usr/share/nginx/html
