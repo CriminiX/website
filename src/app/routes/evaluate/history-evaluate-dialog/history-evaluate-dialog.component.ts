@@ -94,6 +94,6 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
     }
 
     formatMonth(monthId: number) {
-        return this.months.at(monthId)?.name || monthId;
+        return this.months.at(monthId - 1)?.name || monthId;
     }
 }

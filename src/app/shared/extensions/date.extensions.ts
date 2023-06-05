@@ -1,4 +1,4 @@
-import {monthsInYear, format, lastDayOfMonth} from 'date-fns';
+import {monthsInYear, format, lastDayOfMonth, parse} from 'date-fns';
 import {ptBR} from 'date-fns/locale';
 import './string.extensions';
 
@@ -9,6 +9,7 @@ declare global {
         getMonthsNames: () => { id: number; name: string; }[];
         getFirstDayOfMonth: (month: number) => string;
         getLastDayOfMonth: (month: number) => string;
+        from: (date: string) => Date;
     }
 }
 
@@ -34,4 +35,10 @@ Date.prototype.getLastDayOfMonth = function (month: number) {
     const dl = lastDayOfMonth(d);
 
     return format(dl, 'yyyy-MM-dd', {locale: ptBR})
+}
+
+Date.prototype.from = function (date: string) {
+    const param = parse(date, "MM-dd", new Date());
+
+    return new Date(this.getFullYear(), param.getMonth(), param.getDate());
 }

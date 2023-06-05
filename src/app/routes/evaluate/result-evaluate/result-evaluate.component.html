@@ -89,5 +89,20 @@
         ></div>
       </mat-card-content>
     </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <h5 class="mat-headline-5">Resultado - Calendário</h5>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-divider class="divider"></mat-divider>
+        <div
+                echarts
+                [initOpts]="{ renderer: 'svg' }"
+                [options]="optionsCalendar"
+        ></div>
+      </mat-card-content>
+    </mat-card>
   </section>
 </main>
