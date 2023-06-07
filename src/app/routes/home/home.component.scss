@@ -1,4 +1,5 @@
 @import "src/theme";
+@import "src/variables";
 
 .splash-screen {
   height: 80vh;
@@ -16,8 +17,15 @@
     width: 100%;
     backdrop-filter: blur(4px);
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    padding: 0 2rem;
+    text-align: center;
 
     h1 {
+      margin-bottom: 3rem;
+    }
+
+    h3 {
       margin-bottom: 2rem;
     }
 
@@ -39,7 +47,7 @@
 }
 
 .about-redirect-section {
-  height: 11vh;
+  height: 10vh;
   background-color: $primary-color-light;
   display: flex;
   align-items: center;
@@ -47,14 +55,23 @@
 }
 
 .about-screen {
-  height: 60vh;
+  min-height: 60vh;
   background-color: $primary-color-light;
   display: flex;
+
+  @media screen and (max-width: $x-small) {
+    flex-direction: column;
+  }
 }
 
 section {
   width: 50%;
   margin-left: 2rem;
+
+  @media screen and (max-width: $x-small) {
+    width: auto;
+    margin: 0 1rem;
+  }
 
   h3 {
     margin-top: 2rem;
@@ -68,9 +85,33 @@ footer {
   background-color: #615D6C;
   color: #F5F5F5;
 
-  .footer-section-item {
+  section {
+    width: 100%;
+
+    h3 {
+      margin-top: 4rem;
+      margin-bottom: 2rem;
+
+      &:first-child {
+        margin-top: 2rem;
+      }
+    }
+  }
+
+  .footer-section-items {
     margin: 0;
     padding: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    @media screen and (max-width: $x-small) {
+      flex-direction: column;
+    }
+
+    .footer-section-item {
+      padding-right: 2rem;
+    }
 
     a {
       display: flex;

@@ -2,8 +2,9 @@
 
 .docs-container {
   width: 100%;
-  height: calc(100vh - 8vh);
+  height: calc(100vh - 10%);
   border: 1px solid rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
 
   .sidenav {
     width: 25%;
@@ -33,7 +34,7 @@
   }
 
   main {
-    height: calc(92vh - 0.1rem);
+    height: calc((100vh - 10%) - 1rem);
     border-top: 1rem solid #4dd0e1;
     border-left: 2rem solid #4dd0e1;
     padding: 2rem;

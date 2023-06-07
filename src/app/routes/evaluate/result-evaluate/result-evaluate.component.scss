@@ -1,14 +1,24 @@
 @import "src/theme";
+@import "src/variables";
 
 main {
-  height: calc(100vh - 8vh);
+  height: calc(100vh - 10%);
   width: 100%;
-
   display: flex;
+  box-sizing: border-box;
+
+  @media screen and (max-width: $x-small) {
+    flex-direction: column;
+    overflow-y: auto;
+  }
 
   .fit-half {
     width: 40%;
     height: 100%;
+
+    @media screen and (max-width: $x-small) {
+      width: 100%;
+    }
   }
 
   section {
@@ -18,6 +28,12 @@ main {
     box-sizing: border-box;
     background-color: $primary-color-light;
     overflow-y: auto;
+
+    @media screen and (max-width: $x-small) {
+      height: auto;
+      width: 100%;
+      overflow-y: visible;
+    }
 
     mat-card {
       margin: 1rem 0;
