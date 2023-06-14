@@ -18,8 +18,6 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
     dataTable!: MatTableDataSource<EvaluateClientHistory>;
     selection!: SelectionModel<EvaluateClientHistory>;
 
-    private months!: { id: number; name: string; }[];
-
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(
@@ -39,8 +37,6 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
     }
 
     loadData() {
-        this.months = new Date().getMonthsNames();
-
         const data = this.cacheService.get<EvaluateClientHistory[]>("evaluate-history");
         this.selection = new SelectionModel<EvaluateClientHistory>(true, []);
 
@@ -87,13 +83,5 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
         }
 
         this.selection.select(...this.dataTable.data);
-    }
-
-    formatShift(shiftId: string) {
-        return fromId(shiftId) || "";
-    }
-
-    formatMonth(monthId: number) {
-        return this.months.at(monthId - 1)?.name || monthId;
     }
 }

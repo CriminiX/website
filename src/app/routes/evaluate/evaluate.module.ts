@@ -24,6 +24,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatTableModule} from "@angular/material/table";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatSortModule} from "@angular/material/sort";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 echarts.use([SVGRenderer]);
 
@@ -52,7 +53,8 @@ echarts.use([SVGRenderer]);
         MatSelectModule,
         MatTableModule,
         MatCheckboxModule,
-        MatSortModule
+        MatSortModule,
+        MatExpansionModule
     ]
 })
 export class EvaluateModule { }

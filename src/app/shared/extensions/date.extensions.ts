@@ -38,7 +38,7 @@ Date.prototype.getLastDayOfMonth = function (month: number) {
 }
 
 Date.prototype.from = function (date: string) {
-    const param = parse(date, "MM-dd", new Date());
+    const param = parse(date, "yyyy-MM-dd", new Date());
 
-    return new Date(this.getFullYear(), param.getMonth(), param.getDate());
+    return new Date(param.getFullYear(), param.getMonth(), param.getDate());
 }

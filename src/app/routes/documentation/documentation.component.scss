@@ -1,4 +1,5 @@
 @import "src/theme";
+@import "src/variables";
 
 .docs-container {
   width: 100%;
@@ -7,7 +8,13 @@
   box-sizing: border-box;
 
   .sidenav {
-    width: 25%;
+    width: 35%;
+    max-width: 24rem;
+
+    @media screen and (max-width: $x-small) {
+      width: 66%;
+      max-width: 100%;
+    }
 
     .sidenav-container {
       display: flex;
@@ -20,24 +27,58 @@
         margin: 0;
       }
 
-      .divider {
-        width: 80%;
-        margin: 1rem 0;
-      }
+      .docs-tree {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
 
-      button {
-        margin-bottom: 1rem;
-        min-width: 50%;
-        max-width: 80%;
+        .doc-child {
+          width: calc(100% - 1rem);
+
+          .doc-button {
+            width: 100%;
+          }
+        }
+
+        .docs-expander {
+          width: calc(100% - 1rem);
+          padding-top: 2rem;
+          flex: 1;
+
+          &:first-child {
+            padding-top: 0;
+          }
+
+          .doc-expander-button {
+            width: 100%;
+          }
+        }
       }
     }
   }
 
+  .docs-subheader {
+    height: auto;
+    padding: 0.5rem;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    h3 {
+      margin: 0 0 0 1rem;
+    }
+  }
+
   main {
-    height: calc((100vh - 10%) - 1rem);
-    border-top: 1rem solid #4dd0e1;
-    border-left: 2rem solid #4dd0e1;
-    padding: 2rem;
+    height: calc(100% - 4rem);
+    border-top: 1vh solid $primary-color-light;
+    border-left: 1rem solid $primary-color-light;
+    padding: 1.5rem;
     box-sizing: border-box;
     overflow-y: auto;
   }

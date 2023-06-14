@@ -1,18 +1,38 @@
-<mat-drawer-container class="docs-container" autosize>
-    <mat-drawer #drawer class="sidenav" mode="side" [opened]="true">
+<mat-drawer-container class="docs-container" autosize [hasBackdrop]="mobileQuery.matches">
+    <mat-drawer #drawer class="sidenav" [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches">
         <section class="sidenav-container">
-            <ng-container *ngFor="let doc of docs">
-                <h3 class="mat-headline-5">{{doc.title}}</h3>
-                <mat-divider class="divider"></mat-divider>
-                <ng-container *ngFor="let docChild of doc.children">
-                    <button mat-button [routerLink]="['/docs/' + docChild.path]">
-                        <span>{{docChild.title}}</span>
+            <mat-tree #tree [dataSource]="dataSource" [treeControl]="treeControl" class="docs-tree">
+
+                <mat-tree-node *matTreeNodeDef="let node" class="doc-child">
+                    <button
+                            mat-button
+                            class="doc-button"
+                            [routerLink]="['/docs/' + node.path]"
+                            (click)="mobileQuery.matches ? drawer.toggle() : undefined"
+                    >
+                        <span>{{node.name}}</span>
                         <mat-icon iconPositionEnd>arrow_rightward</mat-icon>
                     </button>
-                </ng-container>
-            </ng-container>
+                </mat-tree-node>
+
+                <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding class="docs-expander">
+                    <button mat-button matTreeNodeToggle class="doc-expander-button">
+                        <h3 class="mat-headline-6">{{node.name}}</h3>
+                        <mat-icon iconPositionEnd>
+                            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                    </button>
+                </mat-tree-node>
+            </mat-tree>
         </section>
     </mat-drawer>
+
+    <div class="docs-subheader">
+        <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h3 class="mat-headline-6">Documentaçao do Projeto</h3>
+    </div>
 
     <main>
         <router-outlet></router-outlet>

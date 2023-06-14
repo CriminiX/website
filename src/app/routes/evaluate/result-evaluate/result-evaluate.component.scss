@@ -46,8 +46,32 @@ main {
       .divider {
         margin-bottom: 1rem;
       }
+
+      .expansion-header-container {
+        min-height: 4rem;
+
+        @media screen and (max-width: $x-small) {
+          min-height: 5rem;
+        }
+
+        .expansion-header-title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex: 1;
+          margin-right: 1rem;
+
+          @media screen and (max-width: $x-small) {
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+          }
+
+          h5, h6 {
+            margin: 0;
+          }
+        }
+      }
     }
-
-
   }
 }

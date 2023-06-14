@@ -14,4 +14,26 @@
       <span class="mat-headline-6">Simular</span>
     </button>
   </div>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-header">
+    <mat-icon>apps</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" yPosition="below" xPosition="before">
+    <button mat-menu-item [routerLink]="['/home']">
+      <mat-icon>home</mat-icon>
+      <span>Início</span>
+    </button>
+    <button mat-menu-item [routerLink]="['/docs']">
+      <mat-icon>format_list_bulleted</mat-icon>
+      <span>Documentação</span>
+    </button>
+    <button mat-menu-item [routerLink]="['/dashboard']">
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+    </button>
+    <button mat-menu-item  [routerLink]="['/evaluate']">
+      <mat-icon>data_usage</mat-icon>
+      <span>Simular</span>
+    </button>
+  </mat-menu>
 </mat-toolbar>

@@ -9,6 +9,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MarkdownModule} from "ngx-markdown";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {MatTreeModule} from "@angular/material/tree";
 
 
 
@@ -25,7 +26,8 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
         MatButtonModule,
         MatTooltipModule,
         HttpClientModule,
-        MarkdownModule.forRoot({ loader: HttpClient, sanitize: SecurityContext.NONE })
+        MarkdownModule.forRoot({loader: HttpClient, sanitize: SecurityContext.NONE}),
+        MatTreeModule
     ]
 })
 export class DocumentationModule { }

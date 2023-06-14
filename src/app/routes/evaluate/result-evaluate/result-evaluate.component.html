@@ -1,108 +1,154 @@
 <main>
-  <app-form-evaluate class="fit-half" [formResult]="true"></app-form-evaluate>
-  <section>
-    <mat-card>
-      <mat-card-header>
-        <h5 class="mat-headline-5">Resultado - Resumo</h5>
-      </mat-card-header>
+    <app-form-evaluate class="fit-half" [formResult]="true" (formResponse)="updateResult($event)"></app-form-evaluate>
+    <section>
+        <mat-card>
+            <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header class="expansion-header-container">
+                    <div class="expansion-header-title">
+                        <h5 class="mat-headline-5">Resultado Consolidado</h5>
+                    </div>
+                </mat-expansion-panel-header>
 
-      <mat-card-content>
-        <mat-divider class="divider"></mat-divider>
-        <div class="result-summary">
-          <h6 class="mat-headline-6">
-            Score Médio: {{ evaluateResultAverage | number : "1.2-2" }}
-          </h6>
-          <!-- <ng-container *ngFor="let result of evaluateResult; let index = index">
-                        <span class="mat-body-1">Score #{{index}} {{result.day}}
-                            : {{result.score | number: '1.2-2'}}</span>
-                    </ng-container> -->
-        </div>
-      </mat-card-content>
-    </mat-card>
+                <ng-template matExpansionPanelContent>
+                    <mat-card-content>
+                        <div
+                                echarts
+                                #chartValueSelect
+                                [initOpts]="{ renderer: 'svg' }"
+                                [options]="optionSelectChart"
+                        ></div>
 
-    <mat-card>
-      <mat-card-header>
-        <h5 class="mat-headline-5">Resultado - Consolidado</h5>
-      </mat-card-header>
+                        <div
+                                echarts
+                                [initOpts]="{ renderer: 'svg' }"
+                                [options]="optionRadarChart"
+                        ></div>
+                    </mat-card-content>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-card>
 
-      <mat-card-content>
-        <mat-divider class="divider"></mat-divider>
-        <!-- <span class="mat-body-1">Score: {{evaluateResultAverage | number: '1.2-2'}}</span> -->
+        <mat-card>
+            <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header class="expansion-header-container">
+                    <div class="expansion-header-title">
+                        <h5 class="mat-headline-5">Resumo Geral</h5>
+                        <h6 class="mat-body-1">Score por Localização</h6>
+                    </div>
+                </mat-expansion-panel-header>
 
-        <div
-          echarts
-          [initOpts]="{ renderer: 'svg' }"
-          [options]="optionsScore"
-        ></div>
-      </mat-card-content>
-    </mat-card>
+                <ng-template matExpansionPanelContent>
+                    <mat-card-content>
+                        <div
+                                echarts
+                                [initOpts]="{ renderer: 'svg' }"
+                                [options]="optionSummaryBarChart"
+                        ></div>
 
-    <mat-card>
-      <mat-card-header>
-        <h5 class="mat-headline-5">Resultado - Individual</h5>
-      </mat-card-header>
+                        <div
+                                echarts
+                                [initOpts]="{ renderer: 'svg' }"
+                                [options]="optionSummaryBoxplotChart"
+                        ></div>
+                    </mat-card-content>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-card>
 
-      <mat-card-content>
-        <mat-divider class="divider"></mat-divider>
+        <mat-card>
+            <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header class="expansion-header-container">
+                    <div class="expansion-header-title">
+                        <h5 class="mat-headline-5">Resumo por Mês</h5>
+                        <h6 class="mat-body-1">Score por Localização</h6>
+                    </div>
+                </mat-expansion-panel-header>
 
-        <mat-form-field
-          class="data-form"
-          appearance="outline"
-          hideRequiredMarker
-        >
-          <mat-label>Dia</mat-label>
-          <mat-select
-            [(ngModel)]="valueSelect"
-            (ngModelChange)="updateChartValueSelect()"
-          >
-            <ng-container
-              *ngFor="let result of evaluateResult; let index = index"
-            >
-              <mat-option [value]="index"
-                >{{ result.day | date: 'dd/MM' }}</mat-option
-              >
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-        <!-- <span class="mat-body-1">Score: {{evaluateResult[valueSelect].score | number: '1.2-2'}}</span> -->
+                <ng-template matExpansionPanelContent>
+                    <mat-card-content>
+                        <div class="result-summary">
+                            <mat-form-field class="data-form" appearance="outline">
+                                <mat-label>Mês</mat-label>
+                                <mat-select [(ngModel)]="monthSelect" (ngModelChange)="updateAllLabels()">
+                                    <ng-container *ngFor="let month of months">
+                                        <mat-option [value]="month.id">{{ month.name }}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
 
-        <div
-          echarts
-          #chartValueSelect
-          [initOpts]="{ renderer: 'svg' }"
-          [options]="optionsScoreValueSelect"
-        ></div>
-      </mat-card-content>
-    </mat-card>
+                            <div
+                                    echarts
+                                    [initOpts]="{ renderer: 'svg' }"
+                                    [options]="optionSummaryBarMonthChart"
+                            ></div>
 
-    <mat-card>
-      <mat-card-header>
-        <h5 class="mat-headline-5">Resultado - Forecasting</h5>
-      </mat-card-header>
+                            <mat-form-field class="data-form" appearance="outline">
+                                <mat-label>Período</mat-label>
+                                <mat-select [(ngModel)]="shiftSelect" (ngModelChange)="updateAllLabels()">
+                                    <ng-container *ngFor="let shift of shifts">
+                                        <mat-option [value]="shift.id">{{ shift.name }}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
 
-      <mat-card-content>
-        <mat-divider class="divider"></mat-divider>
-        <div
-          echarts
-          [initOpts]="{ renderer: 'svg' }"
-          [options]="optionsForecasting"
-        ></div>
-      </mat-card-content>
-    </mat-card>
+                            <div
+                                    echarts
+                                    [initOpts]="{ renderer: 'svg' }"
+                                    [options]="optionCalendarChart"
+                            ></div>
+                        </div>
+                    </mat-card-content>
 
-    <mat-card>
-      <mat-card-header>
-        <h5 class="mat-headline-5">Resultado - Calendário</h5>
-      </mat-card-header>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-card>
 
-      <mat-card-content>
-        <mat-divider class="divider"></mat-divider>
-        <div
-                echarts
-                [initOpts]="{ renderer: 'svg' }"
-                [options]="optionsCalendar"
-        ></div>
-      </mat-card-content>
-    </mat-card>
-  </section>
+        <mat-card>
+            <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header class="expansion-header-container">
+                    <div class="expansion-header-title">
+                        <h5 class="mat-headline-5">Linha Temporal</h5>
+                        <h6 class="mat-body-1">Score por Localização</h6>
+                    </div>
+                </mat-expansion-panel-header>
+
+                <ng-template matExpansionPanelContent>
+                    <mat-card-content>
+                        <div
+                                echarts
+                                [initOpts]="{ renderer: 'svg' }"
+                                [options]="optionTimelineYearChart"
+                        ></div>
+
+                        <div
+                                echarts
+                                [initOpts]="{ renderer: 'svg' }"
+                                [options]="optionTimelineChart"
+                        ></div>
+                    </mat-card-content>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-card>
+
+        <mat-card>
+            <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header class="expansion-header-container">
+                    <div class="expansion-header-title">
+                        <h5 class="mat-headline-5">Previsão Anual</h5>
+                        <h6 class="mat-body-1">Forecast</h6>
+                    </div>
+                </mat-expansion-panel-header>
+
+                <ng-template matExpansionPanelContent>
+                    <mat-card-content>
+                        <div
+                                echarts
+                                [initOpts]="{ renderer: 'svg' }"
+                                [options]="optionForecastChart"
+                        ></div>
+                    </mat-card-content>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-card>
+    </section>
 </main>

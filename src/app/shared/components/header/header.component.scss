@@ -8,17 +8,18 @@
   box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.25);
 
   @media screen and (max-width: $x-small) {
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding-left: 1rem;
+    justify-content: space-between;
   }
 
   .toolbar-subheader {
     @media screen and (max-width: $x-small) {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
+      display: none;
+    }
+  }
+
+  .menu-header {
+    @media screen and (min-width: $x-small + 1) {
+      display: none;
     }
   }
 

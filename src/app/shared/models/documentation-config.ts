@@ -1,11 +1,7 @@
 export interface DocumentationConfig {
-    title: string;
-    children: DocumentationConfigChildren[];
-}
-
-export interface DocumentationConfigChildren {
-    title: string;
-    path: string;
+    name: string;
+    path?: string;
+    children?: DocumentationConfig[];
 }
 
 export type DocumentationConfigModel = Array<DocumentationConfig>

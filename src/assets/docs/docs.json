@@ -1,26 +1,26 @@
 [
   {
-    "title": "Instruçoes",
+    "name": "Instruçoes",
     "children": [
       {
-        "title": "Guia Inicial",
+        "name": "Guia Inicial",
         "path": "guide-start"
       },
       {
-        "title": "Instalaçao",
+        "name": "Instalaçao",
         "path": "install"
       }
     ]
   },
   {
-    "title": "Execução",
+    "name": "Execução",
     "children": [
       {
-        "title": "Backend API",
+        "name": "Backend API",
         "path": "backend"
       },
       {
-        "title": "Frontend Site",
+        "name": "Frontend Site",
         "path": "frontend"
       }
     ]
