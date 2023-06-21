@@ -45,7 +45,11 @@ export class ResultEvaluateComponent implements OnInit {
     months!: { id: number; name: string; }[];
     monthSelect!: number;
     shifts!: { id: string; name: string; }[];
-    shiftSelect!: string;
+    shiftsGeneral!: { id: string; name: string; }[];
+    shiftsAll!: { id: string; name: string; }[];
+    shiftMonthSummary!: string;
+    shiftTimelineYear!: string[];
+    shiftTimeline!: string;
     locations!: string[];
     locationCalendar!: number;
 
@@ -86,7 +90,13 @@ export class ResultEvaluateComponent implements OnInit {
         this.months = new Date().getMonthsNames();
         this.monthSelect = 1;
         this.shifts = shifts;
-        this.shiftSelect = 'NIGHT';
+        this.shiftsGeneral = [{id: "GENERAL", name: 'Geral'}, ...shifts];
+        this.shiftsAll = [{id: "ALL", name: 'Todos'}, ...shifts];
+        this.shiftMonthSummary = 'NIGHT';
+        this.shiftTimelineYear = this.evaluateResult.length > 1
+            ? ['GENERAL']
+            : this.shiftsGeneral.map(x => x.id);
+        this.shiftTimeline = this.evaluateResult.length > 1 ? 'NIGHT' : 'ALL';
         this.locations = evaluateForm.locations
             .map(x => `${x.city}, ${x.neighborhood}`);
         this.locationCalendar = 0;
@@ -174,40 +184,54 @@ export class ResultEvaluateComponent implements OnInit {
         );
     }
 
-    // TODO: Arrumar labels do legend do gauge
     private setGaugeChartOption() {
         const value = this.evaluateResult.map(v => this.calcAverage(v, ['DAWN', 'MORNING', 'NIGHT']));
         this.optionGaugeChart = defineGaugeChartOption(this.locations.map(v => v.replace(', ', '\n')), value);
     }
 
-    // TODO: Colocar opção de selecionar o bairro
     private setCalendarChartOption() {
-        const data = this.filterOnShift(this.filterOnMonthSelected(this.evaluateResult[this.locationCalendar]), [this.shiftSelect]);
+        const data = this.filterOnShift(this.filterOnMonthSelected(this.evaluateResult[this.locationCalendar]), [this.shiftMonthSummary]);
         this.optionCalendarChart = defineCalendarChartOption(this.months[this.monthSelect].name, this.monthSelect, data);
     }
 
     private setTimelineYearChartOption() {
         this.optionTimelineYearChart = defineTimelineYearChartOption(
             this.months.map(x => x.name),
-            this.locations.flatMap(x => [`Geral (${x})`, `Manhã (${x})`, `Tarde (${x})`, `Noite (${x})`]),
+            this.locations.flatMap(x => [
+                this.shiftTimelineYear.includes('GENERAL') ? `Geral (${x})` : undefined,
+                this.shiftTimelineYear.includes('DAWN') ? `Manhã (${x})` : undefined,
+                this.shiftTimelineYear.includes('MORNING') ? `Tarde (${x})` : undefined,
+                this.shiftTimelineYear.includes('NIGHT') ? `Noite (${x})` : undefined
+            ].filter(x => x !== undefined).map(x => x!)),
             this.evaluateResult.flatMap(r => [
-                this.months.map(x => this.calcAverage(this.filterOnMonth(r, x.id), ['DAWN', 'MORNING', 'NIGHT'])),
-                this.months.map(x => this.calcAverage(this.filterOnMonth(r, x.id), ['DAWN'])),
-                this.months.map(x => this.calcAverage(this.filterOnMonth(r, x.id), ['MORNING'])),
-                this.months.map(x => this.calcAverage(this.filterOnMonth(r, x.id), ['NIGHT']))
-            ])
+                this.shiftTimelineYear.includes('GENERAL')
+                    ? this.months.map(x => this.calcAverage(this.filterOnMonth(r, x.id), ['DAWN', 'MORNING', 'NIGHT']))
+                    : undefined,
+                this.shiftTimelineYear.includes('DAWN')
+                    ? this.months.map(x => this.calcAverage(this.filterOnMonth(r, x.id), ['DAWN']))
+                    : undefined,
+                this.shiftTimelineYear.includes('MORNING')
+                    ? this.months.map(x => this.calcAverage(this.filterOnMonth(r, x.id), ['MORNING']))
+                    : undefined,
+                this.shiftTimelineYear.includes('NIGHT')
+                    ? this.months.map(x => this.calcAverage(this.filterOnMonth(r, x.id), ['NIGHT']))
+                    : undefined
+            ].filter(x => x !== undefined).map(x => x!))
         );
     }
 
-    // TODO: Corrigir gráfico
     private setTimelineChartOption() {
         this.optionTimelineChart = defineTimelineChartOption(
-            this.locations.map(x => [`Manhã (${x})`, `Tarde (${x})`, `Noite (${x})`]),
+            this.locations.map(x => [
+                ['ALL', 'DAWN'].includes(this.shiftTimeline) ? `Manhã (${x})` : undefined,
+                ['ALL', 'MORNING'].includes(this.shiftTimeline) ? `Tarde (${x})` : undefined,
+                ['ALL', 'NIGHT'].includes(this.shiftTimeline) ? `Noite (${x})` : undefined
+            ].filter(x => x !== undefined).map(x => x!)),
             this.evaluateResult.map(v => [
-                this.filterOnShift(v, ['DAWN']),
-                this.filterOnShift(v, ['MORNING']),
-                this.filterOnShift(v, ['NIGHT'])
-            ])
+                ['ALL', 'DAWN'].includes(this.shiftTimeline) ? this.filterOnShift(v, ['DAWN']) : undefined,
+                ['ALL', 'MORNING'].includes(this.shiftTimeline) ? this.filterOnShift(v, ['MORNING']) : undefined,
+                ['ALL', 'NIGHT'].includes(this.shiftTimeline) ? this.filterOnShift(v, ['NIGHT']) : undefined
+            ].filter(x => x !== undefined).map(x => x!))
         );
     }
 

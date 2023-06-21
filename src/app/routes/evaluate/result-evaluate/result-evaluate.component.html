@@ -84,14 +84,14 @@
 
                             <mat-form-field class="data-form" appearance="outline">
                                 <mat-label>Período</mat-label>
-                                <mat-select [(ngModel)]="shiftSelect" (ngModelChange)="updateAllLabels()">
+                                <mat-select [(ngModel)]="shiftMonthSummary" (ngModelChange)="updateAllLabels()">
                                     <ng-container *ngFor="let shift of shifts">
                                         <mat-option [value]="shift.id">{{ shift.name }}</mat-option>
                                     </ng-container>
                                 </mat-select>
                             </mat-form-field>
 
-                            <mat-form-field class="data-form" appearance="outline">
+                            <mat-form-field class="data-form" appearance="outline" *ngIf="evaluateResult.length > 1">
                                 <mat-label>Localização</mat-label>
                                 <mat-select [(ngModel)]="locationCalendar" (ngModelChange)="updateAllLabels()">
                                     <ng-container *ngFor="let l of locations; let i = index">
@@ -122,12 +122,30 @@
                 </mat-expansion-panel-header>
 
                 <ng-template matExpansionPanelContent>
-                    <mat-card-content>
+                    <mat-card-content class="result-summary">
+                        <mat-form-field class="data-form" appearance="outline" *ngIf="evaluateResult.length > 1">
+                            <mat-label>Período</mat-label>
+                            <mat-select [(ngModel)]="shiftTimelineYear" (ngModelChange)="updateAllLabels()" multiple>
+                                <ng-container *ngFor="let shift of shiftsGeneral">
+                                    <mat-option [value]="shift.id">{{ shift.name }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
                         <div
                                 echarts
                                 [initOpts]="{ renderer: 'svg' }"
                                 [options]="optionTimelineYearChart"
                         ></div>
+
+                        <mat-form-field class="data-form" appearance="outline" *ngIf="evaluateResult.length > 1">
+                            <mat-label>Período</mat-label>
+                            <mat-select [(ngModel)]="shiftTimeline" (ngModelChange)="updateAllLabels()">
+                                <ng-container *ngFor="let shift of shiftsAll">
+                                    <mat-option [value]="shift.id">{{ shift.name }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
 
                         <div
                                 echarts

@@ -14,9 +14,10 @@
                     (ngSubmit)="evaluate()"
                     [formGroup]="evaluateForm"
             >
-                <ng-container *ngFor="let locationsForm of locations.controls">
+                <ng-container *ngFor="let locationsForm of locations.controls; let i = index">
                     <div [formGroup]="locationsForm">
                         <mat-divider class="divider"></mat-divider>
+                        <h6 class="mat-body" *ngIf="locations.controls.length > 1">Localização #{{i + 1}}</h6>
                         <mat-form-field
                                 class="data-form"
                                 appearance="outline"
@@ -45,6 +46,8 @@
                             type="button"
                             (click)="addLocationEvaluate()"
                             [disabled]="locations.length === 4 || loading"
+                            matTooltip="Adiciona uma localização para comparação"
+                            [matTooltipPosition]="locations.length === 1 ? 'below' : 'above'"
                             color="primary"
                     >
                         <mat-icon iconPositionEnd>add</mat-icon>
@@ -56,6 +59,8 @@
                             type="button"
                             (click)="removeLocationEvaluate()"
                             [disabled]="locations.length === 1 || loading"
+                            matTooltip="Remove a última localização da comparação"
+
                             color="warn"
                     >
                         <mat-icon iconPositionEnd>remove</mat-icon>
@@ -68,7 +73,7 @@
         <mat-card-actions class="evaluate-card-actions" align="end">
             <button
                     mat-flat-button
-                    color="primary"
+                    color="accent"
                     type="submit"
                     form="evaluateForm"
                     [disabled]="evaluateForm.invalid || loading"
