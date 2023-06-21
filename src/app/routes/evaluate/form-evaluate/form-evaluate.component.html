@@ -9,31 +9,59 @@
         </mat-card-header>
 
         <mat-card-content class="evaluate-card-content">
-            <mat-divider class="divider"></mat-divider>
             <form
                     id="evaluateForm"
                     (ngSubmit)="evaluate()"
                     [formGroup]="evaluateForm"
             >
-                <mat-form-field
-                        class="data-form"
-                        appearance="outline"
-                        hideRequiredMarker
-                >
-                    <mat-label>Cidade</mat-label>
-                    <input matInput placeholder="Ex.: S.Paulo" formControlName="city"/>
-                    <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
-                </mat-form-field>
+                <ng-container *ngFor="let locationsForm of locations.controls">
+                    <div [formGroup]="locationsForm">
+                        <mat-divider class="divider"></mat-divider>
+                        <mat-form-field
+                                class="data-form"
+                                appearance="outline"
+                                hideRequiredMarker
+                        >
+                            <mat-label>Cidade</mat-label>
+                            <input matInput placeholder="Ex.: S.Paulo" formControlName="city"/>
+                            <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
+                        </mat-form-field>
 
-                <mat-form-field
-                        class="data-form"
-                        appearance="outline"
-                        hideRequiredMarker
-                >
-                    <mat-label>Bairro</mat-label>
-                    <input matInput placeholder="Ex.: Centro" formControlName="neighborhood"/>
-                    <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
-                </mat-form-field>
+                        <mat-form-field
+                                class="data-form"
+                                appearance="outline"
+                                hideRequiredMarker
+                        >
+                            <mat-label>Bairro</mat-label>
+                            <input matInput placeholder="Ex.: Centro" formControlName="neighborhood"/>
+                            <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+
+                <div class="locations-actions">
+                    <button
+                            mat-button
+                            type="button"
+                            (click)="addLocationEvaluate()"
+                            [disabled]="locations.length === 4 || loading"
+                            color="primary"
+                    >
+                        <mat-icon iconPositionEnd>add</mat-icon>
+                        <span>Adicionar Localização</span>
+                    </button>
+
+                    <button
+                            mat-button
+                            type="button"
+                            (click)="removeLocationEvaluate()"
+                            [disabled]="locations.length === 1 || loading"
+                            color="warn"
+                    >
+                        <mat-icon iconPositionEnd>remove</mat-icon>
+                        <span>Remover Localização</span>
+                    </button>
+                </div>
             </form>
         </mat-card-content>
 

@@ -2,18 +2,21 @@ import * as stat from "simple-statistics";
 import {EvaluateClientRecordResult} from "../../../shared/models/evaluate-client-result";
 import {EChartsOption} from "echarts";
 
-const defineSummaryBoxplotChartOption = (data: EvaluateClientRecordResult[][]): EChartsOption => {
-    const dataRecords = data.map(x => {
-        const score = x.map(x => x.score);
+const defineSummaryBoxplotChartOption = (axis: string[], labels: string[], data: EvaluateClientRecordResult[][][]): EChartsOption => {
 
-        const min = stat.min(score);
-        const q1 = stat.quantile(score, 0.25);
-        const median = stat.median(score);
-        const q3 = stat.quantile(score, 0.75);
-        const max = stat.max(score);
+    const summaryData = (data: EvaluateClientRecordResult[][]) => {
+        return data.map(x => {
+            const score = x.map(x => x.score);
 
-        return [min, q1, median, q3, max].map(x => x.round(2));
-    });
+            const min = stat.min(score);
+            const q1 = stat.quantile(score, 0.25);
+            const median = stat.median(score);
+            const q3 = stat.quantile(score, 0.75);
+            const max = stat.max(score);
+
+            return [min, q1, median, q3, max].map(x => x.round(2));
+        });
+    }
 
     return {
         tooltip: {
@@ -22,22 +25,23 @@ const defineSummaryBoxplotChartOption = (data: EvaluateClientRecordResult[][]): 
                 type: 'shadow'
             }
         },
+        legend: {},
         xAxis: {
             type: 'category',
-            data: ['Score Geral', 'Score Manhã', 'Score Tarde', 'Score Noite'],
+            data: axis,
         },
         yAxis: {
             type: 'value',
             max: 1,
             min: 0
         },
-        series: [
-            {
-                name: 'Boxplot',
+        series: data.map((value, index) => {
+            return {
+                name: labels[index],
                 type: 'boxplot',
-                data: dataRecords
+                data: summaryData(value)
             }
-        ]
+        })
     };
 }
 

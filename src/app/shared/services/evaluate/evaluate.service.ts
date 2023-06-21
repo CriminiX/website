@@ -1,9 +1,10 @@
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {forkJoin, map, Observable} from "rxjs";
+import {forkJoin, map, Observable, timeout} from "rxjs";
 import {EvaluateClient} from "../../models/evaluate-client";
 import {EvaluateClientRecordResult, EvaluateClientResult} from "../../models/evaluate-client-result";
 import {environment} from "../../../../environments/environment";
+import {toEvaluateClientWithShift} from "../../adapters/evaluate-client";
 
 const URL = environment.url;
 
@@ -21,6 +22,7 @@ export class EvaluateService {
                 client
             )
             .pipe(
+                timeout(30_000),
                 map((x) =>
                     x.records.map((x) => {
                         return {...x, day: "2023-" + x.day};
@@ -29,16 +31,19 @@ export class EvaluateService {
             );
     }
 
-    evaluateClientAllShifts(client: EvaluateClient): Observable<EvaluateClientRecordResult[]> {
-        const year = new Date().getFullYear();
-        const clientAllTime: EvaluateClient = {...client, period: {begin: `${year}-01-01`, end: `${year}-12-31`}}
-
+    evaluateClientAllShifts(client: EvaluateClient[]): Observable<EvaluateClientRecordResult[][]> {
         return forkJoin({
-            dawn: this.evaluateClient({...clientAllTime, shift: "DAWN"}),
-            morning: this.evaluateClient({...clientAllTime, shift: "MORNING"}),
-            night: this.evaluateClient({...clientAllTime, shift: "NIGHT"})
+            dawn: forkJoin(client.map(x => this.evaluateClient(toEvaluateClientWithShift(x, "DAWN")))),
+            morning: forkJoin(client.map(x => this.evaluateClient(toEvaluateClientWithShift(x, "MORNING")))),
+            night: forkJoin(client.map(x => this.evaluateClient(toEvaluateClientWithShift(x, "NIGHT")))),
         }).pipe(
-            map(x => [...x.dawn, ...x.morning, ...x.night])
+            map(x => {
+                let result = [];
+                for (let index = 0; index < x.dawn.length; index++) {
+                    result.push([x.dawn[index], x.morning[index], x.night[index]].flat())
+                }
+                return result;
+            })
         );
     }
 }

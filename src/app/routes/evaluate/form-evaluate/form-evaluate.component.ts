@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {
+    FormArray,
     FormBuilder,
     FormGroup,
     FormGroupDirective,
@@ -20,6 +21,7 @@ import {EvaluateClientForm} from "../../../shared/models/evaluate-client-form";
 import {toEvaluateClient} from "../../../shared/adapters/evaluate-client";
 import {parse} from "date-fns";
 import {shifts} from '../../../shared/models/shifts';
+import {LocationsEvaluateForm} from "./locations-evaluate-form";
 
 @Component({
     selector: "app-form-evaluate",
@@ -31,7 +33,7 @@ export class FormEvaluateComponent implements OnInit {
     loading = false;
 
     @Input() formResult: boolean = false;
-    @Output() formResponse = new EventEmitter<EvaluateClientRecordResult[]>();
+    @Output() formResponse = new EventEmitter<EvaluateClientRecordResult[][]>();
 
     constructor(
         private formBuilder: FormBuilder,
@@ -45,13 +47,29 @@ export class FormEvaluateComponent implements OnInit {
 
     ngOnInit(): void {
         this.evaluateForm = this.formBuilder.group({
-            city: ["", [Validators.required, Validators.minLength(2)]],
-            neighborhood: ["", [Validators.required, Validators.minLength(2)]]
+            locations: this.formBuilder.array([]),
         });
+        this.addLocationEvaluate();
 
         if (this.formResult) {
             this.setCachedData();
         }
+    }
+
+    get locations() {
+        return this.evaluateForm.controls['locations'] as FormArray<FormGroup<LocationsEvaluateForm>>;
+    }
+
+    addLocationEvaluate() {
+        const form = this.formBuilder.group({
+            city: ["", [Validators.required, Validators.minLength(2)]],
+            neighborhood: ["", [Validators.required, Validators.minLength(2)]]
+        });
+        this.locations.push(form);
+    }
+
+    removeLocationEvaluate() {
+        this.locations.removeAt(this.locations.length - 1);
     }
 
     private setCachedData() {
@@ -72,8 +90,13 @@ export class FormEvaluateComponent implements OnInit {
     }
 
     private setFormData(data: EvaluateClientHistory) {
-        this.evaluateForm.controls["city"].setValue(data.city);
-        this.evaluateForm.controls["neighborhood"].setValue(data.neighborhood);
+        this.locations.clear();
+        for (let i = 0; i < data.locations.length; i++) {
+            this.addLocationEvaluate();
+            this.locations.at(i).setValue({city: data.locations[i].city, neighborhood: data.locations[i].neighborhood});
+        }
+        // this.evaluateForm.controls["city"].setValue(data.city);
+        // this.evaluateForm.controls["neighborhood"].setValue(data.neighborhood);
     }
 
     evaluate() {
@@ -82,13 +105,17 @@ export class FormEvaluateComponent implements OnInit {
         const evaluateClientForm = this.evaluateForm.getRawValue() as EvaluateClientForm;
         const id = uuid();
 
-        this.cacheService.saveOnList<EvaluateClientHistory>("evaluate-history", {...evaluateClientForm, id, date: new Date()});
-        const evaluateClient: EvaluateClient = toEvaluateClient(evaluateClientForm);
+        this.cacheService.saveOnList<EvaluateClientHistory>("evaluate-history", {
+            ...evaluateClientForm,
+            id,
+            date: new Date()
+        });
+        const evaluateClient: EvaluateClient[] = toEvaluateClient(evaluateClientForm);
 
         this.evaluateService.evaluateClientAllShifts(evaluateClient).subscribe({
             next: async (value) => {
                 this.cacheService.save<string>("evaluate-form", id);
-                this.cacheService.save<EvaluateClientRecordResult[]>("evaluate", value);
+                this.cacheService.save<EvaluateClientRecordResult[][]>("evaluate", value);
                 this.formResponse.emit(value);
                 await this.router.navigateByUrl("/evaluate/result");
                 this.loading = false;

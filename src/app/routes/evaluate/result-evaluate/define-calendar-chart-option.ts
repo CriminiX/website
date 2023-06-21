@@ -2,21 +2,19 @@ import {EvaluateClientRecordResult} from "../../../shared/models/evaluate-client
 import {EChartsOption} from "echarts";
 import {format, parse} from "date-fns";
 
-const defineCalendarChartOption = (data: EvaluateClientRecordResult[], month: number): EChartsOption => {
+const defineCalendarChartOption = (monthName: string, month: number, data: EvaluateClientRecordResult[]): EChartsOption => {
     const year = new Date().getFullYear();
     const monthCalendar = format(new Date(year, month - 1), "yyyy-MM");
 
     return {
         tooltip: {
-            formatter: (params: any) => 'Score: ' + params.value[1].toFixed(2)
+            formatter: (params: any) => format(parse(params.value[0], 'yyyy-MM-dd', new Date()), 'dd/MM/yyyy') + ': ' + params.value[1]
         },
         visualMap: {
             show: false,
             min: 0,
             max: 1,
             calculable: true,
-            orient: 'horizontal',
-            left: 'center',
             bottom: 20,
             controller: {
                 inRange: {
@@ -46,6 +44,7 @@ const defineCalendarChartOption = (data: EvaluateClientRecordResult[], month: nu
                 type: 'scatter',
                 coordinateSystem: 'calendar',
                 symbolSize: 0,
+                name: monthName,
                 label: {
                     show: true,
                     formatter: function (params) {
@@ -57,13 +56,14 @@ const defineCalendarChartOption = (data: EvaluateClientRecordResult[], month: nu
                     },
                     color: '#000'
                 },
-                data: data.map((x) => [x.day, x.score]),
+                data: data.map((x) => [x.day, x.score.round(2)]),
                 silent: true
             },
             {
                 type: 'heatmap',
                 coordinateSystem: 'calendar',
-                data: data.map((x) => [x.day, x.score])
+                name: monthName,
+                data: data.map((x) => [x.day, x.score.round(2)])
             }
         ]
     };

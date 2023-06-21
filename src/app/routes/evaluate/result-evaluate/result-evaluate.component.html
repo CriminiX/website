@@ -15,7 +15,7 @@
                                 echarts
                                 #chartValueSelect
                                 [initOpts]="{ renderer: 'svg' }"
-                                [options]="optionSelectChart"
+                                [options]="optionGaugeChart"
                         ></div>
 
                         <div
@@ -91,6 +91,15 @@
                                 </mat-select>
                             </mat-form-field>
 
+                            <mat-form-field class="data-form" appearance="outline">
+                                <mat-label>Localização</mat-label>
+                                <mat-select [(ngModel)]="locationCalendar" (ngModelChange)="updateAllLabels()">
+                                    <ng-container *ngFor="let l of locations; let i = index">
+                                        <mat-option [value]="i">{{ l }}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                            </mat-form-field>
+
                             <div
                                     echarts
                                     [initOpts]="{ renderer: 'svg' }"
@@ -124,27 +133,6 @@
                                 echarts
                                 [initOpts]="{ renderer: 'svg' }"
                                 [options]="optionTimelineChart"
-                        ></div>
-                    </mat-card-content>
-                </ng-template>
-            </mat-expansion-panel>
-        </mat-card>
-
-        <mat-card>
-            <mat-expansion-panel expanded="true">
-                <mat-expansion-panel-header class="expansion-header-container">
-                    <div class="expansion-header-title">
-                        <h5 class="mat-headline-5">Previsão Anual</h5>
-                        <h6 class="mat-body-1">Forecast</h6>
-                    </div>
-                </mat-expansion-panel-header>
-
-                <ng-template matExpansionPanelContent>
-                    <mat-card-content>
-                        <div
-                                echarts
-                                [initOpts]="{ renderer: 'svg' }"
-                                [options]="optionForecastChart"
                         ></div>
                     </mat-card-content>
                 </ng-template>

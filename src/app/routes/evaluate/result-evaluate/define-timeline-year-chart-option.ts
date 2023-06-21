@@ -2,47 +2,30 @@ import {EChartsOption} from "echarts";
 import {EvaluateClientRecordResult} from "../../../shared/models/evaluate-client-result";
 
 const defineTimelineYearChartOption = (
-    months: string[],
-    total: number[],
-    dawn: number[],
-    morning: number[],
-    night: number[]
+    axis: string[],
+    labels: string[],
+    data: number[][],
 ): EChartsOption => {
     return {
         tooltip: {},
         legend: {
-            data: ['Score Médio', 'Score Médio Manhã', 'Score Médio Tarde', 'Score Médio Noite']
+            data: labels
         },
         xAxis: {
             type: 'category',
-            data: months
+            data: axis
         },
         yAxis: {
             type: 'value',
             max: 1
         },
-        series: [
-            {
-                data: total.map(x => x.round(2)),
+        series: data.map((value, index) => {
+            return {
+                data: value.map(x => x.round(2)),
                 type: 'line',
-                name: 'Score Médio'
-            },
-            {
-                data: dawn.map(x => x.round(2)),
-                type: 'line',
-                name: 'Score Médio Manhã'
-            },
-            {
-                data: morning.map(x => x.round(2)),
-                type: 'line',
-                name: 'Score Médio Tarde'
-            },
-            {
-                data: night.map(x => x.round(2)),
-                type: 'line',
-                name: 'Score Médio Noite'
+                name: labels[index]
             }
-        ]
+        })
     };
 }
 

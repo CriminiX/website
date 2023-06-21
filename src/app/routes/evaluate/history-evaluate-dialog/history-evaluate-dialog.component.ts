@@ -6,6 +6,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatSort} from "@angular/material/sort";
 import {fromId} from 'src/app/shared/models/shifts';
+import {LocationsEvaluateClientForm} from "../../../shared/models/evaluate-client-form";
 
 @Component({
     selector: 'app-history-evaluate-dialog',
@@ -66,6 +67,14 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
         const data = this.dataTable.data.filter(x => !this.selection.selected.find(y => x.id === y.id));
 
         this.cacheService.save("evaluate-history", data);
+
+        const id = this.cacheService.get<string>("evaluate-form");
+
+        if (id !== undefined && this.selection.selected.map(x => x.id).includes(id)) {
+            this.cacheService.delete("evaluate-form");
+            this.cacheService.delete("evaluate");
+        }
+
         this.loadData();
     }
 
@@ -83,5 +92,13 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
         }
 
         this.selection.select(...this.dataTable.data);
+    }
+
+    getCityName(locations: LocationsEvaluateClientForm[]) {
+        return locations.map(x => x.city).join(', ');
+    }
+
+    getNeighborhoodName(locations: LocationsEvaluateClientForm[]) {
+        return locations.map(x => x.neighborhood).join(', ');
     }
 }

@@ -2,9 +2,8 @@ import {EChartsOption} from "echarts";
 import {EvaluateClientRecordResult} from "../../../shared/models/evaluate-client-result";
 
 const defineTimelineChartOption = (
-    dawn: EvaluateClientRecordResult[],
-    morning: EvaluateClientRecordResult[],
-    night: EvaluateClientRecordResult[]
+    labels: string[][],
+    data: EvaluateClientRecordResult[][][]
 ): EChartsOption => {
     return {
         tooltip: {
@@ -13,7 +12,9 @@ const defineTimelineChartOption = (
                 return [pt[0], '10%'];
             }
         },
-        legend: {},
+        legend: {
+
+        },
         toolbox: {
             feature: {
                 restore: {},
@@ -39,32 +40,16 @@ const defineTimelineChartOption = (
                 end: 100
             }
         ],
-        series: [
-            {
-                name: 'Manhã',
+        series: data.flatMap((value, indexA) => value.map((x, indexB) => {
+            return {
+                name: labels[indexA][indexB],
                 type: 'line',
                 smooth: true,
                 symbol: 'none',
                 areaStyle: {},
-                data: dawn.map(x => [+new Date(x.day), x.score.round(2)])
-            },
-            {
-                name: 'Tarde',
-                type: 'line',
-                smooth: true,
-                symbol: 'none',
-                areaStyle: {},
-                data: morning.map(x => [+new Date(x.day), x.score.round(2)])
-            },
-            {
-                name: 'Noite',
-                type: 'line',
-                smooth: true,
-                symbol: 'none',
-                areaStyle: {},
-                data: night.map(x => [+new Date(x.day), x.score.round(2)])
+                data: x.map(x => [+new Date(x.day), x.score.round(2)])
             }
-        ]
+        }))
     };
 }
 
