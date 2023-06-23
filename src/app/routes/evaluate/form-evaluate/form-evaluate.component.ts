@@ -3,7 +3,6 @@ import {
     FormArray,
     FormBuilder,
     FormGroup,
-    FormGroupDirective,
     Validators,
 } from "@angular/forms";
 import {v4 as uuid} from "uuid";
@@ -12,15 +11,11 @@ import {EvaluateClientRecordResult} from "src/app/shared/models/evaluate-client-
 import {CacheService} from "src/app/shared/services/cache/cache.service";
 import {EvaluateService} from "src/app/shared/services/evaluate/evaluate.service";
 import {ToastService} from "src/app/shared/services/toast/toast.service";
-import {EvaluateClient} from "../../../shared/models/evaluate-client";
 import {MatDialog} from "@angular/material/dialog";
 import {HistoryEvaluateDialogComponent} from "../history-evaluate-dialog/history-evaluate-dialog.component";
 import {EvaluateClientHistory, EvaluateClientHistoryModel} from "../../../shared/models/evaluate-client-history";
 import '../../../shared/extensions/date.extensions';
 import {EvaluateClientForm} from "../../../shared/models/evaluate-client-form";
-import {toEvaluateClient} from "../../../shared/adapters/evaluate-client";
-import {parse} from "date-fns";
-import {shifts} from '../../../shared/models/shifts';
 import {LocationsEvaluateForm} from "./locations-evaluate-form";
 
 @Component({
@@ -32,7 +27,7 @@ export class FormEvaluateComponent implements OnInit {
     evaluateForm!: FormGroup;
     loading = false;
 
-    @Input() formResult: boolean = false;
+    @Input() loadCachedData: boolean = false;
     @Output() formResponse = new EventEmitter<EvaluateClientRecordResult[][]>();
 
     constructor(
@@ -51,7 +46,7 @@ export class FormEvaluateComponent implements OnInit {
         });
         this.addLocationEvaluate();
 
-        if (this.formResult) {
+        if (this.loadCachedData) {
             this.setCachedData();
         }
     }
@@ -110,9 +105,8 @@ export class FormEvaluateComponent implements OnInit {
             id,
             date: new Date()
         });
-        const evaluateClient: EvaluateClient[] = toEvaluateClient(evaluateClientForm);
 
-        this.evaluateService.evaluateClientAllShifts(evaluateClient).subscribe({
+        this.evaluateService.evaluateClientAllShifts(evaluateClientForm).subscribe({
             next: async (value) => {
                 this.cacheService.save<string>("evaluate-form", id);
                 this.cacheService.save<EvaluateClientRecordResult[][]>("evaluate", value);

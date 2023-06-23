@@ -61,6 +61,11 @@
       justify-content: flex-start;
       flex-direction: column;
 
+      h6 {
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+      }
+
       .data-form {
         width: 100%;
         margin-bottom: 1rem;

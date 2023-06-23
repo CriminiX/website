@@ -1,9 +1,6 @@
 import {
     Component,
-    OnChanges,
-    OnInit,
-    SimpleChanges,
-    ViewChild,
+    OnInit
 } from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastService} from "../../../shared/services/toast/toast.service";
@@ -151,12 +148,7 @@ export class ResultEvaluateComponent implements OnInit {
     private calcAverage(data: EvaluateClientRecordResult[], shift: string[]) {
         const dataOnShifts = this.filterOnShift(data, shift);
 
-        return stat.average(dataOnShifts.map(x => x.score))
-
-        // const sum = dataOnShifts.map((x) => x.score)
-        //     .reduce((a, b) => a + b, 0);
-        //
-        // return (sum / dataOnShifts.length) || 0;
+        return stat.average(dataOnShifts.map(x => x.score));
     }
 
     updateResult(event: EvaluateClientRecordResult[][]) {

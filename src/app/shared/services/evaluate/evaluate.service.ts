@@ -4,7 +4,8 @@ import {forkJoin, map, Observable, timeout} from "rxjs";
 import {EvaluateClient} from "../../models/evaluate-client";
 import {EvaluateClientRecordResult, EvaluateClientResult} from "../../models/evaluate-client-result";
 import {environment} from "../../../../environments/environment";
-import {toEvaluateClientWithShift} from "../../adapters/evaluate-client";
+import {toEvaluateClient, toEvaluateClientWithShift} from "../../adapters/evaluate-client";
+import {EvaluateClientForm} from "../../models/evaluate-client-form";
 
 const URL = environment.url;
 
@@ -31,7 +32,9 @@ export class EvaluateService {
             );
     }
 
-    evaluateClientAllShifts(client: EvaluateClient[]): Observable<EvaluateClientRecordResult[][]> {
+    evaluateClientAllShifts(evaluateClientForm: EvaluateClientForm): Observable<EvaluateClientRecordResult[][]> {
+        const client: EvaluateClient[] = toEvaluateClient(evaluateClientForm);
+
         return forkJoin({
             dawn: forkJoin(client.map(x => this.evaluateClient(toEvaluateClientWithShift(x, "DAWN")))),
             morning: forkJoin(client.map(x => this.evaluateClient(toEvaluateClientWithShift(x, "MORNING")))),

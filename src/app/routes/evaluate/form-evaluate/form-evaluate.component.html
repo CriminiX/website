@@ -1,5 +1,5 @@
-<div [ngClass]="formResult ? 'card-container fit-card-container' : 'card-container card-container-blur'">
-    <mat-card [ngClass]="formResult ? 'evaluate-card fit-card' : 'evaluate-card expand-card'">
+<div [ngClass]="loadCachedData ? 'card-container fit-card-container' : 'card-container card-container-blur'">
+    <mat-card [ngClass]="loadCachedData ? 'evaluate-card fit-card' : 'evaluate-card expand-card'">
         <mat-card-header class="evaluate-card-header-container">
             <h5 class="mat-headline-5 dialog-title">Simular Cliente</h5>
             <button mat-stroked-button color="accent" (click)="openHistoryDialog()">
