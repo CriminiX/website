@@ -28,7 +28,6 @@ import {EvaluateClientHistory} from "../../../shared/models/evaluate-client-hist
 })
 export class ResultEvaluateComponent implements OnInit {
     evaluateResult!: EvaluateClientRecordResult[][];
-    evaluateResultAverage!: EvaluateClientResultAllShifts;
 
     optionSummaryBarChart!: EChartsOption;
     optionSummaryBoxplotChart!: EChartsOption;
@@ -98,19 +97,10 @@ export class ResultEvaluateComponent implements OnInit {
             .map(x => `${x.city}, ${x.neighborhood}`);
         this.locationCalendar = 0;
 
-        this.loadDataLabels(value);
+        this.loadDataLabels();
     }
 
-    loadDataLabels(value: EvaluateClientRecordResult[][]) {
-        const valuesFlat = value.flat();
-
-        this.evaluateResultAverage = {
-            total: this.calcAverage(valuesFlat, ['DAWN', 'MORNING', 'NIGHT']),
-            dawn: this.calcAverage(valuesFlat, ['DAWN']),
-            morning: this.calcAverage(valuesFlat, ['MORNING']),
-            night: this.calcAverage(valuesFlat, ['NIGHT']),
-        };
-
+    loadDataLabels() {
         this.setSummaryBarChartOption();
         this.setSummaryBoxplotChartOption();
         this.setSummaryBarMonthChartOption();
@@ -158,7 +148,7 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     updateAllLabels() {
-        this.loadDataLabels(this.evaluateResult);
+        this.loadDataLabels();
     }
 
     private setRadarChartOption() {
@@ -168,11 +158,13 @@ export class ResultEvaluateComponent implements OnInit {
                 'Score Veículo',
                 'Score Cliente'
             ],
-            [
-                this.evaluateResultAverage.total,
-                0.0,
-                0.0
-            ]
+            this.locations,
+            this.evaluateResult.map(v => [
+                    this.calcAverage(v, ['DAWN', 'MORNING', 'NIGHT']),
+                    0.0,
+                    0.0
+                ]
+            )
         );
     }
 

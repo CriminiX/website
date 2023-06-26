@@ -4,7 +4,7 @@ const defineGaugeChartOption = (labels: string[], data: number[]): EChartsOption
     return {
         series: {
             type: "gauge",
-            center: ['50%', '75%'],
+            center: ['50%', '50%'],
             startAngle: 180,
             endAngle: 0,
             radius: '90%',

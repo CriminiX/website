@@ -43,7 +43,7 @@
         <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordenar por Data">Data</th>
             <td mat-cell *matCellDef="let element">
-                {{ element.date | date: 'dd/MM/yyyy hh:mm a' }}
+                {{ element.date | date: 'dd/MM/yyyy HH:mm' : '-03:00' : 'pt-BR' }}
             </td>
         </ng-container>
 
