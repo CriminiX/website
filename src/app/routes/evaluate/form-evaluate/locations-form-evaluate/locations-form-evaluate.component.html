@@ -1,0 +1,55 @@
+<div class="locations-form" [formGroup]="locationsEvaluateForm">
+
+    <mat-divider class="divider"></mat-divider>
+    <h6 class="mat-body" *ngIf="locationsCount > 1">Localização #{{locationsIndex + 1}}</h6>
+
+    <div class="location-option">
+        <mat-form-field appearance="outline" class="data-form" hideRequiredMarker>
+            <mat-label>Cidade</mat-label>
+            <input matInput [matAutocomplete]="citySearch" formControlName="city"/>
+            <mat-autocomplete
+                #citySearch="matAutocomplete"
+                (optionSelected)="searchCitySelected()"
+            >
+                <mat-option *ngFor="let c of filteredCities" [value]="c">
+                    <span>{{ c }}</span>
+                </mat-option>
+            </mat-autocomplete>
+
+            <mat-error *ngIf="locationsEvaluateForm.invalid">Selecione uma opção válida.</mat-error>
+        </mat-form-field>
+
+        <mat-spinner
+            *ngIf="loadingCity"
+            color="primary"
+            style="height: 2rem; width: 2rem; margin: 0.8rem 0.7rem 0 0.7rem;"
+        ></mat-spinner>
+    </div>
+
+    <div class="location-option">
+        <mat-form-field appearance="outline" class="data-form" hideRequiredMarker>
+            <mat-label>Bairro</mat-label>
+            <input
+                    matInput
+                    [matAutocomplete]="neighborhoodSearch"
+                    formControlName="neighborhood"
+            />
+            <mat-autocomplete
+                #neighborhoodSearch="matAutocomplete"
+                (optionSelected)="searchNeighborhoodSelected()"
+            >
+                <mat-option *ngFor="let n of filteredNeighborhoods" [value]="n">
+                    <span>{{ n }}</span>
+                </mat-option>
+            </mat-autocomplete>
+
+            <mat-error *ngIf="locationsEvaluateForm.invalid">Selecione uma opção válida.</mat-error>
+        </mat-form-field>
+
+        <mat-spinner
+            *ngIf="loadingNeighborhood"
+            color="primary"
+            style="height: 2rem; width: 2rem; margin: 0.8rem 0.7rem 0 0.7rem;"
+        ></mat-spinner>
+    </div>
+</div>

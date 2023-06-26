@@ -26,6 +26,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatSortModule} from "@angular/material/sort";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { LocationsFormEvaluateComponent } from './form-evaluate/locations-form-evaluate/locations-form-evaluate.component';
 
 echarts.use([SVGRenderer]);
 
@@ -34,7 +36,8 @@ echarts.use([SVGRenderer]);
     EvaluateComponent,
     FormEvaluateComponent,
     ResultEvaluateComponent,
-    HistoryEvaluateDialogComponent
+    HistoryEvaluateDialogComponent,
+    LocationsFormEvaluateComponent
   ],
     imports: [
         CommonModule,
@@ -56,7 +59,8 @@ echarts.use([SVGRenderer]);
         MatCheckboxModule,
         MatSortModule,
         MatExpansionModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatAutocompleteModule
     ]
 })
 export class EvaluateModule { }

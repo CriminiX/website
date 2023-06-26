@@ -15,29 +15,33 @@
                     [formGroup]="evaluateForm"
             >
                 <ng-container *ngFor="let locationsForm of locations.controls; let i = index">
-                    <div [formGroup]="locationsForm">
-                        <mat-divider class="divider"></mat-divider>
-                        <h6 class="mat-body" *ngIf="locations.controls.length > 1">Localização #{{i + 1}}</h6>
-                        <mat-form-field
-                                class="data-form"
-                                appearance="outline"
-                                hideRequiredMarker
-                        >
-                            <mat-label>Cidade</mat-label>
-                            <input matInput placeholder="Ex.: S.Paulo" formControlName="city"/>
-                            <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
-                        </mat-form-field>
+                    <app-locations-form-evaluate
+                            [locationsCount]="locations.controls.length"
+                            [locationsIndex]="i"
+                            [locationsEvaluateForm]="locationsForm"
+                    ></app-locations-form-evaluate>
 
-                        <mat-form-field
-                                class="data-form"
-                                appearance="outline"
-                                hideRequiredMarker
-                        >
-                            <mat-label>Bairro</mat-label>
-                            <input matInput placeholder="Ex.: Centro" formControlName="neighborhood"/>
-                            <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>
-                        </mat-form-field>
-                    </div>
+                    <!--                        <mat-divider class="divider"></mat-divider>-->
+                    <!--                        <h6 class="mat-body" *ngIf="locations.controls.length > 1">Localização #{{i + 1}}</h6>-->
+                    <!--                        <mat-form-field-->
+                    <!--                                class="data-form"-->
+                    <!--                                appearance="outline"-->
+                    <!--                                hideRequiredMarker-->
+                    <!--                        >-->
+                    <!--                            <mat-label>Cidade</mat-label>-->
+                    <!--                            <input matInput placeholder="Ex.: S.Paulo" formControlName="city"/>-->
+                    <!--                            <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>-->
+                    <!--                        </mat-form-field>-->
+
+                    <!--                        <mat-form-field-->
+                    <!--                                class="data-form"-->
+                    <!--                                appearance="outline"-->
+                    <!--                                hideRequiredMarker-->
+                    <!--                        >-->
+                    <!--                            <mat-label>Bairro</mat-label>-->
+                    <!--                            <input matInput placeholder="Ex.: Centro" formControlName="neighborhood"/>-->
+                    <!--                            <mat-error *ngIf="evaluateForm.invalid">Campo obrigatório.</mat-error>-->
+                    <!--                        </mat-form-field>-->
                 </ng-container>
 
                 <div class="locations-actions">

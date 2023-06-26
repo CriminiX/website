@@ -1,0 +1,18 @@
+.locations-form {
+  display: flex;
+  flex-direction: column;
+
+  .divider {
+    margin-bottom: 2rem;
+  }
+
+  .location-option {
+    display: flex;
+
+    .data-form {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
