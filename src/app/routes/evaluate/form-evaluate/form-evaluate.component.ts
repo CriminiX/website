@@ -124,7 +124,7 @@ export class FormEvaluateComponent implements OnInit {
                         this.toastService.show("Dados incompletos ou incorretos. Tente novamente.");
                         break;
                     case 404:
-                        this.toastService.show("Localização Inválida. Tente novamente.");
+                        this.toastService.show("Localização inválida ou indisponível.");
                         break;
                     default:
                         this.toastService.show("Erro ao Simular Cliente.");
