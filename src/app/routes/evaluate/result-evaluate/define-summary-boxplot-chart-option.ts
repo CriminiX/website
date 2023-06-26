@@ -14,7 +14,7 @@ const defineSummaryBoxplotChartOption = (axis: string[], labels: string[], data:
             const q3 = stat.quantile(score, 0.75);
             const max = stat.max(score);
 
-            return [min, q1, median, q3, max].map(x => x.round(2));
+            return [min, q1, median, q3, max].map(x => x.round(0));
         });
     }
 
@@ -32,7 +32,7 @@ const defineSummaryBoxplotChartOption = (axis: string[], labels: string[], data:
         },
         yAxis: {
             type: 'value',
-            max: 1,
+            max: 1000,
             min: 0
         },
         series: data.map((value, index) => {

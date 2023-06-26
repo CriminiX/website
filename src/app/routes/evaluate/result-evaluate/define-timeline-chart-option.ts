@@ -27,7 +27,7 @@ const defineTimelineChartOption = (
         yAxis: {
             type: 'value',
             boundaryGap: [0, '100%'],
-            max: 1
+            max: 1000
         },
         dataZoom: [
             {
@@ -47,7 +47,7 @@ const defineTimelineChartOption = (
                 smooth: true,
                 symbol: 'none',
                 areaStyle: {},
-                data: x.map(x => [+new Date(x.day), x.score.round(2)])
+                data: x.map(x => [+new Date(x.day), x.score.round(0)])
             }
         }))
     };

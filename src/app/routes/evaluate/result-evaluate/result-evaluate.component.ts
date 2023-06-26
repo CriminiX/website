@@ -183,7 +183,7 @@ export class ResultEvaluateComponent implements OnInit {
 
     private setCalendarChartOption() {
         const data = this.filterOnShift(this.filterOnMonthSelected(this.evaluateResult[this.locationCalendar]), [this.shiftMonthSummary]);
-        this.optionCalendarChart = defineCalendarChartOption(this.months[this.monthSelect].name, this.monthSelect, data);
+        this.optionCalendarChart = defineCalendarChartOption(this.months[this.monthSelect - 1].name, this.monthSelect, data);
     }
 
     private setTimelineYearChartOption() {

@@ -7,7 +7,7 @@ const defineRadarChartOption = (labels: string[], data: number[]): EChartsOption
             indicator: labels.map(x => {
                 return {
                     name: x,
-                    max: 1
+                    max: 1000
                 }
             })
         },
@@ -15,7 +15,7 @@ const defineRadarChartOption = (labels: string[], data: number[]): EChartsOption
             {
                 label: {
                     show: true,
-                    formatter: (params: any) => params.value.toFixed(2),
+                    formatter: (params: any) => params.value.toFixed(0),
                     fontSize: '10px'
                 },
                 type: "radar",

@@ -13,11 +13,11 @@ const defineSummaryBarChartOption = (axis: string[], labels: string[], data: num
         },
         yAxis: {
             type: 'value',
-            max: 1
+            max: 1000
         },
         series: data.map((value, index) => {
             return {
-                data: value.map(x => x.round(2)),
+                data: value.map(x => x.round(0)),
                 label: {
                     show: true,
                     // formatter: (params: any) => params.value.toFixed(2),

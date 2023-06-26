@@ -8,14 +8,18 @@ const defineCalendarChartOption = (monthName: string, month: number, data: Evalu
 
     return {
         tooltip: {
-            formatter: (params: any) => format(parse(params.value[0], 'yyyy-MM-dd', new Date()), 'dd/MM/yyyy') + ': ' + params.value[1]
+            formatter: (params: any) => format(parse(params.value[0], 'yyyy-MM-dd', new Date()), 'dd/MM/yyyy')
+                + ': ' + (1000 - params.value[1]).toFixed(0)
         },
         visualMap: {
             show: false,
             min: 0,
-            max: 1,
+            max: 1000,
             calculable: true,
             bottom: 20,
+            // inRange: {
+            //     color: ['#FF5836', '#FFC3B7']
+            // },
             controller: {
                 inRange: {
                     opacity: 0.5
@@ -52,18 +56,18 @@ const defineCalendarChartOption = (monthName: string, month: number, data: Evalu
                         const day: string = params.value[0];
                         const d = parse(day, "yyyy-MM-dd", new Date());
                         // @ts-ignore
-                        return `${d.getDate()}\n\n${params.value[1].toFixed(2)}`;
+                        return `${d.getDate()}\n\n${params.value[1].toFixed(0)}`;
                     },
                     color: '#000'
                 },
-                data: data.map((x) => [x.day, x.score.round(2)]),
+                data: data.map((x) => [x.day, x.score.round(0)]),
                 silent: true
             },
             {
                 type: 'heatmap',
                 coordinateSystem: 'calendar',
                 name: monthName,
-                data: data.map((x) => [x.day, x.score.round(2)])
+                data: data.map((x) => [x.day, 1000 - x.score])
             }
         ]
     };

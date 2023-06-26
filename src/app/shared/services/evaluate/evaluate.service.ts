@@ -24,11 +24,7 @@ export class EvaluateService {
             )
             .pipe(
                 timeout(30_000),
-                map((x) =>
-                    x.records.map((x) => {
-                        return {...x, day: "2023-" + x.day};
-                    })
-                )
+                map((x) => x.records)
             );
     }
 

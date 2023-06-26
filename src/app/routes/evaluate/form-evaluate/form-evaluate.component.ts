@@ -116,12 +116,19 @@ export class FormEvaluateComponent implements OnInit {
             },
             error: (err) => {
                 console.error(err);
-                if (err.status === 0) {
-                    this.toastService.show("Serviço Indisponível. Tente novamente mais tarde.");
-                } else if (err.status === 400) {
-                    this.toastService.show("Dados incompletos ou incorretos. Tente novamente.");
-                } else {
-                    this.toastService.show("Erro ao Simular Cliente.");
+                switch (err.status) {
+                    case 0:
+                        this.toastService.show("Serviço Indisponível. Tente novamente mais tarde.");
+                        break;
+                    case 400:
+                        this.toastService.show("Dados incompletos ou incorretos. Tente novamente.");
+                        break;
+                    case 404:
+                        this.toastService.show("Localização Inválida. Tente novamente.");
+                        break;
+                    default:
+                        this.toastService.show("Erro ao Simular Cliente.");
+                        break;
                 }
                 this.loading = false;
             }

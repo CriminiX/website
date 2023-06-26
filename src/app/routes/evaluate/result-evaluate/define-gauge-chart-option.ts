@@ -8,7 +8,7 @@ const defineGaugeChartOption = (labels: string[], data: number[]): EChartsOption
             startAngle: 180,
             endAngle: 0,
             radius: '90%',
-            max: 1,
+            max: 1000,
             pointer: {
                 show: false,
             },
@@ -60,7 +60,7 @@ const defineGaugeChartOption = (labels: string[], data: number[]): EChartsOption
                 }
 
                 return {
-                    value: x.round(2),
+                    value: x.round(0),
                     name: labels[index],
                     detail: {
                         offsetCenter: [`${w}%`, `${h}%`]
