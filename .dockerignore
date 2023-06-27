@@ -1,0 +1,56 @@
+node_modules/
+node_modules
+.git
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+# dependencies
+/node_modules
+# IDEs and editors
+/.idea
+# IDE - VSCode
+.vscode/*
+# misc
+/.angular/cache
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+# Compiled output
+/bazel-out
+# Node
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+# Visual Studio Code
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+# Miscellaneous
+.sass-cache/
+# System files
+.DS_Store
+Thumbs.db
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+.env
+*/bin
+*/obj
+README.md
+LICENSE
+.vscode

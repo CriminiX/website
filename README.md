@@ -38,5 +38,5 @@ docker build -t criminix-web .
 #### Run
 
 ```bash
-docker run -d -p 80:80 criminix-web
+docker run --name criminix-web -d -p 80:80 criminix-web
 ```
