@@ -2,11 +2,41 @@
 
 Website platform of CriminiX project.
 
-## Development Server
+## Specs
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. 
+The project has the following stack:
+
+- Angular 16
+- Angular Material
+- Rxjs
+- Apache Echarts
+- ngx-markdown
+- date-fns
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Docker is preferred because of version compatibility with Node and Angular. 
+But running locally is an option too.
 
+### Local
+
+Node.js and npm must be installed.
+
+```bash
+npm install
+npm start
+```
+
+### Docker
+
+#### Build Image
+
+```bash
+docker build -t criminix-web .
+```
+
+#### Run
+
+```bash
+docker run -d -p 80:80 criminix-web
+```
