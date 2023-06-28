@@ -149,4 +149,8 @@ export class FormEvaluateComponent implements OnInit {
             }
         })
     }
+
+    locationMessage(message: string) {
+        this.toastService.show(message);
+    }
 }

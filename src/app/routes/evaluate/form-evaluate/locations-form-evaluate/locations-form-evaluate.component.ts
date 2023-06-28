@@ -15,6 +15,7 @@ export class LocationsFormEvaluateComponent implements OnInit {
     @Input() locationsEvaluateForm!: FormGroup<LocationsEvaluateForm>;
     @Input() locationsCount!: number;
     @Input() locationsIndex!: number;
+    @Output() formMessage = new EventEmitter<string>();
 
     filteredCities: string[] = [];
     filteredNeighborhoods: string[] = [];
@@ -70,9 +71,15 @@ export class LocationsFormEvaluateComponent implements OnInit {
                             this.filteredCities = cities;
                             this.loadingCity = false;
                         },
-                        error: () => {
-                            console.error('ERROR: Searching city');
+                        error: err => {
                             this.loadingCity = false;
+
+                            if (err.status === 0) {
+                                this.formMessage.emit("Busca Indisponível. Tente novamente mais tarde.")
+                                return;
+                            }
+
+                            console.error('ERROR: Searching city');
                         },
                     });
                 },
@@ -102,8 +109,14 @@ export class LocationsFormEvaluateComponent implements OnInit {
                                 this.loadingNeighborhood = false;
                             },
                             error: (err) => {
-                                console.error('ERROR: Searching neighborhood', err);
                                 this.loadingNeighborhood = false;
+
+                                if (err.status === 0) {
+                                    this.formMessage.emit("Busca Indisponível. Tente novamente mais tarde.")
+                                    return;
+                                }
+
+                                console.error('ERROR: Searching neighborhood');
                             },
                         });
                 },
