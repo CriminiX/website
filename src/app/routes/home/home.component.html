@@ -25,17 +25,52 @@
             <span class="mat-headline-6">Saiba mais</span>
         </button>
     </div>
+
     <div #target class="about-screen">
         <section>
             <h3 class="mat-headline-3">Objetivo</h3>
+            <p class="mat-body-1">
+                O estado de São Paulo é considerado a <b>terra das oportunidades</b> para muitos brasileiros,
+                devido a sua grande concentração de riqueza, emprego, infraestrutura e tecnologia, porém
+                por mais que apresente diversas características positivas, atualmente o estado sofre muito com a
+                segurança.
+            </p>
+            <p class="mat-body-1">
+                Através de relatórios divulgados pela secretária de segurança pública sobre a capital de SP,
+                somente em 2022 foram registrados mais de <b>40 mil casos de furtos de veículos</b>.
+                O que tende a ficar ainda mais em agravante ao se obter os dados das demais cidades do estado.
+            </p>
+            <p class="mat-body-1">
+                Portanto, decorrente do alto índice de ocorrências de crimes no estado de São Paulo,
+                o projeto CriminiX visa auxiliar as seguradoras a obterem uma <b>melhor individualização</b> para a
+                precificação dos seguros de furtos e roubos de veículos.
+            </p>
+            <p class="mat-body-1">
+                Através de bases disponibilizadas pela secretária de segurança pública do estado de São Paulo,
+                será utilizado algoritmos de <b>aprendizado de máquina</b> para criar modelos preditivos a fim de ajudar na
+                <b>tomada de decisão</b> trazendo inteligência sobre as informações imputadas pelas seguradoras.
+            </p>
         </section>
         <section>
             <h3 class="mat-headline-3">Equipe</h3>
-            <p>Estudantes do último ano de Ciência da computação na faculdade SPTECH.</p>
-            <p>Buscando agregar nas análises feitas por seguradoras sobre veiculos no estado de SP.</p>
-            <ul>Felipe Azevedo</ul>
-            <ul>Gabriel Ronny</ul>
-            <ul>Rodrigo Busto</ul>
+            <p class="mat-body-1">
+                O projeto é realizado por estudantes universitários de Ciência da computação da
+                faculdade São Paulo Tech School (SPTECH).
+            </p>
+            <div class="team-details">
+                <ul>
+                    <img src="/assets/images/team/felipe-azevedo.jpeg" alt="Foto de Felipe">
+                    <h6 class="mat-body-1">Felipe Azevedo</h6>
+                </ul>
+                <ul>
+                    <img src="/assets/images/team/gabriel-ronny.jpeg" alt="Foto de Gabriel">
+                    <h6 class="mat-body-1">Gabriel Ronny</h6>
+                </ul>
+                <ul>
+                    <img src="/assets/images/team/rodrigo-busto.jpeg" alt="Foto de Rodrigo">
+                    <h6 class="mat-body-1">Rodrigo Busto</h6>
+                </ul>
+            </div>
         </section>
     </div>
 </main>
@@ -45,7 +80,7 @@
         <ul class="footer-section-items">
             <button mat-button matTooltip="Codigo fonte do projeto">
                 <a href="https://github.com/CriminiX/" target="_blank">
-                    <img alt="Github Logo" ngSrc="assets/github-mark-white.svg" height="32" width="32">
+                    <img alt="Github Logo" ngSrc="assets/images/icons/github-mark-white.svg" height="32" width="32">
                     <span>Github</span>
                 </a>
             </button>
@@ -57,16 +92,14 @@
                 <div class="footer-section-item-list">
                     <button mat-button>
                         <a href="https://www.linkedin.com/in/felipe-azevedo-4b71171a8/" target="_blank">
-                            <mat-icon color="primary">alternate_email</mat-icon>
+                            <img alt="Linkedin Logo" ngSrc="assets/images/icons/linkedin.svg" height="32" width="32">
                             <span>Linkedin</span>
                         </a>
                     </button>
 
-                    <button mat-button>
-                        <a href="mailto:felipe.azevedo@bandtec.com.br">
-                            <mat-icon color="primary">email</mat-icon>
-                            <span>E-mail</span>
-                        </a>
+                    <button mat-button class="email-button" (click)="copyText('felipe.azevedo@bandtec.com.br')">
+                        <mat-icon color="primary">email</mat-icon>
+                        <span>felipe.azevedo@bandtec.com.br</span>
                     </button>
                 </div>
             </div>
@@ -76,16 +109,14 @@
                 <div class="footer-section-item-list">
                     <button mat-button>
                         <a href="https://www.linkedin.com/in/gabrielronny/" target="_blank">
-                            <mat-icon color="primary">alternate_email</mat-icon>
+                            <img alt="Linkedin Logo" ngSrc="assets/images/icons/linkedin.svg" height="32" width="32">
                             <span>Linkedin</span>
                         </a>
                     </button>
 
-                    <button mat-button>
-                        <a href="mailto:gabriel.pereira@bandtec.com.br">
-                            <mat-icon color="primary">email</mat-icon>
-                            <span>E-mail</span>
-                        </a>
+                    <button mat-button class="email-button" (click)="copyText('gabriel.pereira@bandtec.com.br')">
+                        <mat-icon color="primary">email</mat-icon>
+                        <span>gabriel.pereira@bandtec.com.br</span>
                     </button>
                 </div>
             </div>
@@ -95,16 +126,14 @@
                 <div class="footer-section-item-list">
                     <button mat-button>
                         <a href="https://www.linkedin.com/in/rodrigo-busto-716b871a4/" target="_blank">
-                            <mat-icon color="primary">alternate_email</mat-icon>
+                            <img alt="Linkedin Logo" ngSrc="assets/images/icons/linkedin.svg" height="32" width="32">
                             <span>Linkedin</span>
                         </a>
                     </button>
 
-                    <button mat-button>
-                        <a href="mailto:rodrigo.busto@bandtec.com.br">
-                            <mat-icon color="primary">email</mat-icon>
-                            <span>E-mail</span>
-                        </a>
+                    <button mat-button class="email-button" (click)="copyText('rodrigo.busto@bandtec.com.br')">
+                        <mat-icon color="primary">email</mat-icon>
+                        <span>rodrigo.busto@bandtec.com.br</span>
                     </button>
                 </div>
             </div>

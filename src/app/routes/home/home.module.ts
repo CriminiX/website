@@ -6,6 +6,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatIconModule} from "@angular/material/icon";
 import { PagesComponent } from '../documentation/pages/pages.component';
+import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MarkdownModule} from "ngx-markdown";
 
 
@@ -21,7 +22,8 @@ import {MarkdownModule} from "ngx-markdown";
         MatButtonModule,
         MatTooltipModule,
         MatIconModule,
-        MarkdownModule,
+        ClipboardModule,
+        MarkdownModule
     ]
 })
 export class HomeModule { }
