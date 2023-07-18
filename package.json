@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "clipboard": "^2.0.11",
     "date-fns": "^2.30.0",
     "echarts": "^5.4.2",
     "ngx-echarts": "^16.0.0",

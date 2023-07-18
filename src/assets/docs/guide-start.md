@@ -1,4 +1,4 @@
-# Guia Inícial
+# Guia Inicial
 ___
 Nós utilizamos as seguintes tecnologias:
 * PySpark

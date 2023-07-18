@@ -26,7 +26,7 @@ import {MatTreeModule} from "@angular/material/tree";
         MatButtonModule,
         MatTooltipModule,
         HttpClientModule,
-        MarkdownModule.forRoot({loader: HttpClient, sanitize: SecurityContext.NONE}),
+        MarkdownModule.forRoot({loader: HttpClient}),
         MatTreeModule
     ]
 })
