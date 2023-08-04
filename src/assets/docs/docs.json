@@ -9,6 +9,15 @@
       {
         "name": "Instalação",
         "path": "install"
+      },
+      {
+        "name": "Outros",
+        "children": [
+          {
+            "name": "Dependências",
+            "path": "dependencies"
+          }
+        ]
       }
     ]
   },

@@ -36,16 +36,23 @@
 
         .doc-child {
           width: calc(100% - 1rem);
+          box-sizing: border-box;
 
           .doc-button {
             width: 100%;
+            justify-content: space-between;
+          }
+
+          .doc-button-viewing {
+            color: #fff;
+            font-weight: 700;
           }
         }
 
         .docs-expander {
           width: calc(100% - 1rem);
-          padding-top: 2rem;
           flex: 1;
+          box-sizing: border-box;
 
           &:first-child {
             padding-top: 0;
@@ -53,6 +60,7 @@
 
           .doc-expander-button {
             width: 100%;
+            justify-content: space-between;
           }
         }
       }
@@ -71,6 +79,13 @@
 
     h3 {
       margin: 0 0 0 1rem;
+
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        margin: 0 0.5rem;
+      }
     }
   }
 

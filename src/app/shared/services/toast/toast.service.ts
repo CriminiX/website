@@ -6,15 +6,13 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class ToastService {
 
-  private closeMessage = 'Fechar';
-
   constructor(
       private notifyService: MatSnackBar
   ) { }
 
-  show(message: string, closeMessage?: string) {
-    this.notifyService.open(message, closeMessage ?? this.closeMessage, {
-      duration: 4000,
+  show(message: string, closeMessage = "Fechar", duration = 4000) {
+    this.notifyService.open(message, closeMessage, {
+      duration,
       verticalPosition: 'bottom',
       horizontalPosition: 'center'
     });

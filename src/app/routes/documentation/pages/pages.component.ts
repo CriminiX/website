@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {DocumentationService} from "../../../shared/services/documentation/documentation.service";
+import {ClipboardButtonComponent} from "../../../shared/components/clipboard-button/clipboard-button.component";
 
 @Component({
     selector: 'app-pages',
@@ -8,10 +10,15 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class PagesComponent implements OnInit {
 
+    readonly clipboardButton = ClipboardButtonComponent;
+
     post!: string;
     href!: string;
 
-    constructor(private router: Router, private route: ActivatedRoute) {
+    constructor(
+        private router: Router,
+        private route: ActivatedRoute,
+        private docService: DocumentationService) {
     }
 
     ngOnInit(): void {
@@ -19,6 +26,8 @@ export class PagesComponent implements OnInit {
             next: (params) => {
 
                 const articleName = params['page'];
+
+                this.docService.set(articleName);
 
                 this.post = './assets/docs/' + articleName + '.md';
                 this.href = window.location.href;

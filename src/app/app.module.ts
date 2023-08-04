@@ -15,12 +15,14 @@ import {MatIconModule} from "@angular/material/icon";
 
 import { registerLocaleData } from '@angular/common';
 import localePT from '@angular/common/locales/pt';
+import { ClipboardButtonComponent } from './shared/components/clipboard-button/clipboard-button.component';
 registerLocaleData(localePT);
 
 @NgModule({
     declarations: [
         AppComponent,
-        HeaderComponent
+        HeaderComponent,
+        ClipboardButtonComponent
     ],
     imports: [
         BrowserModule,
