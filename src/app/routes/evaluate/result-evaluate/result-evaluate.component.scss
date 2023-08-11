@@ -41,10 +41,11 @@ main {
       .result-summary {
         display: flex;
         flex-direction: column;
+        padding: 0;
       }
 
       .divider {
-        margin-bottom: 1rem;
+        margin: 1rem 0;
       }
 
       .expansion-header-container {

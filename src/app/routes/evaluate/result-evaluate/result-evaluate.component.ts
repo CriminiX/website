@@ -20,6 +20,7 @@ import defineSummaryBarChartOption from "./define-summary-bar-chart-option";
 import defineTimelineChartOption from "./define-timeline-chart-option";
 import defineTimelineYearChartOption from "./define-timeline-year-chart-option";
 import {EvaluateClientHistory} from "../../../shared/models/evaluate-client-history";
+import definePictorialSummaryChartOption from "./define-pictorial-summary-chart-option";
 
 @Component({
     selector: "app-result-evaluate",
@@ -29,6 +30,7 @@ import {EvaluateClientHistory} from "../../../shared/models/evaluate-client-hist
 export class ResultEvaluateComponent implements OnInit {
     evaluateResult!: EvaluateClientRecordResult[][];
 
+    optionPictorialSummaryChart!: EChartsOption;
     optionSummaryBarChart!: EChartsOption;
     optionSummaryBoxplotChart!: EChartsOption;
     optionSummaryBarMonthChart!: EChartsOption;
@@ -101,6 +103,7 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     loadDataLabels() {
+        this.setPictorialSummaryChartOption();
         this.setSummaryBarChartOption();
         this.setSummaryBoxplotChartOption();
         this.setSummaryBarMonthChartOption();
@@ -149,6 +152,11 @@ export class ResultEvaluateComponent implements OnInit {
 
     updateAllLabels() {
         this.loadDataLabels();
+    }
+
+    private setPictorialSummaryChartOption() {
+        const averageTotal = stat.average(this.evaluateResult.map(x => stat.average(x.map(y => y.score))));
+        this.optionPictorialSummaryChart = definePictorialSummaryChartOption("Média Localizações", averageTotal);
     }
 
     private setRadarChartOption() {
