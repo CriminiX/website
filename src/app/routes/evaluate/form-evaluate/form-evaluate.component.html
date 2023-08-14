@@ -1,0 +1,81 @@
+<div [ngClass]="loadCachedData ? 'card-container fit-card-container' : 'card-container card-container-blur'">
+    <mat-card [ngClass]="loadCachedData ? 'evaluate-card fit-card' : 'evaluate-card expand-card'">
+        <mat-card-header class="evaluate-card-header-container">
+            <h5 class="mat-headline-5 dialog-title">Simular Cliente</h5>
+            <button mat-stroked-button color="accent" (click)="openHistoryDialog()">
+                <span>Histórico</span>
+                <mat-icon iconPositionEnd>history</mat-icon>
+            </button>
+        </mat-card-header>
+
+        <mat-card-content class="evaluate-card-content">
+            <form
+                    id="evaluateForm"
+                    (ngSubmit)="evaluate()"
+                    [formGroup]="evaluateForm"
+            >
+                <ng-container *ngFor="let locationsForm of locations.controls; let i = index">
+                    <app-locations-form-evaluate
+                            [locationsCount]="locations.controls.length"
+                            [locationsIndex]="i"
+                            [locationsEvaluateForm]="locationsForm"
+                            (formMessage)="locationMessage($event)"
+                    ></app-locations-form-evaluate>
+                </ng-container>
+
+                <div class="locations-actions">
+                    <button
+                            mat-button
+                            type="button"
+                            (click)="addLocationEvaluate()"
+                            [disabled]="locations.length === 4 || loading"
+                            matTooltip="Adiciona uma localização para comparação"
+                            [matTooltipPosition]="locations.length === 1 ? 'below' : 'above'"
+                            color="primary"
+                    >
+                        <mat-icon iconPositionEnd>add</mat-icon>
+                        <span>Adicionar Localização</span>
+                    </button>
+
+                    <button
+                            mat-button
+                            type="button"
+                            (click)="removeLocationEvaluate()"
+                            [disabled]="locations.length === 1 || loading"
+                            matTooltip="Remove a última localização da comparação"
+
+                            color="warn"
+                    >
+                        <mat-icon iconPositionEnd>remove</mat-icon>
+                        <span>Remover Localização</span>
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+
+        <mat-card-actions class="evaluate-card-actions" align="end">
+            <button
+                    mat-flat-button
+                    color="accent"
+                    type="submit"
+                    form="evaluateForm"
+                    [disabled]="evaluateForm.invalid || loading"
+            >
+                Simular
+            </button>
+        </mat-card-actions>
+
+        <mat-card-footer>
+            <mat-progress-bar
+                    *ngIf="loading"
+                    color="accent"
+                    mode="indeterminate"
+            ></mat-progress-bar>
+            <mat-progress-bar
+                    *ngIf="!loading"
+                    color="accent"
+                    mode="determinate"
+            ></mat-progress-bar>
+        </mat-card-footer>
+    </mat-card>
+</div>

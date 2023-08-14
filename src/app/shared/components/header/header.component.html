@@ -1,15 +1,39 @@
 <mat-toolbar color="primary" class="toolbar-header">
-  <h1>
+  <h4 class="mat-headline-4" matTooltip="Início">
     <a [routerLink]="['/home']" class="">CriminiX</a>
-  </h1>
+  </h4>
 
-  <button mat-button matTooltip="Documentação do Projeto">
-    <a [routerLink]="['/docs']">Documentação</a>
+  <div class="toolbar-subheader">
+    <button mat-button matTooltip="Documentação do Projeto" [routerLink]="['/docs']">
+      <span class="mat-headline-6">Documentação</span>
+    </button>
+    <button mat-button matTooltip="Gráficos e Dados" [routerLink]="['/dashboard']">
+      <span class="mat-headline-6">Dashboard</span>
+    </button>
+    <button mat-button matTooltip="Simular Cliente" [routerLink]="['/evaluate']">
+      <span class="mat-headline-6">Simulação</span>
+    </button>
+  </div>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-header">
+    <mat-icon>apps</mat-icon>
   </button>
-  <button mat-button matTooltip="Gráficos e Dados">
-    <a [routerLink]="['/dashboard']">Dashboard</a>
-  </button>
-  <button mat-button matTooltip="Simular Cliente">
-    <a [routerLink]="['/evaluate']">Teste</a>
-  </button>
+  <mat-menu #menu="matMenu" yPosition="below" xPosition="before">
+    <button mat-menu-item [routerLink]="['/home']">
+      <mat-icon>home</mat-icon>
+      <span>Início</span>
+    </button>
+    <button mat-menu-item [routerLink]="['/docs']">
+      <mat-icon>format_list_bulleted</mat-icon>
+      <span>Documentação</span>
+    </button>
+    <button mat-menu-item [routerLink]="['/dashboard']">
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+    </button>
+    <button mat-menu-item  [routerLink]="['/evaluate']">
+      <mat-icon>data_usage</mat-icon>
+      <span>Simulação</span>
+    </button>
+  </mat-menu>
 </mat-toolbar>

@@ -1,17 +1,29 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { HomeComponent } from './home.component';
 import {HomeRoutingModule} from "./home-routing.module";
-
+import {MatButtonModule} from "@angular/material/button";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatIconModule} from "@angular/material/icon";
+import { PagesComponent } from '../documentation/pages/pages.component';
+import {ClipboardModule} from "@angular/cdk/clipboard";
+import {MarkdownModule} from "ngx-markdown";
 
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    PagesComponent
   ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        NgOptimizedImage,
+        MatButtonModule,
+        MatTooltipModule,
+        MatIconModule,
+        ClipboardModule,
+        MarkdownModule
+    ]
 })
 export class HomeModule { }

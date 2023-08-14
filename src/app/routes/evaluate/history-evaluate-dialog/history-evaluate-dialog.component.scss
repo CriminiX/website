@@ -1,0 +1,40 @@
+.history-dialog-header {
+  padding: 1rem 1rem 0 1rem;
+
+  .history-dialog-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+
+    h5 {
+      padding: 0;
+      margin: 0 0.5rem 0 0;
+    }
+  }
+
+  .divider {
+    width: 80%;
+  }
+}
+
+//.list-radio-group {
+//  padding-bottom: 1rem;
+//
+//  .list-radio-group-container {
+//    display: flex;
+//    align-items: center;
+//    justify-content: space-between;
+//    padding: 1rem;
+//
+//    .list-radio-group-content {
+//      display: flex;
+//      flex-direction: column;
+//    }
+//  }
+//}
+
+.history-dialog-actions {
+  padding: 1rem;
+  //box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.25);
+}

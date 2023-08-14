@@ -1,1 +1,154 @@
-<p>home works!</p>
+<main>
+    <div id="particles-js" class="splash-screen">
+        <canvas class="particles-js-canvas-el"></canvas>
+        <div class="splash-description">
+            <h1 class="mat-headline-2">Projeto CriminiX</h1>
+            <h3 class="mat-headline-5">
+                Trabalhando de forma
+                <span class="splash-reinforcement-text">preditiva</span>
+                e não reativa
+            </h3>
+            <h5 class="mat-body-1">
+                Buscando <span class="splash-reinforcement-text">maximizar</span> a individualização da
+                <b>precificação de seguros de veículos</b> através de <span
+                    class="splash-reinforcement-text">insights</span>
+            </h5>
+            <button mat-raised-button color="accent" [routerLink]="['/evaluate']" matTooltip="Simular Cliente">
+                <span class="mat-headline-6">Simular</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="about-redirect-section">
+        <button mat-button (click)="scrollToElement(target)">
+            <mat-icon iconPositionEnd>arrow_downward</mat-icon>
+            <span class="mat-headline-6">Saiba mais</span>
+        </button>
+    </div>
+
+    <div #target class="about-screen">
+        <section>
+            <h3 class="mat-headline-3">Objetivo</h3>
+            <p class="mat-body-1">
+                O estado de São Paulo é considerado a <b>terra das oportunidades</b> para muitos brasileiros,
+                devido a sua grande concentração de riqueza, emprego, infraestrutura e tecnologia, porém
+                por mais que apresente diversas características positivas, atualmente o estado sofre muito com a
+                segurança.
+            </p>
+            <p class="mat-body-1">
+                Através de relatórios divulgados pela secretária de segurança pública sobre a capital de SP,
+                somente em 2022 foram registrados mais de <b>40 mil casos de furtos de veículos</b>.
+                O que tende a ficar ainda mais em agravante ao se obter os dados das demais cidades do estado.
+            </p>
+            <p class="mat-body-1">
+                Portanto, decorrente do alto índice de ocorrências de crimes no estado de São Paulo,
+                o projeto CriminiX visa auxiliar as seguradoras a obterem uma <b>melhor individualização</b> para a
+                precificação dos seguros de furtos e roubos de veículos.
+            </p>
+            <p class="mat-body-1">
+                Através de bases disponibilizadas pela secretária de segurança pública do estado de São Paulo,
+                será utilizado algoritmos de <b>aprendizado de máquina</b> para criar modelos preditivos a fim de ajudar na
+                <b>tomada de decisão</b> trazendo inteligência sobre as informações imputadas pelas seguradoras.
+            </p>
+        </section>
+        <section>
+            <h3 class="mat-headline-3">Equipe</h3>
+            <p class="mat-body-1">
+                O projeto é realizado por estudantes universitários de Ciência da computação da
+                faculdade São Paulo Tech School (SPTECH).
+            </p>
+            <div class="team-details">
+                <ul>
+                    <img src="/assets/images/team/felipe-azevedo.jpeg" alt="Foto de Felipe">
+                    <h6 class="mat-body-1">Felipe Azevedo</h6>
+                </ul>
+                <ul>
+                    <img src="/assets/images/team/gabriel-ronny.jpeg" alt="Foto de Gabriel">
+                    <h6 class="mat-body-1">Gabriel Ronny</h6>
+                </ul>
+                <ul>
+                    <img src="/assets/images/team/rodrigo-busto.jpeg" alt="Foto de Rodrigo">
+                    <h6 class="mat-body-1">Rodrigo Busto</h6>
+                </ul>
+            </div>
+        </section>
+    </div>
+</main>
+<footer>
+    <section>
+        <h3 class="mat-headline-3">Referências</h3>
+        <ul class="footer-section-items">
+            <button mat-button matTooltip="Codigo fonte do projeto">
+                <a href="https://github.com/CriminiX/" target="_blank">
+                    <img alt="Github Logo" ngSrc="assets/images/icons/github-mark-white.svg" height="32" width="32">
+                    <span>Github</span>
+                </a>
+            </button>
+        </ul>
+        <h3 class="mat-headline-3">Contato</h3>
+        <ul class="footer-section-items">
+            <div class="footer-section-item">
+                <h4 class="mat-body-1">Felipe Azevedo</h4>
+                <div class="footer-section-item-list">
+                    <button mat-button>
+                        <a href="https://www.linkedin.com/in/felipe-azevedo-4b71171a8/" target="_blank">
+                            <img alt="Linkedin Logo" ngSrc="assets/images/icons/linkedin.svg" height="32" width="32">
+                            <span>Linkedin</span>
+                        </a>
+                    </button>
+
+                    <button mat-button
+                            class="email-button"
+                            (click)="copyText('felipe.azevedo@bandtec.com.br')"
+                            matTooltip="Copiar e-mail"
+                    >
+                        <mat-icon color="primary">email</mat-icon>
+                        <span>felipe.azevedo@bandtec.com.br</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer-section-item">
+                <h4 class="mat-body-1">Gabriel Ronny</h4>
+                <div class="footer-section-item-list">
+                    <button mat-button>
+                        <a href="https://www.linkedin.com/in/gabrielronny/" target="_blank">
+                            <img alt="Linkedin Logo" ngSrc="assets/images/icons/linkedin.svg" height="32" width="32">
+                            <span>Linkedin</span>
+                        </a>
+                    </button>
+
+                    <button mat-button
+                            class="email-button"
+                            (click)="copyText('gabriel.pereira@bandtec.com.br')"
+                            matTooltip="Copiar e-mail"
+                    >
+                        <mat-icon color="primary">email</mat-icon>
+                        <span>gabriel.pereira@bandtec.com.br</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer-section-item">
+                <h4 class="mat-body-1">Rodrigo Busto</h4>
+                <div class="footer-section-item-list">
+                    <button mat-button>
+                        <a href="https://www.linkedin.com/in/rodrigo-busto-716b871a4/" target="_blank">
+                            <img alt="Linkedin Logo" ngSrc="assets/images/icons/linkedin.svg" height="32" width="32">
+                            <span>Linkedin</span>
+                        </a>
+                    </button>
+
+                    <button mat-button
+                            class="email-button"
+                            (click)="copyText('rodrigo.busto@bandtec.com.br')"
+                            matTooltip="Copiar e-mail"
+                    >
+                        <mat-icon color="primary">email</mat-icon>
+                        <span>rodrigo.busto@bandtec.com.br</span>
+                    </button>
+                </div>
+            </div>
+        </ul>
+    </section>
+</footer>

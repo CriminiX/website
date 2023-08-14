@@ -1,1 +1,69 @@
-<p>documentation works!</p>
+<mat-drawer-container class="docs-container" autosize [hasBackdrop]="mobileQuery.matches">
+    <mat-drawer #drawer class="sidenav" [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches">
+        <section class="sidenav-container">
+            <mat-tree #tree [dataSource]="dataSource" [treeControl]="treeControl" class="docs-tree">
+
+                <mat-tree-node
+                        *matTreeNodeDef="let node"
+                        matTreeNodePadding
+                        matTreeNodePaddingIndent="15"
+                        class="doc-child"
+                >
+                    <button
+                        mat-flat-button
+                        *ngIf="docsFullPath.at(-1) === node.name"
+                        color="primary"
+                        class="doc-button doc-button-viewing"
+                        [routerLink]="['/docs/' + node.path]"
+                        (click)="mobileQuery.matches ? drawer.toggle() : undefined"
+                    >
+                        <span>{{node.name}}</span>
+                        <mat-icon iconPositionEnd>arrow_rightward</mat-icon>
+<!--                        <mat-icon iconPositionEnd>lens</mat-icon>-->
+                    </button>
+
+                    <button
+                            mat-button
+                            *ngIf="docsFullPath.at(-1) !== node.name"
+                            class="doc-button"
+                            [routerLink]="['/docs/' + node.path]"
+                            (click)="mobileQuery.matches ? drawer.toggle() : undefined"
+                    >
+                        <span>{{node.name}}</span>
+                    </button>
+                </mat-tree-node>
+
+                <mat-tree-node
+                        *matTreeNodeDef="let node;when: hasChild"
+                        matTreeNodePadding
+                        matTreeNodePaddingIndent="15"
+                        class="docs-expander"
+                >
+                    <button mat-button matTreeNodeToggle class="doc-expander-button">
+                        <h3 class="mat-headline-6">{{node.name}}</h3>
+                        <mat-icon iconPositionEnd>
+                            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                    </button>
+                </mat-tree-node>
+            </mat-tree>
+        </section>
+    </mat-drawer>
+
+    <div class="docs-subheader">
+        <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h3 class="mat-headline-6">
+            <ng-container *ngFor="let docPath of docsFullPath; let last = last">
+                <span>{{docPath}}</span>
+<!--                <span *ngIf="!last"> > </span>-->
+                <mat-icon *ngIf="!last">keyboard_arrow_right</mat-icon>
+            </ng-container>
+        </h3>
+    </div>
+
+    <main>
+        <router-outlet ></router-outlet>
+    </main>
+</mat-drawer-container>

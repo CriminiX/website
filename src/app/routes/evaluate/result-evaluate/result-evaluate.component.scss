@@ -1,0 +1,78 @@
+@import "src/theme";
+@import "src/variables";
+
+main {
+  height: calc(100vh - 10%);
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+
+  @media screen and (max-width: $x-small) {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .fit-half {
+    width: 40%;
+    height: 100%;
+
+    @media screen and (max-width: $x-small) {
+      width: 100%;
+    }
+  }
+
+  section {
+    width: 60%;
+    height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    background-color: $primary-color-light;
+    overflow-y: auto;
+
+    @media screen and (max-width: $x-small) {
+      height: auto;
+      width: 100%;
+      overflow-y: visible;
+    }
+
+    mat-card {
+      margin: 1rem 0;
+
+      .result-summary {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+      }
+
+      .divider {
+        margin: 1rem 0;
+      }
+
+      .expansion-header-container {
+        min-height: 4rem;
+
+        @media screen and (max-width: $x-small) {
+          min-height: 5rem;
+        }
+
+        .expansion-header-title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex: 1;
+          margin-right: 1rem;
+
+          @media screen and (max-width: $x-small) {
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+          }
+
+          h5, h6 {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}

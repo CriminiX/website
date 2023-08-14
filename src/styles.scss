@@ -1,29 +1,13 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 @import "@angular/material/theming";
+@import "theme";
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-
-$criminix-primary: mat.define-palette(mat.$cyan-palette);
-$criminix-accent: mat.define-palette(mat.$amber-palette);
-$criminix-warn: mat.define-palette(mat.$red-palette);
 
 $custom-typography: mat.define-typography-config(
   $font-family: 'Open Sans'
 );
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
 $criminix-theme: mat.define-light-theme((
   color: (
     primary: $criminix-primary,
@@ -33,12 +17,29 @@ $criminix-theme: mat.define-light-theme((
   typography: $custom-typography
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 @include mat.all-component-themes($criminix-theme);
-
-/* You can add global styles to this file, and also import other style files */
+@include mat.typography-hierarchy($custom-typography);
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Open Sans', "Helvetica Neue", sans-serif; }
+
+.dialog-container {
+  //min-height: 60%;
+  min-width: 60%;
+}
+
+.particles-js-canvas-el {
+  position: fixed;
+  top: 0;
+  z-index: -1;
+}
+
+
+// MARKDOWN
+.md-view {
+  pre {
+    background-color: #dddddd;
+    border-radius: 16px;
+    padding: 0.5rem 1rem;
+  }
+}

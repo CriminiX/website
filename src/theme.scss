@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+
+//color palettes: https://material.io/design/color/
+$criminix-primary: mat.define-palette(mat.$cyan-palette);
+$criminix-accent: mat.define-palette(mat.$deep-purple-palette, 500, 300, 700);
+$criminix-warn: mat.define-palette(mat.$red-palette);
+
+$primary-color: mat.get-color-from-palette($criminix-primary);
+$primary-color-light:  mat.get-color-from-palette($criminix-primary, 300);
+$primary-color-dark: mat.get-color-from-palette($criminix-primary, 700);
+$accent-color: mat.get-color-from-palette($criminix-accent);
+$accent-color-light: mat.get-color-from-palette($criminix-accent, 300);
+$accent-color-dark: mat.get-color-from-palette($criminix-accent, 700);

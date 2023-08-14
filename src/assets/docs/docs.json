@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Instruções",
+    "children": [
+      {
+        "name": "Guia Inicial",
+        "path": "guide-start"
+      },
+      {
+        "name": "Instalação",
+        "path": "install"
+      },
+      {
+        "name": "Outros",
+        "children": [
+          {
+            "name": "Dependências",
+            "path": "dependencies"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Execução",
+    "children": [
+      {
+        "name": "Backend API",
+        "path": "backend"
+      },
+      {
+        "name": "Frontend Site",
+        "path": "frontend"
+      }
+    ]
+  }
+]

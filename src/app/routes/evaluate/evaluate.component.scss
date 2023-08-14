@@ -1,0 +1,15 @@
+@import "src/theme";
+
+main {
+  height: calc(100vh - 10%);
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .fit {
+    height: 100%;
+    width: 100%;
+  }
+}

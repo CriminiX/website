@@ -1,0 +1,69 @@
+<mat-toolbar color="accent" class="history-dialog-header">
+    <div class="history-dialog-header-container">
+        <h5 class="mat-headline-5 dialog-title">Histórico</h5>
+        <mat-icon>history</mat-icon>
+    </div>
+</mat-toolbar>
+
+<mat-dialog-content>
+    <table mat-table [dataSource]="dataTable" class="mat-elevation-z0" *ngIf="hasData" matSort>
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <!-- City Column -->
+        <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef>Cidade</th>
+            <td mat-cell *matCellDef="let element">
+                {{ getCityName(element.locations) }}
+            </td>
+        </ng-container>
+
+        <!-- Neighborhood Column -->
+        <ng-container matColumnDef="neighborhood">
+            <th mat-header-cell *matHeaderCellDef>Bairro</th>
+            <td mat-cell *matCellDef="let element">
+                {{ getNeighborhoodName(element.locations) }}
+            </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordenar por Data">Data</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.date | date: 'dd/MM/yyyy HH:mm' : '-03:00' : 'pt-BR' }}
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['select', 'city', 'neighborhood', 'date']; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['select', 'city', 'neighborhood', 'date'];"
+            (click)="selection.toggle(row)">
+        </tr>
+    </table>
+
+    <ng-container *ngIf="!hasData">
+        <span class="mat-body-1">Histórico Vazio.</span>
+    </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="history-dialog-actions">
+    <button mat-flat-button color="warn" [disabled]="this.selection.selected.length === 0" *ngIf="hasData" (click)="erase()">
+        Apagar
+    </button>
+    <button mat-flat-button color="accent" [disabled]="this.selection.selected.length !== 1" *ngIf="hasData" (click)="confirm()">
+        Confirmar
+    </button>
+    <button mat-flat-button [mat-dialog-close]="undefined">Fechar</button>
+</mat-dialog-actions>
