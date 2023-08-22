@@ -16,6 +16,7 @@ import {MatIconModule} from "@angular/material/icon";
 import { registerLocaleData } from '@angular/common';
 import localePT from '@angular/common/locales/pt';
 import { ClipboardButtonComponent } from './shared/components/clipboard-button/clipboard-button.component';
+import {provideEnvironmentNgxMask} from "ngx-mask";
 registerLocaleData(localePT);
 
 @NgModule({
@@ -38,6 +39,7 @@ registerLocaleData(localePT);
     ],
     providers: [
         {provide: LOCALE_ID, useValue: 'pt-br'},
+        provideEnvironmentNgxMask(),
     ],
     bootstrap: [AppComponent]
 })

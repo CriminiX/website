@@ -28,6 +28,7 @@
     "echarts": "^5.4.2",
     "ngx-echarts": "^16.0.0",
     "ngx-markdown": "^16.0.0",
+    "ngx-mask": "^16.2.9",
     "rxjs": "~7.8.0",
     "simple-statistics": "^7.8.3",
     "tslib": "^2.3.0",

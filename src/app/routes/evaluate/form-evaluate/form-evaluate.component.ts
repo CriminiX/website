@@ -57,6 +57,7 @@ export class FormEvaluateComponent implements OnInit {
 
     addLocationEvaluate() {
         const form = this.formBuilder.group({
+            cep: ["", [Validators.minLength(8)]],
             city: ["", [Validators.required, Validators.minLength(2)]],
             neighborhood: ["", [Validators.required, Validators.minLength(2)]]
         });
@@ -88,10 +89,12 @@ export class FormEvaluateComponent implements OnInit {
         this.locations.clear();
         for (let i = 0; i < data.locations.length; i++) {
             this.addLocationEvaluate();
-            this.locations.at(i).setValue({city: data.locations[i].city, neighborhood: data.locations[i].neighborhood});
+            this.locations.at(i).setValue({
+                cep: data.locations[i].cep ?? null,
+                city: data.locations[i].city, 
+                neighborhood: data.locations[i].neighborhood
+            });
         }
-        // this.evaluateForm.controls["city"].setValue(data.city);
-        // this.evaluateForm.controls["neighborhood"].setValue(data.neighborhood);
     }
 
     evaluate() {

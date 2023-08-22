@@ -28,6 +28,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { LocationsFormEvaluateComponent } from './form-evaluate/locations-form-evaluate/locations-form-evaluate.component';
+import {NgxMaskDirective, NgxMaskPipe} from "ngx-mask";
 
 echarts.use([SVGRenderer]);
 
@@ -60,7 +61,9 @@ echarts.use([SVGRenderer]);
         MatSortModule,
         MatExpansionModule,
         MatTooltipModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        NgxMaskDirective,
+        NgxMaskPipe
     ]
 })
 export class EvaluateModule { }

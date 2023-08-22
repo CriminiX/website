@@ -94,6 +94,16 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
         this.selection.select(...this.dataTable.data);
     }
 
+    getCepName(locations: LocationsEvaluateClientForm[]) {
+        return locations.map(x => {
+            if (x.cep === undefined) {
+                return "0";
+            }
+
+            return x.cep;
+        }).join(', ');
+    }
+
     getCityName(locations: LocationsEvaluateClientForm[]) {
         return locations.map(x => x.city).join(', ');
     }

@@ -23,6 +23,14 @@
             </td>
         </ng-container>
 
+        <!-- CEP Column -->
+        <ng-container matColumnDef="cep">
+            <th mat-header-cell *matHeaderCellDef>CEP</th>
+            <td mat-cell *matCellDef="let element">
+                {{ getCepName(element.locations) | mask: '00000-000' }}
+            </td>
+        </ng-container>
+        
         <!-- City Column -->
         <ng-container matColumnDef="city">
             <th mat-header-cell *matHeaderCellDef>Cidade</th>
@@ -47,8 +55,8 @@
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="['select', 'city', 'neighborhood', 'date']; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['select', 'city', 'neighborhood', 'date'];"
+        <tr mat-header-row *matHeaderRowDef="['select', 'cep', 'city', 'neighborhood', 'date']; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['select', 'cep', 'city', 'neighborhood', 'date'];"
             (click)="selection.toggle(row)">
         </tr>
     </table>

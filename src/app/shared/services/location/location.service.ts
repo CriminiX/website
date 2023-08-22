@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, of, throwError} from "rxjs";
+import {catchError, delay, map, of, throwError} from "rxjs";
 import {LocationsSearchResult} from "../../models/locations-search-result";
 import {environment} from "../../../../environments/environment";
 
@@ -12,6 +12,13 @@ const URL = environment.url;
 export class LocationService {
 
   constructor(private http: HttpClient) { }
+
+  searchLocationByCep(cep?: string) {
+    return of({
+      city: "São Paulo",
+      neighborhood: "Centro"
+    }).pipe(delay(1000));
+  }
 
   searchCity(city?: string) {
     if (city === undefined) {
