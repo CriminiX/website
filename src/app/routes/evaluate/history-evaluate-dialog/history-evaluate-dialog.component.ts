@@ -7,6 +7,7 @@ import {SelectionModel} from "@angular/cdk/collections";
 import {MatSort} from "@angular/material/sort";
 import {fromId} from 'src/app/shared/models/shifts';
 import {LocationsEvaluateClientForm} from "../../../shared/models/evaluate-client-form";
+import { NgxMaskPipe } from 'ngx-mask';
 
 @Component({
     selector: 'app-history-evaluate-dialog',

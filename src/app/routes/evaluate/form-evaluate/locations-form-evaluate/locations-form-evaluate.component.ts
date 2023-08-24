@@ -27,7 +27,7 @@ export class LocationsFormEvaluateComponent implements OnInit {
     constructor(private locationService: LocationService) {
     }
 
-    resetNeighborhood() {
+    private resetNeighborhood() {
         this.locationsEvaluateForm.controls.neighborhood.setValue('');
         this.filteredNeighborhoods = [];
         if (this.locationsEvaluateForm.controls.city.valid) {
@@ -37,7 +37,7 @@ export class LocationsFormEvaluateComponent implements OnInit {
         }
     }
 
-    resetLocationOnCepValue(cep?: string) {
+    private resetLocationOnCepValue(cep?: string) {
         const cepLength = (cep?.length || 0);
 
         if (cepLength > 0) {
@@ -50,11 +50,13 @@ export class LocationsFormEvaluateComponent implements OnInit {
 
         if (cepLength > 0 && cepLength < 8) {
             this.locationsEvaluateForm.controls.city.setValue(null);
+            this.filteredCities = [];
             this.locationsEvaluateForm.controls.neighborhood.setValue(null);
+            this.filteredNeighborhoods = [];
         }
     }
 
-    hasCepValue() {
+    private hasCepValue() {
         return (this.locationsEvaluateForm.controls.cep.value?.length || 0) > 0;
     }
 

@@ -27,7 +27,7 @@
         <ng-container matColumnDef="cep">
             <th mat-header-cell *matHeaderCellDef>CEP</th>
             <td mat-cell *matCellDef="let element">
-                {{ getCepName(element.locations) | mask: '00000-000' }}
+                {{ getCepName(element.locations) | mask: '00000-000||00000-000, 00000-000||00000-000, 00000-000, 00000-000||00000-000, 00000-000, 00000-000, 00000-000' }}
             </td>
         </ng-container>
         

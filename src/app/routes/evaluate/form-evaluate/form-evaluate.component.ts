@@ -94,6 +94,17 @@ export class FormEvaluateComponent implements OnInit {
                 city: data.locations[i].city, 
                 neighborhood: data.locations[i].neighborhood
             });
+
+            this.resetLocationOnCepValue(i, data.locations[i].cep);
+        }
+    }
+
+    private resetLocationOnCepValue(locationIndex: number, cep?: string) {
+        const cepLength = (cep?.length || 0);
+
+        if (cepLength > 0) {
+            this.locations.at(locationIndex).controls.city.disable();
+            this.locations.at(locationIndex).controls.neighborhood.disable();
         }
     }
 
