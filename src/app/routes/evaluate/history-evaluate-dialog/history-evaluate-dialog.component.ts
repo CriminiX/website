@@ -97,11 +97,11 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
 
     getCepName(locations: LocationsEvaluateClientForm[]) {
         return locations.map(x => {
-            if (x.cep === undefined) {
-                return "0";
+            if ((x.cep?.length || 0) == 8) {
+                return x.cep!.replace(/(\d{5})(\d)/,'$1-$2');
             }
 
-            return x.cep;
+            return "0";
         }).join(', ');
     }
 
