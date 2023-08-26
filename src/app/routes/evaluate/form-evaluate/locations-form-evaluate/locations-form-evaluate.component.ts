@@ -49,9 +49,9 @@ export class LocationsFormEvaluateComponent implements OnInit {
         }
 
         if (cepLength > 0 && cepLength < 8) {
-            this.locationsEvaluateForm.controls.city.setValue(null);
+            this.locationsEvaluateForm.controls.city.setValue("");
             this.filteredCities = [];
-            this.locationsEvaluateForm.controls.neighborhood.setValue(null);
+            this.locationsEvaluateForm.controls.neighborhood.setValue("");
             this.filteredNeighborhoods = [];
         }
     }
@@ -87,10 +87,14 @@ export class LocationsFormEvaluateComponent implements OnInit {
                 next: (searchCep) => {
                     this.locationService.searchLocationByCep(searchCep).subscribe({
                         next: (location) => {
-                            // this.filteredCities = [location.city];
-                            this.locationsEvaluateForm.controls.city.setValue(location.city);
-                            // this.filteredNeighborhoods = [location.neighborhood];
-                            this.locationsEvaluateForm.controls.neighborhood.setValue(location.neighborhood);
+
+                            if (location === null || location.city === undefined || location.neighborhood === undefined) {
+                                this.formMessage.emit("Não foi encontrado uma localização para este CEP.")
+                            } else {
+                                this.locationsEvaluateForm.controls.city.setValue(location.city);
+                                this.locationsEvaluateForm.controls.neighborhood.setValue(location.neighborhood);
+                            }
+
                             this.loadingCep = false;
                         },
                         error: err => {
