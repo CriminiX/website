@@ -101,7 +101,7 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
                 return x.cep!.replace(/(\d{5})(\d)/,'$1-$2');
             }
 
-            return "0";
+            return "N/A";
         }).join(', ');
     }
 

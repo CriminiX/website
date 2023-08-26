@@ -24,6 +24,8 @@ export class LocationsFormEvaluateComponent implements OnInit {
     loadingCity = false;
     loadingNeighborhood = false;
 
+    private isCepValid: boolean | null = null;
+
     constructor(private locationService: LocationService) {
     }
 
@@ -37,6 +39,13 @@ export class LocationsFormEvaluateComponent implements OnInit {
         }
     }
 
+    private resetCityNeighborhood() {
+        this.locationsEvaluateForm.controls.city.setValue("");
+        this.filteredCities = [];
+        this.locationsEvaluateForm.controls.neighborhood.setValue("");
+        this.filteredNeighborhoods = [];
+    }
+
     private resetLocationOnCepValue(cep?: string) {
         const cepLength = (cep?.length || 0);
 
@@ -44,15 +53,15 @@ export class LocationsFormEvaluateComponent implements OnInit {
             this.locationsEvaluateForm.controls.city.disable();
             this.locationsEvaluateForm.controls.neighborhood.disable();
         } else if (cepLength == 0) {
+            this.resetCityNeighborhood();
             this.locationsEvaluateForm.controls.city.enable();
             this.locationsEvaluateForm.controls.neighborhood.disable();
+            this.updateIsCepValid(null);
         }
 
         if (cepLength > 0 && cepLength < 8) {
-            this.locationsEvaluateForm.controls.city.setValue("");
-            this.filteredCities = [];
-            this.locationsEvaluateForm.controls.neighborhood.setValue("");
-            this.filteredNeighborhoods = [];
+            this.resetCityNeighborhood();
+            this.updateIsCepValid(false);
         }
     }
 
@@ -60,7 +69,16 @@ export class LocationsFormEvaluateComponent implements OnInit {
         return (this.locationsEvaluateForm.controls.cep.value?.length || 0) > 0;
     }
 
+    private updateIsCepValid(valid: boolean | null) {
+        this.isCepValid = valid;
+        this.locationsEvaluateForm.controls.cep.updateValueAndValidity({emitEvent: false});
+    }
+
     ngOnInit(): void {
+        if ((this.locationsEvaluateForm.controls.cep.value?.length || 0) == 8) {
+            this.updateIsCepValid(true);
+        }
+
         if (this.locationsEvaluateForm.controls.city.invalid) {
             this.locationsEvaluateForm.controls.neighborhood.disable();
         } else {
@@ -68,6 +86,9 @@ export class LocationsFormEvaluateComponent implements OnInit {
             this.filteredNeighborhoods = [this.locationsEvaluateForm.controls.neighborhood.value!]
         }
 
+        this.locationsEvaluateForm.controls.cep.addValidators(valueSelected<string>(() =>
+            this.isCepValid === true || this.isCepValid === null
+        ));
         this.locationsEvaluateForm.controls.city.addValidators(valueSelected<string>((v) =>
             this.filteredCities.some((y) => v === y)
         ));
@@ -89,15 +110,20 @@ export class LocationsFormEvaluateComponent implements OnInit {
                         next: (location) => {
 
                             if (location === null || location.city === undefined || location.neighborhood === undefined) {
-                                this.formMessage.emit("Não foi encontrado uma localização para este CEP.")
+                                this.formMessage.emit("Não foi encontrado uma localização para este CEP.");
+
+                                this.updateIsCepValid(false);
                             } else {
                                 this.locationsEvaluateForm.controls.city.setValue(location.city);
                                 this.locationsEvaluateForm.controls.neighborhood.setValue(location.neighborhood);
+
+                                this.updateIsCepValid(true);
                             }
 
                             this.loadingCep = false;
                         },
                         error: err => {
+                            this.updateIsCepValid(false);
                             this.loadingCep = false;
 
                             if (err.status === 0) {
@@ -112,6 +138,7 @@ export class LocationsFormEvaluateComponent implements OnInit {
                 error: () => {
                     console.error('ERROR: cep value changed');
                     this.loadingCity = false;
+                    this.updateIsCepValid(false);
                 },
             });
 
