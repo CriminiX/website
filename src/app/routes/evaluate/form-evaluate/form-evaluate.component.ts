@@ -64,8 +64,8 @@ export class FormEvaluateComponent implements OnInit {
         this.locations.push(form);
     }
 
-    removeLocationEvaluate() {
-        this.locations.removeAt(this.locations.length - 1);
+    removeLocationEvaluate(index: number) {
+        this.locations.removeAt(index);
     }
 
     private setCachedData() {

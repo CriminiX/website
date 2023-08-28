@@ -15,7 +15,9 @@ export class LocationsFormEvaluateComponent implements OnInit {
     @Input() locationsEvaluateForm!: FormGroup<LocationsEvaluateForm>;
     @Input() locationsCount!: number;
     @Input() locationsIndex!: number;
+    @Input() parentLoading!: boolean;
     @Output() formMessage = new EventEmitter<string>();
+    @Output() removeLocation = new EventEmitter<void>();
 
     filteredCities: string[] = [];
     filteredNeighborhoods: string[] = [];
@@ -238,5 +240,9 @@ export class LocationsFormEvaluateComponent implements OnInit {
 
     searchNeighborhoodSelected() {
         this.loadingNeighborhood = false;
+    }
+
+    removeCurrentLocation() {
+        this.removeLocation.emit();
     }
 }

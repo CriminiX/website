@@ -1,7 +1,23 @@
 <div class="locations-form" [formGroup]="locationsEvaluateForm">
 
     <mat-divider class="divider"></mat-divider>
-    <h6 class="mat-body" *ngIf="locationsCount > 1">Localização #{{locationsIndex + 1}}</h6>
+
+    <div class="locations-title">
+        <h6 class="mat-body" *ngIf="locationsCount > 1">{{locationsIndex + 1}}ª Localização</h6>
+
+        <button
+                mat-button
+                type="button"
+                (click)="removeCurrentLocation()"
+                *ngIf="locationsCount > 1"
+                [disabled]="parentLoading"
+                matTooltip="Remove esta localização da comparação"
+                color="warn"
+        >
+            <mat-icon iconPositionEnd>remove</mat-icon>
+            <span>Remover</span>
+        </button>
+    </div>
 
     <div class="location-option">
         <mat-form-field appearance="outline" class="data-form">

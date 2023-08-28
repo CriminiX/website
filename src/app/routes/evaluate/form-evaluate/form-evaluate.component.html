@@ -20,6 +20,8 @@
                             [locationsIndex]="i"
                             [locationsEvaluateForm]="locationsForm"
                             (formMessage)="locationMessage($event)"
+                            (removeLocation)="removeLocationEvaluate(i)"
+                            [parentLoading]="loading"
                     ></app-locations-form-evaluate>
                 </ng-container>
 
@@ -30,24 +32,10 @@
                             (click)="addLocationEvaluate()"
                             [disabled]="locations.length === 4 || loading"
                             matTooltip="Adiciona uma localização para comparação"
-                            [matTooltipPosition]="locations.length === 1 ? 'below' : 'above'"
                             color="primary"
                     >
                         <mat-icon iconPositionEnd>add</mat-icon>
                         <span>Adicionar Localização</span>
-                    </button>
-
-                    <button
-                            mat-button
-                            type="button"
-                            (click)="removeLocationEvaluate()"
-                            [disabled]="locations.length === 1 || loading"
-                            matTooltip="Remove a última localização da comparação"
-
-                            color="warn"
-                    >
-                        <mat-icon iconPositionEnd>remove</mat-icon>
-                        <span>Remover Localização</span>
                     </button>
                 </div>
             </form>
