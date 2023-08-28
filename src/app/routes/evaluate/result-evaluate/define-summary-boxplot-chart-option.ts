@@ -26,9 +26,16 @@ const defineSummaryBoxplotChartOption = (axis: string[], labels: string[], data:
             }
         },
         legend: {},
+        grid: {
+            containLabel: true,
+        },
         xAxis: {
             type: 'category',
             data: axis,
+            axisLabel: {
+                interval: 0,
+                rotate: 30
+            }
         },
         yAxis: {
             type: 'value',
