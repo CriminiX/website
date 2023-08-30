@@ -2,7 +2,7 @@
 FROM node:18.16-alpine as build
 WORKDIR /app
 COPY package.json ./
-RUN npm install
+RUN npm install --loglevel=error
 COPY . .
 RUN npm run ci
 

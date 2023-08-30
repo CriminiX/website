@@ -25,11 +25,15 @@
     "name": "Execução",
     "children": [
       {
-        "name": "Backend API",
+        "name": "Primeiros Passos",
+        "path": "first-steps"
+      },
+      {
+        "name": "Backend",
         "path": "backend"
       },
       {
-        "name": "Frontend Site",
+        "name": "Frontend",
         "path": "frontend"
       }
     ]
