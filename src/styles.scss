@@ -42,4 +42,11 @@ body { margin: 0; font-family: 'Open Sans', "Helvetica Neue", sans-serif; }
     border-radius: 16px;
     padding: 0.5rem 1rem;
   }
+
+  code {
+    display: inline-block;
+    white-space: normal;
+    max-width: 100%;
+    word-wrap: break-word;
+  }
 }
