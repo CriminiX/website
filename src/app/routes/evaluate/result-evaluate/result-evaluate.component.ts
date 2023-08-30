@@ -12,7 +12,6 @@ import "src/app/shared/extensions/number.extensions";
 import defineGaugeChartOption from "./define-gauge-chart-option";
 import defineRadarChartOption from "./define-radar-chart-option";
 import defineCalendarChartOption from "./define-calendar-chart-option";
-import {EvaluateClientResultAllShifts} from "../../../shared/models/evaluate-client-result-all-shifts";
 import {shifts} from "../../../shared/models/shifts";
 import * as stat from 'simple-statistics';
 import defineSummaryBoxplotChartOption from "./define-summary-boxplot-chart-option";
@@ -33,7 +32,6 @@ export class ResultEvaluateComponent implements OnInit {
     optionPictorialSummaryChart!: EChartsOption;
     optionSummaryBarChart!: EChartsOption;
     optionSummaryBoxplotChart!: EChartsOption;
-    optionSummaryBarMonthChart!: EChartsOption;
     optionTimelineYearChart!: EChartsOption;
     optionTimelineChart!: EChartsOption;
     optionRadarChart!: EChartsOption;
@@ -41,6 +39,7 @@ export class ResultEvaluateComponent implements OnInit {
     optionCalendarChart!: EChartsOption;
 
     months!: { id: number; name: string; }[];
+    monthsPlusAll!: { id: number; name: string; }[];
     monthBarSelect!: number;
     monthCalendarSelect!: number
     shifts!: { id: string; name: string; }[];
@@ -88,12 +87,13 @@ export class ResultEvaluateComponent implements OnInit {
         const evaluateForm = history.find(x => x.id === historyId)!;
 
         this.months = new Date().getMonthsNames();
-        this.monthBarSelect = 1;
-        this.monthCalendarSelect = 1;
+        this.monthsPlusAll = [{id: 0, name: "Todos"}, ...this.months];
+        this.monthBarSelect = 0;
+        this.monthCalendarSelect = new Date().getMonth() + 1;
         this.shifts = shifts;
         this.shiftsGeneral = [{id: "GENERAL", name: 'Geral'}, ...shifts];
         this.shiftsAll = [{id: "ALL", name: 'Todos'}, ...shifts];
-        this.shiftMonthSummary = 'NIGHT';
+        this.shiftMonthSummary = 'ALL';
         this.shiftTimelineYear = this.evaluateResult.length > 1
             ? ['GENERAL']
             : this.shiftsGeneral.map(x => x.id);
@@ -109,13 +109,19 @@ export class ResultEvaluateComponent implements OnInit {
         this.setPictorialSummaryChartOption();
         this.setSummaryBarChartOption();
         this.setSummaryBoxplotChartOption();
-        this.setSummaryBarMonthChartOption();
         this.setTimelineYearChartOption();
         this.setTimelineChartOption();
         this.setRadarChartOption();
         this.setGaugeChartOption();
         this.setCalendarChartOption();
     }
+
+    private groupBy<T>(xs: T[], key: string): {[key: string]: T[]} {
+        return xs.reduce(function(rv: {[key: string]: T[]}, x: any) {
+            (rv[x[key]] = rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
+    };
 
     private filterOnMonthSelected(data: EvaluateClientRecordResult[], month: number): EvaluateClientRecordResult[] {
         return this.filterOnMonth(data, month);
@@ -185,11 +191,29 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     private setCalendarChartOption() {
-        const data = this.filterOnShift(
+        let data = this.filterOnShift(
             this.filterOnMonthSelected(
-                this.evaluateResult[this.locationCalendar], this.monthCalendarSelect),
-            [this.shiftMonthSummary]
+                this.evaluateResult[this.locationCalendar],
+                this.monthCalendarSelect
+            ),
+            this.shiftMonthSummary === "ALL"
+                ? ['DAWN', 'MORNING', 'NIGHT']
+                : [this.shiftMonthSummary]
         );
+        if (this.shiftMonthSummary === "ALL") {
+
+            const dataGroupedByDay = this.groupBy(data, 'day');
+            const dataAllShifts = Object.keys(dataGroupedByDay).map(day => {
+                return {
+                    day,
+                    score: stat.average(dataGroupedByDay[day].map(x => x.score))
+                }
+            });
+            this.optionCalendarChart = defineCalendarChartOption(this.months[this.monthCalendarSelect - 1].name, this.monthCalendarSelect, dataAllShifts);
+
+            return;
+        }
+
         this.optionCalendarChart = defineCalendarChartOption(this.months[this.monthCalendarSelect - 1].name, this.monthCalendarSelect, data);
     }
 
@@ -235,6 +259,21 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     private setSummaryBarChartOption() {
+
+        if (this.monthBarSelect !== 0) {
+            this.optionSummaryBarChart = defineSummaryBarChartOption(
+                ['Score Médio', 'Score Médio Manhã', 'Score Médio Tarde', 'Score Médio Noite'],
+                this.locations,
+                this.evaluateResult.map(v => [
+                    this.calcAverageOnMonth(v, this.monthBarSelect,['DAWN', 'MORNING', 'NIGHT']),
+                    this.calcAverageOnMonth(v, this.monthBarSelect,['DAWN']),
+                    this.calcAverageOnMonth(v, this.monthBarSelect,['MORNING']),
+                    this.calcAverageOnMonth(v, this.monthBarSelect,['NIGHT']),
+                ])
+            );
+            return;
+        }
+
         this.optionSummaryBarChart = defineSummaryBarChartOption(
             ['Score Médio', 'Score Médio Manhã', 'Score Médio Tarde', 'Score Médio Noite'],
             this.locations,
@@ -257,18 +296,5 @@ export class ResultEvaluateComponent implements OnInit {
                 this.filterOnShift(v, ['MORNING']),
                 this.filterOnShift(v, ['NIGHT']),
             ]));
-    }
-
-    private setSummaryBarMonthChartOption() {
-        this.optionSummaryBarMonthChart = defineSummaryBarChartOption(
-            ['Score Médio', 'Score Médio Manhã', 'Score Médio Tarde', 'Score Médio Noite'],
-            this.locations,
-            this.evaluateResult.map(v => [
-                this.calcAverageOnMonth(v, this.monthBarSelect,['DAWN', 'MORNING', 'NIGHT']),
-                this.calcAverageOnMonth(v, this.monthBarSelect,['DAWN']),
-                this.calcAverageOnMonth(v, this.monthBarSelect,['MORNING']),
-                this.calcAverageOnMonth(v, this.monthBarSelect,['NIGHT']),
-            ])
-        );
     }
 }

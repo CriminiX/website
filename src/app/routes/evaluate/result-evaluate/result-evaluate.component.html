@@ -62,7 +62,17 @@
 
                         <mat-divider class="divider"></mat-divider>
 
-                        <h6 class="mat-headline-6">Média Geral do Score por Período</h6>
+                        <h6 class="mat-headline-6">Média do Score por Período do Mês Selecionado</h6>
+
+                        <mat-form-field class="data-form" appearance="outline">
+                            <mat-label>Mês</mat-label>
+                            <mat-select [(ngModel)]="monthBarSelect" (ngModelChange)="updateAllLabels()">
+                                <ng-container *ngFor="let month of monthsPlusAll">
+                                    <mat-option [value]="month.id">{{ month.name }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
                         <div
                                 echarts
                                 [initOpts]="{ renderer: 'svg' }"
@@ -95,24 +105,6 @@
 
                         <mat-divider class="divider"></mat-divider>
 
-                        <h6 class="mat-headline-6">Média do Score por Período do Mês Selecionado</h6>
-
-                        <mat-form-field class="data-form" appearance="outline">
-                            <mat-label>Mês</mat-label>
-                            <mat-select [(ngModel)]="monthBarSelect" (ngModelChange)="updateAllLabels()">
-                                <ng-container *ngFor="let month of months">
-                                    <mat-option [value]="month.id">{{ month.name }}</mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <div
-                                echarts
-                                [initOpts]="{ renderer: 'svg' }"
-                                [options]="optionSummaryBarMonthChart"
-                        ></div>
-                        <mat-divider class="divider"></mat-divider>
-
                         <h6 class="mat-headline-6" *ngIf="evaluateResult.length > 1">
                             Calendário dos Scores Diários pelo Mês, Período e Localização Selecionados
                         </h6>
@@ -133,7 +125,7 @@
                         <mat-form-field class="data-form" appearance="outline">
                             <mat-label>Período</mat-label>
                             <mat-select [(ngModel)]="shiftMonthSummary" (ngModelChange)="updateAllLabels()">
-                                <ng-container *ngFor="let shift of shifts">
+                                <ng-container *ngFor="let shift of shiftsAll">
                                     <mat-option [value]="shift.id">{{ shift.name }}</mat-option>
                                 </ng-container>
                             </mat-select>
