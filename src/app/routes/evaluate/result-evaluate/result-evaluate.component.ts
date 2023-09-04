@@ -19,6 +19,8 @@ import defineTimelineChartOption from "./define-timeline-chart-option";
 import defineTimelineYearChartOption from "./define-timeline-year-chart-option";
 import {EvaluateClientHistory} from "../../../shared/models/evaluate-client-history";
 import definePictorialSummaryChartOption from "./define-pictorial-summary-chart-option";
+import {MatDialog} from "@angular/material/dialog";
+import {FeedbackEvaluateDialogComponent} from "../feedback-evaluate-dialog/feedback-evaluate-dialog.component";
 
 @Component({
     selector: "app-result-evaluate",
@@ -55,7 +57,8 @@ export class ResultEvaluateComponent implements OnInit {
         private router: Router,
         private evaluateService: EvaluateService,
         private cacheService: CacheService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private dialog: MatDialog,
     ) {
     }
 
@@ -101,6 +104,12 @@ export class ResultEvaluateComponent implements OnInit {
         this.locationCalendar = 0;
 
         this.loadDataLabels();
+
+        // TODO: Fazer popup para enviar feedback (igual feedback do hotjar)
+        // TODO: aparecer após 30 segundos
+        this.dialog.open<FeedbackEvaluateDialogComponent>(FeedbackEvaluateDialogComponent, {
+            panelClass: 'dialog-container-tiny'
+        });
     }
 
     loadDataLabels() {

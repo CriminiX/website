@@ -1,0 +1,68 @@
+<mat-toolbar color="accent" class="feedback-dialog-header">
+    <div class="feedback-dialog-header-container">
+        <h5 class="mat-headline-5 dialog-title">Feedback</h5>
+        <mat-icon>feedback</mat-icon>
+    </div>
+</mat-toolbar>
+
+<mat-dialog-content>
+
+    <h6 class="mat-headline-6">Resumo do Resultado</h6>
+
+    <div class="feedback-summary-container">
+        <ng-container *ngFor="let location of locations; let index = index">
+            <div class="feedback-summary">
+                <h6 class="mat-body">{{index + 1}}ª Localização</h6>
+                <p class="mat-small">Cidade: <b>{{location.city}}</b></p>
+                <p class="mat-small">Bairro: <b>{{location.neighborhood}}</b></p>
+                <p class="mat-small">Score: <b>{{location.score}}</b></p>
+            </div>
+        </ng-container>
+    </div>
+
+    <mat-divider class="divider"></mat-divider>
+
+    <h6 class="mat-headline-6">Feedback</h6>
+
+    <form
+        id="feedbackForm"
+        (ngSubmit)="sendFeedback()"
+        [formGroup]="feedbackForm"
+    >
+        <mat-form-field appearance="outline" class="data-form">
+            <mat-label>Nota</mat-label>
+            <input
+                    matInput
+                    type="number"
+                    min="1"
+                    max="5"
+                    formControlName="feedbackScore"
+            />
+            <mat-hint>Nota 1 pouco atende. Nota 5 atendeu totalmente.</mat-hint>
+            <mat-error *ngIf="feedbackForm.invalid">Informe um Score válido, de 1 a 5.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="data-form" appearance="outline">
+            <mat-label>Observações</mat-label>
+            <textarea
+                    matInput
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="3"
+                    formControlName="comments"
+                    maxlength="300"
+            ></textarea>
+            <mat-hint>Conte-nos com mais detalhes sobre o que achou.</mat-hint>
+            <mat-error *ngIf="feedbackForm.controls['comments'].value.length > 300">Você atingiu o limite máximo de 300 caracteres.</mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="feedback-dialog-actions">
+    <button mat-flat-button [mat-dialog-close]="undefined">
+        Cancelar
+    </button>
+    <button mat-flat-button color="accent" type="submit" [disabled]="feedbackForm.invalid">
+        Enviar
+    </button>
+</mat-dialog-actions>

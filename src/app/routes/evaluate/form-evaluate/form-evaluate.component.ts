@@ -114,6 +114,8 @@ export class FormEvaluateComponent implements OnInit {
         const evaluateClientForm = this.evaluateForm.getRawValue() as EvaluateClientForm;
         const id = uuid();
 
+        // TODO: salvar Criminix-Id (uuid) no cache localStorage
+
         this.cacheService.saveOnList<EvaluateClientHistory>("evaluate-history", {
             ...evaluateClientForm,
             id,

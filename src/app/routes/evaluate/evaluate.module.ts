@@ -29,6 +29,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { LocationsFormEvaluateComponent } from './form-evaluate/locations-form-evaluate/locations-form-evaluate.component';
 import {NgxMaskDirective, NgxMaskPipe} from "ngx-mask";
+import { FeedbackEvaluateDialogComponent } from './feedback-evaluate-dialog/feedback-evaluate-dialog.component';
 
 echarts.use([SVGRenderer]);
 
@@ -38,7 +39,8 @@ echarts.use([SVGRenderer]);
     FormEvaluateComponent,
     ResultEvaluateComponent,
     HistoryEvaluateDialogComponent,
-    LocationsFormEvaluateComponent
+    LocationsFormEvaluateComponent,
+    FeedbackEvaluateDialogComponent
   ],
     imports: [
         CommonModule,

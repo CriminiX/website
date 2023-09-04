@@ -1,0 +1,47 @@
+@import "src/variables";
+
+.feedback-dialog-header {
+  padding: 1rem 1rem 0 1rem;
+
+  .feedback-dialog-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+
+    h5 {
+      padding: 0;
+      margin: 0 0.5rem 0 0;
+    }
+  }
+}
+
+.data-form {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.divider {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.feedback-summary-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 1rem 0;
+  overflow-x: auto;
+
+  @media screen and (max-width: $x-small) {
+    justify-content: flex-start;
+  }
+
+  .feedback-summary {
+    padding: 0 1rem;
+  }
+}
+
+.feedback-dialog-actions {
+  padding: 1rem;
+}

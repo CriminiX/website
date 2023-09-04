@@ -28,6 +28,11 @@ body { margin: 0; font-family: 'Open Sans', "Helvetica Neue", sans-serif; }
   min-width: 60%;
 }
 
+.dialog-container-tiny {
+  //min-height: 60%;
+  min-width: 40%;
+}
+
 .particles-js-canvas-el {
   position: fixed;
   top: 0;
