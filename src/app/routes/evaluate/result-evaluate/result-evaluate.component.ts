@@ -10,7 +10,6 @@ import {EvaluateClientRecordResult} from "src/app/shared/models/evaluate-client-
 import {EChartsOption} from "echarts";
 import "src/app/shared/extensions/number.extensions";
 import defineGaugeChartOption from "./define-gauge-chart-option";
-import defineRadarChartOption from "./define-radar-chart-option";
 import defineCalendarChartOption from "./define-calendar-chart-option";
 import {shifts} from "../../../shared/models/shifts";
 import * as stat from 'simple-statistics';
@@ -34,7 +33,6 @@ export class ResultEvaluateComponent implements OnInit {
     optionSummaryBoxplotChart!: EChartsOption;
     optionTimelineYearChart!: EChartsOption;
     optionTimelineChart!: EChartsOption;
-    optionRadarChart!: EChartsOption;
     optionGaugeChart!: EChartsOption;
     optionCalendarChart!: EChartsOption;
 
@@ -111,7 +109,6 @@ export class ResultEvaluateComponent implements OnInit {
         this.setSummaryBoxplotChartOption();
         this.setTimelineYearChartOption();
         this.setTimelineChartOption();
-        this.setRadarChartOption();
         this.setGaugeChartOption();
         this.setCalendarChartOption();
     }
@@ -166,23 +163,6 @@ export class ResultEvaluateComponent implements OnInit {
     private setPictorialSummaryChartOption() {
         this.locationsAverageScore = stat.average(this.evaluateResult.map(x => stat.average(x.map(y => y.score))));
         this.optionPictorialSummaryChart = definePictorialSummaryChartOption("Média Localizações", this.locationsAverageScore);
-    }
-
-    private setRadarChartOption() {
-        this.optionRadarChart = defineRadarChartOption(
-            [
-                'Score Localização',
-                'Score Veículo',
-                'Score Cliente'
-            ],
-            this.locations,
-            this.evaluateResult.map(v => [
-                    this.calcAverage(v, ['DAWN', 'MORNING', 'NIGHT']),
-                    0.0,
-                    0.0
-                ]
-            )
-        );
     }
 
     private setGaugeChartOption() {

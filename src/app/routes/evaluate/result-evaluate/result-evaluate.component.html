@@ -14,24 +14,6 @@
 
                         <mat-divider class="divider"></mat-divider>
 
-                        <h6 class="mat-headline-6">Distribuição dos Scores</h6>
-                        <div
-                                echarts
-                                [initOpts]="{ renderer: 'svg' }"
-                                [options]="optionRadarChart"
-                        ></div>
-                        <mat-divider class="divider"></mat-divider>
-
-<!--                        <ng-container *ngIf="evaluateResult.length > 1">-->
-<!--                            <h6 class="mat-headline-6">Score Médio das Localizações</h6>-->
-<!--                            <div-->
-<!--                                    echarts-->
-<!--                                    [initOpts]="{ renderer: 'svg' }"-->
-<!--                                    [options]="optionPictorialSummaryChart"-->
-<!--                            ></div>-->
-<!--                            <mat-divider class="divider"></mat-divider>-->
-<!--                        </ng-container>-->
-
                         <h6 class="mat-headline-6">Score por Localização</h6>
                         <div *ngIf="evaluateResult.length > 1">
                             <h5 class="mat-body">
