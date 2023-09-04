@@ -42,6 +42,23 @@
   }
 }
 
+.feedback-score-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 1rem 0 2rem 0;
+
+  .button-toggle-group {
+    .button-toggle-data {
+      padding: 0 1rem;
+    }
+  }
+
+  p {
+    margin: 0 1rem;
+  }
+}
+
 .feedback-dialog-actions {
   padding: 1rem;
 }

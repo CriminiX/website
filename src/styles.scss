@@ -17,8 +17,20 @@ $criminix-theme: mat.define-light-theme((
   typography: $custom-typography
 ));
 
+@mixin mix-criminix-theme($criminix-theme) {
+  .mat-button-toggle-checked {
+    background-color: $accent-color;
+    color: #ffffff;
+  }
+
+  .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+    color: #ffffff;
+  }
+}
+
 @include mat.all-component-themes($criminix-theme);
 @include mat.typography-hierarchy($custom-typography);
+@include mix-criminix-theme($criminix-theme);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Open Sans', "Helvetica Neue", sans-serif; }

@@ -29,18 +29,20 @@
         (ngSubmit)="sendFeedback()"
         [formGroup]="feedbackForm"
     >
-        <mat-form-field appearance="outline" class="data-form">
-            <mat-label>Nota</mat-label>
-            <input
-                    matInput
-                    type="number"
-                    min="1"
-                    max="5"
-                    formControlName="feedbackScore"
-            />
-            <mat-hint>Nota 1 pouco atende. Nota 5 atendeu totalmente.</mat-hint>
-            <mat-error *ngIf="feedbackForm.invalid">Informe um Score válido, de 1 a 5.</mat-error>
-        </mat-form-field>
+        <div class="feedback-score-container">
+
+            <p class="mat-body-1">Pouco realista</p>
+
+            <mat-button-toggle-group class="button-toggle-group" formControlName="feedbackScore">
+                <mat-button-toggle value="1"><span class="button-toggle-data">1</span></mat-button-toggle>
+                <mat-button-toggle value="2"><span class="button-toggle-data">2</span></mat-button-toggle>
+                <mat-button-toggle value="3"><span class="button-toggle-data">3</span></mat-button-toggle>
+                <mat-button-toggle value="4"><span class="button-toggle-data">4</span></mat-button-toggle>
+                <mat-button-toggle value="5"><span class="button-toggle-data">5</span></mat-button-toggle>
+            </mat-button-toggle-group>
+
+            <p class="mat-body-1">Muito realista</p>
+        </div>
 
         <mat-form-field class="data-form" appearance="outline">
             <mat-label>Observações</mat-label>
@@ -62,7 +64,18 @@
     <button mat-flat-button [mat-dialog-close]="undefined">
         Cancelar
     </button>
-    <button mat-flat-button color="accent" type="submit" [disabled]="feedbackForm.invalid">
+    <button
+            mat-flat-button
+            color="accent"
+            type="submit"
+            form="feedbackForm"
+            [disabled]="feedbackForm.invalid || loading"
+    >
         Enviar
     </button>
+    <mat-spinner
+            *ngIf="loading"
+            color="primary"
+            style="height: 2rem; width: 2rem;margin-left: 1rem;"
+    ></mat-spinner>
 </mat-dialog-actions>

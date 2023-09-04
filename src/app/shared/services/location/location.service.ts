@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, delay, filter, map, Observable, of, throwError} from "rxjs";
+import {catchError, map, Observable, of, throwError} from "rxjs";
 import {LocationsSearchRecordsResult, LocationsSearchResult} from "../../models/locations-search-records-result";
 import {environment} from "../../../../environments/environment";
 

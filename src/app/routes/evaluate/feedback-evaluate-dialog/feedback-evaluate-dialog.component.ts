@@ -1,5 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FeedbackService} from "../../../shared/services/feedback/feedback.service";
+import {FeedbackEvaluateForm} from "./feedback-evaluate-form";
+import {ToastService} from "../../../shared/services/toast/toast.service";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {FeedbackEvaluateDialogContent} from "./feedback-evaluate-dialog-content";
+import {da} from "date-fns/locale";
 
 @Component({
   selector: 'app-feedback-evaluate-dialog',
@@ -8,11 +14,16 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class FeedbackEvaluateDialogComponent implements OnInit {
 
+  loading = false;
   feedbackForm!: FormGroup;
-  locations!: {score: number; city: string; neighborhood: string}[]; // TODO: criar arquivo para passar ao dialog
+  locations!: FeedbackEvaluateDialogContent[];
 
   constructor(
+      @Inject(MAT_DIALOG_DATA) public data: FeedbackEvaluateDialogContent[],
+      private dialogRef: MatDialogRef<FeedbackEvaluateDialogComponent>,
       private formBuilder: FormBuilder,
+      private toastService: ToastService,
+      private feedbackService: FeedbackService
   ) {
   }
 
@@ -22,18 +33,32 @@ export class FeedbackEvaluateDialogComponent implements OnInit {
       comments: ['', [Validators.max(300)]]
     });
 
-    // TODO: atualizar feedbackScore para usar 'Button-toggles with forms'
-
-    // TODO: Obter dados das localizacoes
-    this.locations = [
-      {score: 300, city: 's.paulo', neighborhood: 'brooklin'},
-      {score: 600, city: 'jundiai', neighborhood: 'centro'},
-      {score: 600, city: 'jundiai', neighborhood: 'centro'},
-      {score: 600, city: 'jundiai', neighborhood: 'centro'}
-    ];
+    this.locations = this.data;
   }
 
   sendFeedback() {
-    // TODO: Se comunicar com API para envio das analises
+    this.loading = true;
+
+    const feedbackForm = this.feedbackForm.getRawValue() as FeedbackEvaluateForm;
+
+    const feedback = {
+      scores: this.locations.map(x => x.score),
+      cities: this.locations.map(x => x.city),
+      neighborhoods: this.locations.map(x => x.neighborhood),
+      feedbackScore: +feedbackForm.feedbackScore,
+      comments: feedbackForm.comments
+    }
+
+    this.feedbackService.sendFeedback(feedback).subscribe({
+      next: () => {
+        this.toastService.show("Feedback enviado com sucesso!");
+        this.dialogRef.close(undefined);
+        this.loading = false;
+      },
+      error: err => {
+        this.toastService.show("Tivemos um problema ao enviar seu feedback. Tente novamente mais tarde.");
+        this.loading = false;
+      }
+    });
   }
 }

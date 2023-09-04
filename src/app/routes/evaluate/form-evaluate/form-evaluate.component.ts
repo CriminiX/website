@@ -17,6 +17,7 @@ import {EvaluateClientHistory, EvaluateClientHistoryModel} from "../../../shared
 import '../../../shared/extensions/date.extensions';
 import {EvaluateClientForm} from "../../../shared/models/evaluate-client-form";
 import {LocationsEvaluateForm} from "./locations-evaluate-form";
+import {CriminixIdService} from "../../../shared/services/criminix-id/criminix-id.service";
 
 @Component({
     selector: "app-form-evaluate",
@@ -36,6 +37,7 @@ export class FormEvaluateComponent implements OnInit {
         private router: Router,
         private evaluateService: EvaluateService,
         private cacheService: CacheService,
+        private criminixIdService: CriminixIdService,
         private dialog: MatDialog,
     ) {
     }
@@ -114,7 +116,7 @@ export class FormEvaluateComponent implements OnInit {
         const evaluateClientForm = this.evaluateForm.getRawValue() as EvaluateClientForm;
         const id = uuid();
 
-        // TODO: salvar Criminix-Id (uuid) no cache localStorage
+        this.criminixIdService.generate();
 
         this.cacheService.saveOnList<EvaluateClientHistory>("evaluate-history", {
             ...evaluateClientForm,

@@ -21,6 +21,7 @@ import {EvaluateClientHistory} from "../../../shared/models/evaluate-client-hist
 import definePictorialSummaryChartOption from "./define-pictorial-summary-chart-option";
 import {MatDialog} from "@angular/material/dialog";
 import {FeedbackEvaluateDialogComponent} from "../feedback-evaluate-dialog/feedback-evaluate-dialog.component";
+import {FeedbackEvaluateDialogContent} from "../feedback-evaluate-dialog/feedback-evaluate-dialog-content";
 
 @Component({
     selector: "app-result-evaluate",
@@ -105,10 +106,19 @@ export class ResultEvaluateComponent implements OnInit {
 
         this.loadDataLabels();
 
+        const feedbackData: FeedbackEvaluateDialogContent[] = this.evaluateResult.map((x, i) => {
+            return {
+                score: this.calcAverage(x, ['DAWN', 'MORNING', 'NIGHT']).round(0),
+                city: evaluateForm.locations[i].city,
+                neighborhood: evaluateForm.locations[i].neighborhood
+            }
+        });
+
         // TODO: Fazer popup para enviar feedback (igual feedback do hotjar)
         // TODO: aparecer após 30 segundos
-        this.dialog.open<FeedbackEvaluateDialogComponent>(FeedbackEvaluateDialogComponent, {
-            panelClass: 'dialog-container-tiny'
+        this.dialog.open<FeedbackEvaluateDialogComponent, FeedbackEvaluateDialogContent[]>(FeedbackEvaluateDialogComponent, {
+            panelClass: 'dialog-container-tiny',
+            data: feedbackData
         });
     }
 
