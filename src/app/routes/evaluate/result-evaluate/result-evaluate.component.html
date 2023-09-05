@@ -1,4 +1,15 @@
 <main>
+    <div class="feedback-overlay">
+        <button
+            mat-fab
+            color="accent"
+            style="transform: scale(1.35)"
+            (click)="openFeedback()"
+            matTooltip="Enviar feedback"
+        >
+            <mat-icon>feedback</mat-icon>
+        </button>
+    </div>
     <app-form-evaluate class="fit-half" [loadCachedData]="true" (formResponse)="updateResult($event)"></app-form-evaluate>
     <section>
         <mat-card>

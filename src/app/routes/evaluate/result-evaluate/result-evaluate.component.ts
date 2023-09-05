@@ -22,6 +22,7 @@ import definePictorialSummaryChartOption from "./define-pictorial-summary-chart-
 import {MatDialog} from "@angular/material/dialog";
 import {FeedbackEvaluateDialogComponent} from "../feedback-evaluate-dialog/feedback-evaluate-dialog.component";
 import {FeedbackEvaluateDialogContent} from "../feedback-evaluate-dialog/feedback-evaluate-dialog-content";
+import {timer} from "rxjs";
 
 @Component({
     selector: "app-result-evaluate",
@@ -53,6 +54,9 @@ export class ResultEvaluateComponent implements OnInit {
     locationCalendar!: number;
     locationsAverageScore!: number;
 
+    feedbackData!: FeedbackEvaluateDialogContent[];
+    feedbackSent!: boolean;
+
     constructor(
         private toastService: ToastService,
         private router: Router,
@@ -81,7 +85,7 @@ export class ResultEvaluateComponent implements OnInit {
         this.loadData(value);
     }
 
-    private loadData(value: EvaluateClientRecordResult[][]) {
+    private loadData(value: EvaluateClientRecordResult[][], loadFeedback = true) {
         this.evaluateResult = value;
 
         const historyId = this.cacheService.get<string>("evaluate-form")!;
@@ -104,9 +108,10 @@ export class ResultEvaluateComponent implements OnInit {
             .map(x => `${x.city}, ${x.neighborhood}`);
         this.locationCalendar = 0;
 
-        this.loadDataLabels();
-
-        const feedbackData: FeedbackEvaluateDialogContent[] = this.evaluateResult.map((x, i) => {
+        if (loadFeedback) {
+            this.feedbackSent = false;
+        }
+        this.feedbackData = this.evaluateResult.map((x, i) => {
             return {
                 score: this.calcAverage(x, ['DAWN', 'MORNING', 'NIGHT']).round(0),
                 city: evaluateForm.locations[i].city,
@@ -114,12 +119,18 @@ export class ResultEvaluateComponent implements OnInit {
             }
         });
 
-        // TODO: Fazer popup para enviar feedback (igual feedback do hotjar)
-        // TODO: aparecer após 30 segundos
-        this.dialog.open<FeedbackEvaluateDialogComponent, FeedbackEvaluateDialogContent[]>(FeedbackEvaluateDialogComponent, {
-            panelClass: 'dialog-container-tiny',
-            data: feedbackData
-        });
+        this.loadDataLabels();
+
+        if (loadFeedback) {
+            this.toastService.notify("Não se esqueça de nos enviar um feedback!");
+            timer(30_000).subscribe({
+                next: () => {
+                    if (!this.feedbackSent) {
+                        this.openFeedback();
+                    }
+                }
+            });
+        }
     }
 
     loadDataLabels() {
@@ -130,6 +141,21 @@ export class ResultEvaluateComponent implements OnInit {
         this.setTimelineChartOption();
         this.setGaugeChartOption();
         this.setCalendarChartOption();
+    }
+
+    openFeedback() {
+        const feedbackDialog = this.dialog.open<FeedbackEvaluateDialogComponent, FeedbackEvaluateDialogContent[]>(FeedbackEvaluateDialogComponent, {
+            panelClass: 'dialog-container-tiny',
+            data: this.feedbackData
+        });
+        feedbackDialog.afterClosed().subscribe({
+            next: () => {
+                this.feedbackSent = true;
+            },
+            error: () => {
+                this.feedbackSent = true;
+            }
+        });
     }
 
     private groupBy<T>(xs: T[], key: string): {[key: string]: T[]} {
@@ -170,7 +196,7 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     updateResult(event: EvaluateClientRecordResult[][]) {
-        this.loadData(event);
+        this.loadData(event, false);
 
         this.toastService.show("Resultado atualizado.");
     }
