@@ -1,0 +1,35 @@
+name: Production Web Deployment
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull repository
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.IP_VM_AZURE_PROD }}
+          username: ${{ secrets.USERNAME_VM_AZURE_PROD }}
+          key: ${{ secrets.PRIVATE_KEY_PROD }}
+          port: 22
+          script: "cd /home/admincriminix/app/website && git pull"
+
+      - name: Build image docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.IP_VM_AZURE_PROD }}
+          username: ${{ secrets.USERNAME_VM_AZURE_PROD }}
+          key: ${{ secrets.PRIVATE_KEY_PROD }}
+          port: 22
+          script: "docker stop criminix-web && sudo docker rm criminix-web && cd /home/admincriminix/app/website && docker build -t criminix-web ."
+      - name: Deploy API on Docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.IP_VM_AZURE_PROD }}
+          username: ${{ secrets.USERNAME_VM_AZURE_PROD }}
+          key: ${{ secrets.PRIVATE_KEY_PROD }}
+          port: 22
+          script: "cd /home/admincriminix/app/website && docker run -d --name criminix-web -p 80:80 --network criminix criminix-web"
