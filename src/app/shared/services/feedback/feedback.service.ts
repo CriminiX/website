@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CriminixIdService} from "../criminix-id/criminix-id.service";
-import {delay, of} from "rxjs";
 import {Feedback} from "../../models/feedback";
 
 const URL = environment.url;
@@ -20,7 +19,11 @@ export class FeedbackService {
   sendFeedback(feedback: Feedback) {
     const criminixId = this.criminixIdService.get();
 
-    // TODO: Chamar servico de feedback
-    return of(null).pipe(delay(2000));
+    const headers = new HttpHeaders({
+      "Criminix-Id": criminixId
+    });
+
+    return this.http
+      .post(`${URL}/research/v1/response-user`, feedback, { headers });
   }
 }

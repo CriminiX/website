@@ -12,7 +12,8 @@
     <div class="feedback-summary-container">
         <ng-container *ngFor="let location of locations; let index = index">
             <div class="feedback-summary">
-                <h6 class="mat-body">{{index + 1}}ª Localização</h6>
+                <h6 class="mat-body" *ngIf="locations.length > 1">{{index + 1}}ª Localização</h6>
+                <h6 class="mat-body" *ngIf="locations.length === 1">Localização</h6>
                 <p class="mat-small">Cidade: <b>{{location.city}}</b></p>
                 <p class="mat-small">Bairro: <b>{{location.neighborhood}}</b></p>
                 <p class="mat-small">Score: <b>{{location.score}}</b></p>

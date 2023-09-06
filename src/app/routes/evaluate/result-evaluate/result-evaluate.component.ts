@@ -144,17 +144,10 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     openFeedback() {
-        const feedbackDialog = this.dialog.open<FeedbackEvaluateDialogComponent, FeedbackEvaluateDialogContent[]>(FeedbackEvaluateDialogComponent, {
+        this.feedbackSent = true;
+        this.dialog.open<FeedbackEvaluateDialogComponent, FeedbackEvaluateDialogContent[]>(FeedbackEvaluateDialogComponent, {
             panelClass: 'dialog-container-tiny',
             data: this.feedbackData
-        });
-        feedbackDialog.afterClosed().subscribe({
-            next: () => {
-                this.feedbackSent = true;
-            },
-            error: () => {
-                this.feedbackSent = true;
-            }
         });
     }
 

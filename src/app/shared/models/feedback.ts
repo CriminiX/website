@@ -1,3 +1,7 @@
 export interface Feedback {
-    // TODO: implementar contrato da API do feedback
+    scores: number[];
+    cities: string[];
+    neighborhoods: string[];
+    satisfaction_rate: number;
+    obversation: string;
 }

@@ -6,6 +6,7 @@ import {ToastService} from "../../../shared/services/toast/toast.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FeedbackEvaluateDialogContent} from "./feedback-evaluate-dialog-content";
 import {da} from "date-fns/locale";
+import {Feedback} from "../../../shared/models/feedback";
 
 @Component({
   selector: 'app-feedback-evaluate-dialog',
@@ -41,13 +42,13 @@ export class FeedbackEvaluateDialogComponent implements OnInit {
 
     const feedbackForm = this.feedbackForm.getRawValue() as FeedbackEvaluateForm;
 
-    const feedback = {
+    const feedback: Feedback = {
       scores: this.locations.map(x => x.score),
       cities: this.locations.map(x => x.city),
       neighborhoods: this.locations.map(x => x.neighborhood),
-      feedbackScore: +feedbackForm.feedbackScore,
-      comments: feedbackForm.comments
-    }
+      satisfaction_rate: +feedbackForm.feedbackScore,
+      obversation: feedbackForm.comments ?? ""
+    };
 
     this.feedbackService.sendFeedback(feedback).subscribe({
       next: () => {
@@ -56,6 +57,8 @@ export class FeedbackEvaluateDialogComponent implements OnInit {
         this.loading = false;
       },
       error: err => {
+        console.error('ERROR: sending feedback');
+        console.error(err);
         this.toastService.show("Tivemos um problema ao enviar seu feedback. Tente novamente mais tarde.");
         this.loading = false;
       }
