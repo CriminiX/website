@@ -11,9 +11,16 @@ const defineTimelineYearChartOption = (
         legend: {
             data: labels
         },
+        grid: {
+            containLabel: true,
+        },
         xAxis: {
             type: 'category',
-            data: axis
+            data: axis,
+            axisLabel: {
+                interval: 0,
+                rotate: 30
+            }
         },
         yAxis: {
             type: 'value',

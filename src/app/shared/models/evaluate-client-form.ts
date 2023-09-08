@@ -3,6 +3,7 @@ export interface EvaluateClientForm {
 }
 
 export interface LocationsEvaluateClientForm {
+    cep?: string;
     city: string;
     neighborhood: string;
 }

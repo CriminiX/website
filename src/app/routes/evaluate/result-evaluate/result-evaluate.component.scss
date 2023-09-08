@@ -12,6 +12,19 @@ main {
     overflow-y: auto;
   }
 
+  .feedback-overlay {
+    position: fixed;
+    bottom: 1.5rem;
+    z-index: 1;
+    margin: 0;
+    right: 2.5rem;
+    box-sizing: border-box;
+
+    @media screen and (max-width: $x-small) {
+      right: 1.5rem;
+    }
+  }
+
   .fit-half {
     width: 40%;
     height: 100%;
@@ -24,7 +37,7 @@ main {
   section {
     width: 60%;
     height: 100%;
-    padding: 1rem;
+    padding: 0 1rem;
     box-sizing: border-box;
     background-color: $primary-color-light;
     overflow-y: auto;

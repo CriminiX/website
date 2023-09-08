@@ -1,12 +1,53 @@
 <div class="locations-form" [formGroup]="locationsEvaluateForm">
 
     <mat-divider class="divider"></mat-divider>
-    <h6 class="mat-body" *ngIf="locationsCount > 1">Localização #{{locationsIndex + 1}}</h6>
+
+    <div class="locations-title">
+        <h6 class="mat-body" *ngIf="locationsCount > 1">{{locationsIndex + 1}}ª Localização</h6>
+
+        <button
+                mat-button
+                type="button"
+                (click)="removeCurrentLocation()"
+                *ngIf="locationsCount > 1"
+                [disabled]="parentLoading"
+                matTooltip="Remove esta localização da comparação"
+                color="warn"
+        >
+            <mat-icon iconPositionEnd>remove</mat-icon>
+            <span>Remover</span>
+        </button>
+    </div>
 
     <div class="location-option">
-        <mat-form-field appearance="outline" class="data-form" hideRequiredMarker>
+        <mat-form-field appearance="outline" class="data-form">
+            <mat-label>CEP</mat-label>
+            <input
+                    matInput
+                    type="text"
+                    [mask]="'00000-000'"
+                    formControlName="cep"
+                    placeholder="Ex.: 01414-001"
+            />
+            <mat-error *ngIf="locationsEvaluateForm.invalid">Informe um CEP válido.</mat-error>
+        </mat-form-field>
+
+        <mat-spinner
+            *ngIf="loadingCep"
+            color="primary"
+            style="height: 2rem; width: 2rem; margin: 0.8rem 0.7rem 0 0.7rem;"
+        ></mat-spinner>
+    </div>
+
+    <div class="location-option">
+        <mat-form-field appearance="outline" class="data-form">
             <mat-label>Cidade</mat-label>
-            <input matInput [matAutocomplete]="citySearch" formControlName="city"/>
+            <input
+                    matInput
+                    [matAutocomplete]="citySearch"
+                    formControlName="city"
+                    required
+            />
             <mat-autocomplete
                 #citySearch="matAutocomplete"
                 (optionSelected)="searchCitySelected()"
@@ -27,12 +68,13 @@
     </div>
 
     <div class="location-option">
-        <mat-form-field appearance="outline" class="data-form" hideRequiredMarker>
+        <mat-form-field appearance="outline" class="data-form">
             <mat-label>Bairro</mat-label>
             <input
                     matInput
                     [matAutocomplete]="neighborhoodSearch"
                     formControlName="neighborhood"
+                    required
             />
             <mat-autocomplete
                 #neighborhoodSearch="matAutocomplete"

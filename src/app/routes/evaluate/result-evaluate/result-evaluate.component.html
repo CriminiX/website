@@ -1,4 +1,15 @@
 <main>
+    <div class="feedback-overlay">
+        <button
+            mat-fab
+            color="accent"
+            style="transform: scale(1.35)"
+            (click)="openFeedback()"
+            matTooltip="Enviar feedback"
+        >
+            <mat-icon>feedback</mat-icon>
+        </button>
+    </div>
     <app-form-evaluate class="fit-half" [loadCachedData]="true" (formResponse)="updateResult($event)"></app-form-evaluate>
     <section>
         <mat-card>
@@ -12,27 +23,26 @@
                 <ng-template matExpansionPanelContent>
                     <mat-card-content class="result-summary">
 
-                        <mat-divider class="divider"></mat-divider>
+                        <h6 class="mat-body-1">
+                            Score:
+                            <ul>
+                                <li>
+                                    <b>0</b> = Péssimo (alta probabilidade de crimes)
+                                </li>
+                                <li>
+                                    <b>1000</b> = Ótimo (baixa probabilidade de crimes)
+                                </li>
+                            </ul>
+                        </h6>
 
-                        <h6 class="mat-headline-6">Distribuição dos Scores</h6>
-                        <div
-                                echarts
-                                [initOpts]="{ renderer: 'svg' }"
-                                [options]="optionRadarChart"
-                        ></div>
                         <mat-divider class="divider"></mat-divider>
-
-                        <ng-container *ngIf="evaluateResult.length > 1">
-                            <h6 class="mat-headline-6">Score Médio das Localizações</h6>
-                            <div
-                                    echarts
-                                    [initOpts]="{ renderer: 'svg' }"
-                                    [options]="optionPictorialSummaryChart"
-                            ></div>
-                            <mat-divider class="divider"></mat-divider>
-                        </ng-container>
 
                         <h6 class="mat-headline-6">Score por Localização</h6>
+                        <div *ngIf="evaluateResult.length > 1">
+                            <h5 class="mat-body">
+                                Score Médio: <b>{{ locationsAverageScore.round(0) }} / 1000</b>
+                            </h5>
+                        </div>
                         <div
                                 echarts
                                 [initOpts]="{ renderer: 'svg' }"
@@ -57,7 +67,17 @@
 
                         <mat-divider class="divider"></mat-divider>
 
-                        <h6 class="mat-headline-6">Média Geral do Score por Período</h6>
+                        <h6 class="mat-headline-6">Média do Score por Período do Mês Selecionado</h6>
+
+                        <mat-form-field class="data-form" appearance="outline">
+                            <mat-label>Mês</mat-label>
+                            <mat-select [(ngModel)]="monthBarSelect" (ngModelChange)="updateAllLabels()">
+                                <ng-container *ngFor="let month of monthsPlusAll">
+                                    <mat-option [value]="month.id">{{ month.name }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
                         <div
                                 echarts
                                 [initOpts]="{ renderer: 'svg' }"
@@ -90,24 +110,6 @@
 
                         <mat-divider class="divider"></mat-divider>
 
-                        <h6 class="mat-headline-6">Média do Score por Período do Mês Selecionado</h6>
-
-                        <mat-form-field class="data-form" appearance="outline">
-                            <mat-label>Mês</mat-label>
-                            <mat-select [(ngModel)]="monthSelect" (ngModelChange)="updateAllLabels()">
-                                <ng-container *ngFor="let month of months">
-                                    <mat-option [value]="month.id">{{ month.name }}</mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <div
-                                echarts
-                                [initOpts]="{ renderer: 'svg' }"
-                                [options]="optionSummaryBarMonthChart"
-                        ></div>
-                        <mat-divider class="divider"></mat-divider>
-
                         <h6 class="mat-headline-6" *ngIf="evaluateResult.length > 1">
                             Calendário dos Scores Diários pelo Mês, Período e Localização Selecionados
                         </h6>
@@ -117,9 +119,18 @@
                         </h6>
 
                         <mat-form-field class="data-form" appearance="outline">
+                            <mat-label>Mês</mat-label>
+                            <mat-select [(ngModel)]="monthCalendarSelect" (ngModelChange)="updateAllLabels()">
+                                <ng-container *ngFor="let month of months">
+                                    <mat-option [value]="month.id">{{ month.name }}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="data-form" appearance="outline">
                             <mat-label>Período</mat-label>
                             <mat-select [(ngModel)]="shiftMonthSummary" (ngModelChange)="updateAllLabels()">
-                                <ng-container *ngFor="let shift of shifts">
+                                <ng-container *ngFor="let shift of shiftsAll">
                                     <mat-option [value]="shift.id">{{ shift.name }}</mat-option>
                                 </ng-container>
                             </mat-select>

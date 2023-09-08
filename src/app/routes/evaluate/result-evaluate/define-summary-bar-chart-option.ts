@@ -7,9 +7,16 @@ const defineSummaryBarChartOption = (axis: string[], labels: string[], data: num
         },
         legend: {
         },
+        grid: {
+            containLabel: true,
+        },
         xAxis: {
             type: 'category',
-            data: axis
+            data: axis,
+            axisLabel: {
+                interval: 0,
+                rotate: 30
+            }
         },
         yAxis: {
             type: 'value',

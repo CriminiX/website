@@ -2,7 +2,7 @@ import {EvaluateClientRecordResult} from "../../../shared/models/evaluate-client
 import {EChartsOption} from "echarts";
 import {format, parse} from "date-fns";
 
-const defineCalendarChartOption = (monthName: string, month: number, data: EvaluateClientRecordResult[]): EChartsOption => {
+const defineCalendarChartOption = (monthName: string, month: number, data: {day: string, score: number}[]): EChartsOption => {
     const year = new Date().getFullYear();
     const monthCalendar = format(new Date(year, month - 1), "yyyy-MM");
 

@@ -17,10 +17,26 @@ export class CacheService {
     return JSON.parse(contentString);
   }
 
+  getLocal<T>(key: string): T | undefined {
+    const contentString = localStorage.getItem(key);
+
+    if (contentString === null) {
+      return undefined;
+    }
+
+    return JSON.parse(contentString);
+  }
+
   save<T>(key: string, content: T) {
     const stringContent = JSON.stringify(content);
 
     sessionStorage.setItem(key, stringContent);
+  }
+
+  saveLocal<T>(key: string, content: T) {
+    const stringContent = JSON.stringify(content);
+
+    localStorage.setItem(key, stringContent);
   }
 
   saveOnList<T>(key: string, content: T) {

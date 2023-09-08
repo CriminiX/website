@@ -12,8 +12,6 @@ declare var particlesJS: any;
 })
 export class HomeComponent implements OnInit {
 
-  layout = environment.layout;
-
   constructor(
       private clipboard: Clipboard,
       private toastService: ToastService,

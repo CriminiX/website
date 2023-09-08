@@ -17,6 +17,7 @@ import {EvaluateClientHistory, EvaluateClientHistoryModel} from "../../../shared
 import '../../../shared/extensions/date.extensions';
 import {EvaluateClientForm} from "../../../shared/models/evaluate-client-form";
 import {LocationsEvaluateForm} from "./locations-evaluate-form";
+import {CriminixIdService} from "../../../shared/services/criminix-id/criminix-id.service";
 
 @Component({
     selector: "app-form-evaluate",
@@ -36,6 +37,7 @@ export class FormEvaluateComponent implements OnInit {
         private router: Router,
         private evaluateService: EvaluateService,
         private cacheService: CacheService,
+        private criminixIdService: CriminixIdService,
         private dialog: MatDialog,
     ) {
     }
@@ -57,14 +59,15 @@ export class FormEvaluateComponent implements OnInit {
 
     addLocationEvaluate() {
         const form = this.formBuilder.group({
+            cep: ["", [Validators.minLength(8)]],
             city: ["", [Validators.required, Validators.minLength(2)]],
             neighborhood: ["", [Validators.required, Validators.minLength(2)]]
         });
         this.locations.push(form);
     }
 
-    removeLocationEvaluate() {
-        this.locations.removeAt(this.locations.length - 1);
+    removeLocationEvaluate(index: number) {
+        this.locations.removeAt(index);
     }
 
     private setCachedData() {
@@ -88,10 +91,23 @@ export class FormEvaluateComponent implements OnInit {
         this.locations.clear();
         for (let i = 0; i < data.locations.length; i++) {
             this.addLocationEvaluate();
-            this.locations.at(i).setValue({city: data.locations[i].city, neighborhood: data.locations[i].neighborhood});
+            this.locations.at(i).setValue({
+                cep: data.locations[i].cep ?? null,
+                city: data.locations[i].city, 
+                neighborhood: data.locations[i].neighborhood
+            });
+
+            this.resetLocationOnCepValue(i, data.locations[i].cep);
         }
-        // this.evaluateForm.controls["city"].setValue(data.city);
-        // this.evaluateForm.controls["neighborhood"].setValue(data.neighborhood);
+    }
+
+    private resetLocationOnCepValue(locationIndex: number, cep?: string) {
+        const cepLength = (cep?.length || 0);
+
+        if (cepLength > 0) {
+            this.locations.at(locationIndex).controls.city.disable();
+            this.locations.at(locationIndex).controls.neighborhood.disable();
+        }
     }
 
     evaluate() {
@@ -99,6 +115,8 @@ export class FormEvaluateComponent implements OnInit {
 
         const evaluateClientForm = this.evaluateForm.getRawValue() as EvaluateClientForm;
         const id = uuid();
+
+        this.criminixIdService.generate();
 
         this.cacheService.saveOnList<EvaluateClientHistory>("evaluate-history", {
             ...evaluateClientForm,

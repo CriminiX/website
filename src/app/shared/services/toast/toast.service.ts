@@ -17,4 +17,12 @@ export class ToastService {
       horizontalPosition: 'center'
     });
   }
+
+  notify(message: string, closeMessage = "Fechar", duration = 4000) {
+    this.notifyService.open(message, closeMessage, {
+      duration,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'left'
+    });
+  }
 }

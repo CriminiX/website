@@ -7,6 +7,7 @@ import {SelectionModel} from "@angular/cdk/collections";
 import {MatSort} from "@angular/material/sort";
 import {fromId} from 'src/app/shared/models/shifts';
 import {LocationsEvaluateClientForm} from "../../../shared/models/evaluate-client-form";
+import { NgxMaskPipe } from 'ngx-mask';
 
 @Component({
     selector: 'app-history-evaluate-dialog',
@@ -92,6 +93,16 @@ export class HistoryEvaluateDialogComponent implements OnInit, AfterViewInit {
         }
 
         this.selection.select(...this.dataTable.data);
+    }
+
+    getCepName(locations: LocationsEvaluateClientForm[]) {
+        return locations.map(x => {
+            if ((x.cep?.length || 0) == 8) {
+                return x.cep!.replace(/(\d{5})(\d)/,'$1-$2');
+            }
+
+            return "N/A";
+        }).join(', ');
     }
 
     getCityName(locations: LocationsEvaluateClientForm[]) {

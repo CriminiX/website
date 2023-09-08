@@ -10,9 +10,7 @@ import {EvaluateClientRecordResult} from "src/app/shared/models/evaluate-client-
 import {EChartsOption} from "echarts";
 import "src/app/shared/extensions/number.extensions";
 import defineGaugeChartOption from "./define-gauge-chart-option";
-import defineRadarChartOption from "./define-radar-chart-option";
 import defineCalendarChartOption from "./define-calendar-chart-option";
-import {EvaluateClientResultAllShifts} from "../../../shared/models/evaluate-client-result-all-shifts";
 import {shifts} from "../../../shared/models/shifts";
 import * as stat from 'simple-statistics';
 import defineSummaryBoxplotChartOption from "./define-summary-boxplot-chart-option";
@@ -21,6 +19,10 @@ import defineTimelineChartOption from "./define-timeline-chart-option";
 import defineTimelineYearChartOption from "./define-timeline-year-chart-option";
 import {EvaluateClientHistory} from "../../../shared/models/evaluate-client-history";
 import definePictorialSummaryChartOption from "./define-pictorial-summary-chart-option";
+import {MatDialog} from "@angular/material/dialog";
+import {FeedbackEvaluateDialogComponent} from "../feedback-evaluate-dialog/feedback-evaluate-dialog.component";
+import {FeedbackEvaluateDialogContent} from "../feedback-evaluate-dialog/feedback-evaluate-dialog-content";
+import {timer} from "rxjs";
 
 @Component({
     selector: "app-result-evaluate",
@@ -33,15 +35,15 @@ export class ResultEvaluateComponent implements OnInit {
     optionPictorialSummaryChart!: EChartsOption;
     optionSummaryBarChart!: EChartsOption;
     optionSummaryBoxplotChart!: EChartsOption;
-    optionSummaryBarMonthChart!: EChartsOption;
     optionTimelineYearChart!: EChartsOption;
     optionTimelineChart!: EChartsOption;
-    optionRadarChart!: EChartsOption;
     optionGaugeChart!: EChartsOption;
     optionCalendarChart!: EChartsOption;
 
     months!: { id: number; name: string; }[];
-    monthSelect!: number;
+    monthsPlusAll!: { id: number; name: string; }[];
+    monthBarSelect!: number;
+    monthCalendarSelect!: number
     shifts!: { id: string; name: string; }[];
     shiftsGeneral!: { id: string; name: string; }[];
     shiftsAll!: { id: string; name: string; }[];
@@ -50,13 +52,18 @@ export class ResultEvaluateComponent implements OnInit {
     shiftTimeline!: string;
     locations!: string[];
     locationCalendar!: number;
+    locationsAverageScore!: number;
+
+    feedbackData!: FeedbackEvaluateDialogContent[];
+    feedbackSent!: boolean;
 
     constructor(
         private toastService: ToastService,
         private router: Router,
         private evaluateService: EvaluateService,
         private cacheService: CacheService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private dialog: MatDialog,
     ) {
     }
 
@@ -78,7 +85,7 @@ export class ResultEvaluateComponent implements OnInit {
         this.loadData(value);
     }
 
-    private loadData(value: EvaluateClientRecordResult[][]) {
+    private loadData(value: EvaluateClientRecordResult[][], loadFeedback = true) {
         this.evaluateResult = value;
 
         const historyId = this.cacheService.get<string>("evaluate-form")!;
@@ -86,11 +93,13 @@ export class ResultEvaluateComponent implements OnInit {
         const evaluateForm = history.find(x => x.id === historyId)!;
 
         this.months = new Date().getMonthsNames();
-        this.monthSelect = 1;
+        this.monthsPlusAll = [{id: 0, name: "Todos"}, ...this.months];
+        this.monthBarSelect = 0;
+        this.monthCalendarSelect = new Date().getMonth() + 1;
         this.shifts = shifts;
         this.shiftsGeneral = [{id: "GENERAL", name: 'Geral'}, ...shifts];
         this.shiftsAll = [{id: "ALL", name: 'Todos'}, ...shifts];
-        this.shiftMonthSummary = 'NIGHT';
+        this.shiftMonthSummary = 'ALL';
         this.shiftTimelineYear = this.evaluateResult.length > 1
             ? ['GENERAL']
             : this.shiftsGeneral.map(x => x.id);
@@ -99,23 +108,58 @@ export class ResultEvaluateComponent implements OnInit {
             .map(x => `${x.city}, ${x.neighborhood}`);
         this.locationCalendar = 0;
 
+        if (loadFeedback) {
+            this.feedbackSent = false;
+        }
+        this.feedbackData = this.evaluateResult.map((x, i) => {
+            return {
+                score: this.calcAverage(x, ['DAWN', 'MORNING', 'NIGHT']).round(0),
+                city: evaluateForm.locations[i].city,
+                neighborhood: evaluateForm.locations[i].neighborhood
+            }
+        });
+
         this.loadDataLabels();
+
+        if (loadFeedback) {
+            this.toastService.notify("Não se esqueça de nos enviar um feedback!");
+            timer(30_000).subscribe({
+                next: () => {
+                    if (!this.feedbackSent) {
+                        this.openFeedback();
+                    }
+                }
+            });
+        }
     }
 
     loadDataLabels() {
         this.setPictorialSummaryChartOption();
         this.setSummaryBarChartOption();
         this.setSummaryBoxplotChartOption();
-        this.setSummaryBarMonthChartOption();
         this.setTimelineYearChartOption();
         this.setTimelineChartOption();
-        this.setRadarChartOption();
         this.setGaugeChartOption();
         this.setCalendarChartOption();
     }
 
-    private filterOnMonthSelected(data: EvaluateClientRecordResult[]): EvaluateClientRecordResult[] {
-        return this.filterOnMonth(data, this.monthSelect);
+    openFeedback() {
+        this.feedbackSent = true;
+        this.dialog.open<FeedbackEvaluateDialogComponent, FeedbackEvaluateDialogContent[]>(FeedbackEvaluateDialogComponent, {
+            panelClass: 'dialog-container-tiny',
+            data: this.feedbackData
+        });
+    }
+
+    private groupBy<T>(xs: T[], key: string): {[key: string]: T[]} {
+        return xs.reduce(function(rv: {[key: string]: T[]}, x: any) {
+            (rv[x[key]] = rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
+    };
+
+    private filterOnMonthSelected(data: EvaluateClientRecordResult[], month: number): EvaluateClientRecordResult[] {
+        return this.filterOnMonth(data, month);
     }
 
     private filterOnMonth(data: EvaluateClientRecordResult[], month: number): EvaluateClientRecordResult[] {
@@ -132,8 +176,8 @@ export class ResultEvaluateComponent implements OnInit {
         return data.filter(x => shift.includes(x.shift));
     }
 
-    private calcAverageOnMonth(data: EvaluateClientRecordResult[], shift: string[]) {
-        const values = this.filterOnMonthSelected(data);
+    private calcAverageOnMonth(data: EvaluateClientRecordResult[], month: number, shift: string[]) {
+        const values = this.filterOnMonthSelected(data, month);
 
         return this.calcAverage(values, shift);
     }
@@ -145,7 +189,7 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     updateResult(event: EvaluateClientRecordResult[][]) {
-        this.loadData(event);
+        this.loadData(event, false);
 
         this.toastService.show("Resultado atualizado.");
     }
@@ -155,25 +199,8 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     private setPictorialSummaryChartOption() {
-        const averageTotal = stat.average(this.evaluateResult.map(x => stat.average(x.map(y => y.score))));
-        this.optionPictorialSummaryChart = definePictorialSummaryChartOption("Média Localizações", averageTotal);
-    }
-
-    private setRadarChartOption() {
-        this.optionRadarChart = defineRadarChartOption(
-            [
-                'Score Localização',
-                'Score Veículo',
-                'Score Cliente'
-            ],
-            this.locations,
-            this.evaluateResult.map(v => [
-                    this.calcAverage(v, ['DAWN', 'MORNING', 'NIGHT']),
-                    0.0,
-                    0.0
-                ]
-            )
-        );
+        this.locationsAverageScore = stat.average(this.evaluateResult.map(x => stat.average(x.map(y => y.score))));
+        this.optionPictorialSummaryChart = definePictorialSummaryChartOption("Média Localizações", this.locationsAverageScore);
     }
 
     private setGaugeChartOption() {
@@ -182,8 +209,30 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     private setCalendarChartOption() {
-        const data = this.filterOnShift(this.filterOnMonthSelected(this.evaluateResult[this.locationCalendar]), [this.shiftMonthSummary]);
-        this.optionCalendarChart = defineCalendarChartOption(this.months[this.monthSelect - 1].name, this.monthSelect, data);
+        let data = this.filterOnShift(
+            this.filterOnMonthSelected(
+                this.evaluateResult[this.locationCalendar],
+                this.monthCalendarSelect
+            ),
+            this.shiftMonthSummary === "ALL"
+                ? ['DAWN', 'MORNING', 'NIGHT']
+                : [this.shiftMonthSummary]
+        );
+        if (this.shiftMonthSummary === "ALL") {
+
+            const dataGroupedByDay = this.groupBy(data, 'day');
+            const dataAllShifts = Object.keys(dataGroupedByDay).map(day => {
+                return {
+                    day,
+                    score: stat.average(dataGroupedByDay[day].map(x => x.score))
+                }
+            });
+            this.optionCalendarChart = defineCalendarChartOption(this.months[this.monthCalendarSelect - 1].name, this.monthCalendarSelect, dataAllShifts);
+
+            return;
+        }
+
+        this.optionCalendarChart = defineCalendarChartOption(this.months[this.monthCalendarSelect - 1].name, this.monthCalendarSelect, data);
     }
 
     private setTimelineYearChartOption() {
@@ -228,6 +277,21 @@ export class ResultEvaluateComponent implements OnInit {
     }
 
     private setSummaryBarChartOption() {
+
+        if (this.monthBarSelect !== 0) {
+            this.optionSummaryBarChart = defineSummaryBarChartOption(
+                ['Score Médio', 'Score Médio Manhã', 'Score Médio Tarde', 'Score Médio Noite'],
+                this.locations,
+                this.evaluateResult.map(v => [
+                    this.calcAverageOnMonth(v, this.monthBarSelect,['DAWN', 'MORNING', 'NIGHT']),
+                    this.calcAverageOnMonth(v, this.monthBarSelect,['DAWN']),
+                    this.calcAverageOnMonth(v, this.monthBarSelect,['MORNING']),
+                    this.calcAverageOnMonth(v, this.monthBarSelect,['NIGHT']),
+                ])
+            );
+            return;
+        }
+
         this.optionSummaryBarChart = defineSummaryBarChartOption(
             ['Score Médio', 'Score Médio Manhã', 'Score Médio Tarde', 'Score Médio Noite'],
             this.locations,
@@ -250,18 +314,5 @@ export class ResultEvaluateComponent implements OnInit {
                 this.filterOnShift(v, ['MORNING']),
                 this.filterOnShift(v, ['NIGHT']),
             ]));
-    }
-
-    private setSummaryBarMonthChartOption() {
-        this.optionSummaryBarMonthChart = defineSummaryBarChartOption(
-            ['Score Médio', 'Score Médio Manhã', 'Score Médio Tarde', 'Score Médio Noite'],
-            this.locations,
-            this.evaluateResult.map(v => [
-                this.calcAverageOnMonth(v, ['DAWN', 'MORNING', 'NIGHT']),
-                this.calcAverageOnMonth(v, ['DAWN']),
-                this.calcAverageOnMonth(v, ['MORNING']),
-                this.calcAverageOnMonth(v, ['NIGHT']),
-            ])
-        );
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, of, throwError} from "rxjs";
-import {LocationsSearchResult} from "../../models/locations-search-result";
+import {catchError, map, Observable, of, throwError} from "rxjs";
+import {LocationsSearchRecordsResult, LocationsSearchResult} from "../../models/locations-search-records-result";
 import {environment} from "../../../../environments/environment";
 
 const URL = environment.url;
@@ -13,7 +13,28 @@ export class LocationService {
 
   constructor(private http: HttpClient) { }
 
-  searchCity(city?: string) {
+  searchLocationByCep(cep?: string): Observable<(LocationsSearchRecordsResult | null)> {
+    if (cep === undefined) {
+        return of(null);
+    }
+
+    return this.http
+        .get<LocationsSearchResult>(`${URL}/location/v1/search`, {
+            params: { zip_code: cep },
+        })
+        .pipe(
+            map((x) => x.records[0] || null),
+            catchError((err) => {
+                if (err.status === 404) {
+                    return of(null);
+                }
+
+                return throwError(() => err);
+            })
+        )
+  }
+
+  searchCity(city?: string): Observable<string[]> {
     if (city === undefined) {
       return of([]);
     }
@@ -23,7 +44,9 @@ export class LocationService {
           params: { city },
         })
         .pipe(
-            map((x) => x.cidades || []),
+            map((x) => x.records
+                .filter((x) => x.city !== undefined)
+                .map(y => y.city!)),
             catchError((err) => {
               if (err.status === 404) {
                 return of([]);
@@ -34,7 +57,7 @@ export class LocationService {
         );
   }
 
-  searchNeighborhood(city: string, neighborhood?: string) {
+  searchNeighborhood(city: string, neighborhood?: string): Observable<string[]> {
     if (neighborhood === undefined) {
       return of([]);
     }
@@ -44,7 +67,9 @@ export class LocationService {
           params: { city, neighborhood },
         })
         .pipe(
-            map((x) => x.bairros || []),
+            map((x) => x.records
+                .filter((x) => x.neighborhood !== undefined)
+                .map(y => y.neighborhood!)),
             catchError((err) => {
               if (err.status === 404) {
                 return of([]);

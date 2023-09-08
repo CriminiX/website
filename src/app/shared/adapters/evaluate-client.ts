@@ -6,8 +6,8 @@ export const toEvaluateClient = (evaluateClientForm: EvaluateClientForm): Evalua
     return  evaluateClientForm.locations.map(location => {
         return {
             location: {
-                city: location.city.trim().removeAccents().toLowerCase().formatSaintName(),
-                neighborhood: location.neighborhood.trim().removeAccents().toLowerCase().formatSaintName()
+                city: location.city.trim().removeAccents().toLowerCase(),
+                neighborhood: location.neighborhood.trim().removeAccents().toLowerCase()
             },
             shift: '',
             period: {begin: `${year}-01-01`, end: `${year}-12-31`}

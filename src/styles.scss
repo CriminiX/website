@@ -17,8 +17,20 @@ $criminix-theme: mat.define-light-theme((
   typography: $custom-typography
 ));
 
+@mixin mix-criminix-theme($criminix-theme) {
+  .mat-button-toggle-checked {
+    background-color: $accent-color;
+    color: #ffffff;
+  }
+
+  .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+    color: #ffffff;
+  }
+}
+
 @include mat.all-component-themes($criminix-theme);
 @include mat.typography-hierarchy($custom-typography);
+@include mix-criminix-theme($criminix-theme);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Open Sans', "Helvetica Neue", sans-serif; }
@@ -26,6 +38,11 @@ body { margin: 0; font-family: 'Open Sans', "Helvetica Neue", sans-serif; }
 .dialog-container {
   //min-height: 60%;
   min-width: 60%;
+}
+
+.dialog-container-tiny {
+  //min-height: 60%;
+  min-width: 40%;
 }
 
 .particles-js-canvas-el {
@@ -41,5 +58,12 @@ body { margin: 0; font-family: 'Open Sans', "Helvetica Neue", sans-serif; }
     background-color: #dddddd;
     border-radius: 16px;
     padding: 0.5rem 1rem;
+  }
+
+  code {
+    display: inline-block;
+    white-space: normal;
+    max-width: 100%;
+    word-wrap: break-word;
   }
 }
