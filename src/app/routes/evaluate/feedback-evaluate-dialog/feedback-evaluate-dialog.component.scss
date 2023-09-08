@@ -1,4 +1,5 @@
 @import "src/variables";
+@import "src/theme";
 
 .feedback-dialog-header {
   padding: 1rem 1rem 0 1rem;
@@ -23,14 +24,14 @@
 
 .divider {
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .feedback-summary-container {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 1rem 0;
+  margin: 2rem 0 1rem 0;
   overflow-x: auto;
 
   @media screen and (max-width: $x-small) {
@@ -46,19 +47,93 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 1rem 0 2rem 0;
+  margin: 0.5rem 0 2rem 0;
 
   .button-toggle-group {
     .button-toggle-data {
       padding: 0 1rem;
+
+      @media screen and (max-width: $x-small) {
+        padding: 0;
+      }
     }
   }
 
   p {
     margin: 0 1rem;
+
+    @media screen and (max-width: $x-medium) {
+      display: none;
+    }
   }
 }
 
 .feedback-dialog-actions {
   padding: 1rem;
+}
+
+.feedback-suggestion-container {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0 2rem 0;
+  flex-direction: column;
+
+  .feedback-suggestion-slider-container {
+    width: 100%;
+
+    datalist {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      writing-mode: vertical-lr;
+      width: 100%;
+      padding: 4px 0;
+
+      option {
+        padding: 0;
+      }
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 1rem;
+      border-radius: 16px;
+      background: $accent-color;
+      outline: none;
+
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 2px solid black;
+        box-sizing: border-box;
+        cursor: pointer;
+        margin-bottom: 6px;
+      }
+
+      &::-moz-range-thumb {
+        -moz-appearance: none;
+        appearance: none;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 2px solid black;
+        cursor: pointer;
+      }
+    }
+  }
+
+  p {
+    width: 100%;
+    margin: 1rem 0 0 0;
+    white-space: nowrap;
+    text-align: center;
+  }
 }

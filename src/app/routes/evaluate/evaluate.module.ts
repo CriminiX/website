@@ -31,6 +31,7 @@ import { LocationsFormEvaluateComponent } from './form-evaluate/locations-form-e
 import {NgxMaskDirective, NgxMaskPipe} from "ngx-mask";
 import { FeedbackEvaluateDialogComponent } from './feedback-evaluate-dialog/feedback-evaluate-dialog.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {AbsolutePipe} from "../../shared/pipes/absolute/absolute.pipe";
 
 echarts.use([SVGRenderer]);
 
@@ -41,7 +42,8 @@ echarts.use([SVGRenderer]);
     ResultEvaluateComponent,
     HistoryEvaluateDialogComponent,
     LocationsFormEvaluateComponent,
-    FeedbackEvaluateDialogComponent
+    FeedbackEvaluateDialogComponent,
+    AbsolutePipe
   ],
     imports: [
         CommonModule,
@@ -67,7 +69,7 @@ echarts.use([SVGRenderer]);
         MatAutocompleteModule,
         NgxMaskDirective,
         NgxMaskPipe,
-        MatButtonToggleModule
+        MatButtonToggleModule,
     ]
 })
 export class EvaluateModule { }

@@ -41,6 +41,7 @@ registerLocaleData(localePT);
         {provide: LOCALE_ID, useValue: 'pt-br'},
         provideEnvironmentNgxMask(),
     ],
+    exports: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {

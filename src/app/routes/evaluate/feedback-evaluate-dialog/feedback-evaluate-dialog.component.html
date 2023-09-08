@@ -30,6 +30,14 @@
         (ngSubmit)="sendFeedback()"
         [formGroup]="feedbackForm"
     >
+        <h6 class="mat-body">Pontuação do resultado</h6>
+
+<!--        <p class="mat-body-1 feedback-score-description">-->
+<!--            1 = Pouco realista-->
+<!--            <br>-->
+<!--            5 = Muito realista-->
+<!--        </p>-->
+
         <div class="feedback-score-container">
 
             <p class="mat-body-1">Pouco realista</p>
@@ -44,6 +52,39 @@
 
             <p class="mat-body-1">Muito realista</p>
         </div>
+
+        <h6 class="mat-body">Sugestão de mudança ao score</h6>
+
+        <ng-container *ngFor="let location of locations; let index = index">
+
+            <h6 class="mat-body" *ngIf="locations.length > 1">{{index + 1}}ª Localização</h6>
+
+            <div class="feedback-suggestion-container" [formGroup]="suggestionScoresForm[index]">
+
+                <div class="feedback-suggestion-slider-container">
+                    <input
+                            class="slider"
+                            formControlName="suggestionScore"
+                            type="range"
+                            min="-200"
+                            max="200"
+                            value="0"
+                            step="50"
+                            list="suggestionScores"
+                    />
+
+                    <datalist id="suggestionScores">
+                        <ng-container *ngFor="let val of [-200, -150, -100, -50, 0, 50, 100, 150, 200]">
+                            <option [value]="val" [label]="val | absolute"></option>
+                        </ng-container>
+                    </datalist>
+                </div>
+
+                <p class="mat-body">
+                    Sugestão: {{ this.suggestionScoresForm[index].controls["suggestionScore"].value | absolute }}
+                </p>
+            </div>
+        </ng-container>
 
         <mat-form-field class="data-form" appearance="outline" color="accent">
             <mat-label>Observações</mat-label>
