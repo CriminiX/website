@@ -32,4 +32,4 @@ jobs:
           username: ${{ secrets.USERNAME_VM_AZURE_PROD }}
           key: ${{ secrets.PRIVATE_KEY_PROD }}
           port: 22
-          script: "cd /home/admincriminix/app/website && docker run -d --name criminix-web -p 80:80 --network criminix criminix-web"
+          script: "cd /home/admincriminix/app/website && docker run -d --restart always --name criminix-web -p 80:80 --network criminix criminix-web"
