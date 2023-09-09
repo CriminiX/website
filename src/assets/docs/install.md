@@ -1,13 +1,6 @@
 # Instalação
 ___
-Para realizar a instalação siga as instruções para seu respectivo sistema operacional:
 
-- ## Windows
-```
-winget install docker
-```
+Para a execução do projeto recomendamos utilizar o docker.
 
-- ## Ubuntu Linux
-```
-sudo apt install docker.io
-```
+- [Docker Install](https://docs.docker.com/engine/install/)

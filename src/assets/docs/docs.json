@@ -7,6 +7,10 @@
         "path": "guide-start"
       },
       {
+        "name": "Obtendo as Bases",
+        "path": "get-datasets"
+      },
+      {
         "name": "Instalação",
         "path": "install"
       },
@@ -27,6 +31,10 @@
       {
         "name": "Primeiros Passos",
         "path": "first-steps"
+      },
+      {
+        "name": "Banco de Dados",
+        "path": "database"
       },
       {
         "name": "Backend",

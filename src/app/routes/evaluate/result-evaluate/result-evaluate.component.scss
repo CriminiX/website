@@ -15,7 +15,7 @@ main {
   .feedback-overlay {
     position: fixed;
     bottom: 1.5rem;
-    z-index: 1;
+    z-index: 999;
     margin: 0;
     right: 2.5rem;
     box-sizing: border-box;
