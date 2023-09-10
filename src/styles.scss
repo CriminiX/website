@@ -19,12 +19,8 @@ $criminix-theme: mat.define-light-theme((
 
 @mixin mix-criminix-theme($criminix-theme) {
   .mat-button-toggle-checked {
-    background-color: $accent-color;
-    color: #ffffff;
-  }
-
-  .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
-    color: #ffffff;
+    background-color: $accent-color !important;
+    color: #ffffff !important;
   }
 }
 
