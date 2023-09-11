@@ -24,9 +24,6 @@ const routes: Routes = [
         loadChildren: () => import('./routes/evaluate/evaluate.module').then(m => m.EvaluateModule)
     },
     {
-        path: 'api'
-    },
-    {
         path: '**',
         redirectTo: 'home'
     }

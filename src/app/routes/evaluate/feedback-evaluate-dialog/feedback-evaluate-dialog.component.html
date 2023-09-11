@@ -58,6 +58,7 @@
         (ngSubmit)="sendFeedback()"
         [formGroup]="feedbackForm"
     >
+
         <h6 class="mat-body">Pontuação do resultado</h6>
 
 <!--        <p class="mat-body-1 feedback-score-description">-->
@@ -80,6 +81,16 @@
 
             <p class="mat-body-1">Muito realista</p>
         </div>
+
+        <h6 class="mat-body">Área de atuação</h6>
+
+        <mat-slide-toggle
+                color="accent"
+                formControlName="insuranceWorker"
+                class="feedback-slide-toggle"
+        >
+            Você trabalha/trabalhou com seguros de veículos?
+        </mat-slide-toggle>
 
         <h6 class="mat-body">Sugestão de mudança ao score</h6>
 
