@@ -32,6 +32,7 @@ import {NgxMaskDirective, NgxMaskPipe} from "ngx-mask";
 import { FeedbackEvaluateDialogComponent } from './feedback-evaluate-dialog/feedback-evaluate-dialog.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {AbsolutePipe} from "../../shared/pipes/absolute/absolute.pipe";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 echarts.use([SVGRenderer]);
 
@@ -70,6 +71,7 @@ echarts.use([SVGRenderer]);
         NgxMaskDirective,
         NgxMaskPipe,
         MatButtonToggleModule,
+        MatSlideToggleModule,
     ]
 })
 export class EvaluateModule { }

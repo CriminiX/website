@@ -20,6 +20,7 @@ CREATE TABLE `tb_research_form` (
   `suggestion_scores` varchar(200) DEFAULT NULL,
   `criminix_id` varchar(200) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
+  `is_work_insurance` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 ```

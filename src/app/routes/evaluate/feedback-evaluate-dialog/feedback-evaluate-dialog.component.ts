@@ -51,6 +51,7 @@ export class FeedbackEvaluateDialogComponent implements OnInit, AfterViewInit {
 
     this.feedbackForm = this.formBuilder.group({
       feedbackScore: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
+      insuranceWorker: [false, [Validators.required]],
       suggestionScores: this.formBuilder.array(this.suggestionScoresForm),
       comments: ['', [Validators.max(300)]]
     });
@@ -60,13 +61,13 @@ export class FeedbackEvaluateDialogComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     const feedbackForm = this.feedbackForm.getRawValue() as FeedbackEvaluateForm;
-    console.log(feedbackForm);
 
     const feedback: Feedback = {
       scores: this.locations.map(x => x.score),
       cities: this.locations.map(x => x.city),
       neighborhoods: this.locations.map(x => x.neighborhood),
       satisfaction_rate: +feedbackForm.feedbackScore,
+      is_work_insurance: +feedbackForm.insuranceWorker,
       suggestion_scores: feedbackForm.suggestionScores.map(x => x.suggestionScore),
       obversation: feedbackForm.comments ?? ""
     };
